@@ -1,0 +1,137 @@
+﻿/*--------------------------------------------------------------
+	Blog Post
+--------------------------------------------------------------*/
+.post {
+    margin: 0 0 80px;
+}
+
+.post-title {
+    line-height: 1.4;
+    font-size: 22px;
+    color: #111;
+    margin: 0;
+}
+
+.post-header {
+    margin: 0 0 15px;
+}
+
+.post-meta {
+    font-size: 11px;
+    color: #aaa;
+}
+
+.post-entry {
+    border-top: 1px dotted #c2c2c2;
+    padding-top: 20px;
+    margin-top: 10px;
+}
+
+.post-images-slider {
+    position: relative;
+}
+
+.post-images-slider .flex-control-nav {
+    bottom: 0;
+}
+
+.post-thumbnail,
+.post-images-slider,
+.post-video {
+    margin: 0 0 20px;
+}
+
+.post-quote {
+    background: #f5f5f5;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Post columns */
+.post-columns .post {
+    margin: 0 0 60px;
+}
+
+.post-columns .post-header {
+    margin: 0 0 10px;
+}
+
+.post-columns .post-title {
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.post-columns .post-entry {
+    padding: 10px 0 0;
+    margin: 0 0 10px;
+}
+
+.post-columns.wo-border .post-entry {
+    border: 0;
+    padding: 0;
+}
+
+.post-columns .post-entry p:last-child {
+    margin: 0;
+}
+
+.more-link:after {
+    content: "\00BB";
+    color: #666666;
+    padding-left: 5px;
+}
+
+
+
+.responsive-table {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.responsive-table li {
+    border-radius: 3px;
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+.table-header {
+    background-color: #95A5A6;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.table-row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+}
+.col-1 {
+    flex-basis: 15%;
+}
+.col-2 {
+    flex-basis: 60%;
+}
+.col-3 {
+    flex-basis: 25%;
+}
+
+.btn {
+    border-radius: 0;
+    font-family: "Roboto Condensed", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+    padding: 8px 37px;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.btn.btn-circle {
+    border-radius: 30px;
+}

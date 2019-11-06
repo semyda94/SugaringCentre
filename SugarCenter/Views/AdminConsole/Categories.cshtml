@@ -1,0 +1,27 @@
+﻿@model List<SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ShopCategory>
+
+    <div class="container">
+        <h2>Categories</h2>
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-1">Category Id</div>
+                <div class="col col-2">Category Name</div>
+                <div class="col col-3">Action</div>
+            </li>
+            @foreach (var category in Model)
+            {
+                <li class="table-row">
+                    <div class="col col-1" data-label="Category Id">@category.ShopCategoryId.ToString()</div>
+                    <div class="col col-2" data-label="Category Name">@category.Name</div>
+                    <div class="col col-3" data-label="Action"> <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteCategory", "AdminConsole", new { id = category.ShopCategoryId })";'>Delete</button> </div>
+                </li>
+            }
+        </ul>
+        <div class="form-group">
+        @using (Html.BeginForm("AddCategory", "AdminConsole"))
+        {
+            <input class="form-control" id="newCategoryText" name="newCategoryText" type="text" placeholder="Default input">
+            <button class="btn btn-success btn-circle" type="submit">Add Category</button>
+        }
+        </div>
+    </div>

@@ -1,0 +1,128 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    -webkit-font-smoothing: antialiased;
+}
+.footer {
+    position: inherit;
+    width: calc(100% - 160px);
+    white-space: nowrap;
+    /* Set the fixed height of the footer here */
+    height: auto;
+    margin: auto;
+}
+
+.footerTitle {
+    width: 120px;
+    margin: auto;
+    display: block;
+    min-height: 31px;
+    pointer-events: none;
+    font: normal lighter normal 22px/1.41em oswald-extralight,oswald,sans-serif;
+}
+
+.footerSubscriptionForm {
+    width: 450px;
+    position: inherit;
+    overflow: hidden;
+    min-height: 138px;
+    min-width: 450px;
+    height: 138px;
+    margin: auto;
+    text-align: center;
+}
+
+.footer .header-block {
+    width: 100%;
+    padding: 12px 22px 0;
+}
+
+.footer .header-block .title{
+    font: normal lighter normal 18px/22px oswald-extralight,oswald,sans-serif;
+}
+
+.footer .collectionInfoForm {
+    padding: 20px 20px 4px;
+    flex-wrap: wrap;
+}
+
+.footer .inputBlock {
+    margin-bottom: 10px;
+    padding: 20px 20px 4px;
+}
+
+.inputField {
+    border-width: 1px;
+    border-color: rgba(0,0,0,1);
+    background-color: rgba(0,0,0,0);
+    color: rgba(0,0,0,1);
+    font: normal lighter normal 14px/17px oswald-extralight,oswald,sans-serif;
+    border-style: solid;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.subscriptionButton {
+    background-color: rgba(0,0,0,1) !important;
+    border-color: rgba(0,0,0,1);
+    border-width: 0px;
+    color: rgba(255,255,255,1);
+    font: normal lighter normal 14px/17px oswald-extralight,oswald,sans-serif;
+    padding: 9px 24px;
+    border-style: solid;
+    -webkit-appearance: none;
+    white-space: nowrap;
+    width: 100%;
+    position: relative
+}
+
+.footerInfo {
+    width: 213px;
+    pointer-events: none;
+    min-height: 28px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 32px;
+}

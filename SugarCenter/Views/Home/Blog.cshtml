@@ -1,0 +1,31 @@
+﻿@using System.Globalization
+@model SugarCenter.ViewModel.BlogViewModel;
+
+@{
+    ViewData["Title"] = "Blog";
+}
+
+<div class="blogSection">
+    <div class="blogHeader">
+        <span class="blogAllPosts">All Posts</span>
+        <img class="blogProfilePicture" style="margin-left: auto;" src="@Model.UserData.Data.ProfilePicture"/>
+    </div>
+
+    @foreach (var media in Model.MediaList.Take(3).ToList())
+    {
+        <div class="blogPost">
+            <div class="blogPostBorder">
+                <div class="blogPostImage" style="background-image: url(@media.Images.StandardResolution.Url);"></div>
+                <div class="blogPostDescription">
+                    <div>
+                        <img class="blogProfilePicture" src="@Model.UserData.Data.ProfilePicture"/>
+                        <div class="blogPostDescriptionHeader">
+                            <span class="BlogPostDesriptionUser">@Model.UserData.Data.Username</span>
+                            <span class="BlogPostDesriptionUser">@media.CreatedTime.ToString("MMM d") </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

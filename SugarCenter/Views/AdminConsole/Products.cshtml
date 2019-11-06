@@ -1,0 +1,26 @@
+﻿@model SugarCenter.ViewModel.ShopViewModel
+
+<div class="container">
+    <h2>Categories</h2>
+    <ul class="responsive-table">
+        <li class="table-header">
+            <div class="col col-1">Category Name</div>
+            <div class="col col-2">Product Name</div>
+            <div class="col col-3">Action</div>
+        </li>
+        @foreach (var shopItem in Model.ShopItems)
+        {
+            <li class="table-row">
+                <div class="col col-1" data-label="Category Name">@Model.ShopCategories.Single(c => c.ShopCategoryId == shopItem.ShopCategoryId).Name</div>
+                <div class="col col-2" data-label="Product Name">@shopItem.Name</div>
+                <div class="col col-3" data-label="Action">
+                    <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteCategory", "AdminConsole", new {id = shopItem.ShopItemId})";'>Delete</button>
+                    <button class="btn btn-success btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteCategory", "AdminConsole", new {id = shopItem.ShopItemId})";'>Edit</button>
+                </div>
+            </li>
+        }
+    </ul>
+    <div class="form-group">
+        <button class="btn btn-success btn-circle" type="button" onclick='window.location = "@Url.Action("AddEditProduct", "AdminConsole")";'>Add Category</button>
+    </div>
+</div>

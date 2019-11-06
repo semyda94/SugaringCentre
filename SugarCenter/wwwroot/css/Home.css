@@ -1,0 +1,299 @@
+﻿.full_size {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
+/****************************************************************
+                       SugaringCenter
+****************************************************************/
+
+.sugaringCenterSection {
+    min-width: 820px;
+    position: inherit;
+    margin-left: 0px;
+    height: 555px;
+    width: calc(100% - 160px);
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-bottom: 80px;
+    pointer-events: auto;
+    background-color: #FFFFFF;
+
+}
+
+.sugaringCenterBG {
+    height: 555px;
+    width: calc((100% - 160px) / 2);
+    background-position: center;
+    background-image: url(../imgs/IMG_1210.jpg);
+    background-size: cover;
+}
+
+.sugaringCenterLogo {
+    zoom: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: auto;
+    display: block;
+}
+
+.sugaringCenterTitleContainer {
+    left: 15px;
+    width: 460px;
+    margin-left: calc((100% - 460px) * 0.5);
+    position: inherit;
+    pointer-events: none;
+    visibility: inherit;
+}
+
+.sugaringCenterTitle {
+    margin-left: auto;
+    margin-right: auto;
+    font: normal normal normal 20px/1.67em Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-variant-numeric: normal;
+    font-variant-east-asian: normal;
+    font-weight: normal;
+    font-stretch: normal;
+    font-size: 20px;
+    line-height: 1.67em;
+    text-align: center;
+    color: #000000;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+.sugaringCenterSubTitileContainer {
+    left: 15px;
+    width: 460px;
+    margin-left: calc((100% - 460px) * 0.5);
+    position: inherit;
+    pointer-events: none;
+    visibility: inherit;
+}
+.sugaringCenterSubTitile {
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font: normal normal normal 15px/1.875em helvetica-w01-light,helvetica-w02-light,sans-serif;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-variant-numeric: normal;
+    font-variant-east-asian: normal;
+    font-weight: normal;
+    font-stretch: normal;
+    font-size: 15px;
+    line-height: 1.875em;
+    font-family: helvetica-w01-light, helvetica-w02-light, sans-serif;
+    text-align: center;
+}
+
+/****************************************************************
+                       WhyIsSugaring
+****************************************************************/
+    .whyIsSugaringSection {
+        min-width: 820px;
+        margin-left: 0px;
+        height: auto;
+        position: inherit;
+        pointer-events: auto;
+        background-color: #F7F7F7;
+    }
+
+.whyIsSugaringBG {
+    top: 80px;
+    height: 555px;
+    margin-left: 80px;
+    margin-right: 80px;
+    width: calc(100% - 160px);
+    background-color: rgb(0, 0, 0);
+}
+
+.whyIsSugaringImage {
+    background-position: bottom;
+    background-image: url(../imgs/IMG_1209.jpg);
+    background-size: cover;
+    height: 555px;
+}
+
+.whyIsSugaringHeader {
+    width: 100%;
+    position: relative;
+    pointer-events: none;
+    visibility: inherit;
+    height: 555px;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.25);
+    vertical-align: central;
+}
+
+    .whyIsSugaringHeaderText {
+        margin: 0;
+        letter-spacing: normal;
+        text-align: center;
+        line-height: 1.35em;
+        font: normal normal normal 40px/1.35em oswald-extralight, oswald, sans-serif;
+        display: flex;
+        align-items: center; /* Vertical center alignment */
+        justify-content: center;
+        height: 555px;
+    }
+
+
+/*********************/
+.getInTouchFirst {
+    flex: 980 1 0%;
+    margin-left: 0px;
+    min-width: 980px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    top: 0px;
+    height: 405px;
+    position: relative;
+}
+
+
+.getInTouchFirstTitle {
+    width: 780px;
+    position: relative;
+    pointer-events: none;
+    visibility: inherit;
+    top: 58px;
+    font-family: Playfair Display, serif;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-variant-numeric: normal;
+    font-variant-east-asian: normal;
+    font-weight: normal;
+    font-stretch: normal;
+    font-size: 18px;
+    color: black;
+    text-align: center;
+    line-height: 1.75em;
+    width: calc(100% - 160px);
+    display: block;
+    margin: auto;
+    font-weight: 400;
+}
+
+.getInTouchFirstText {
+    width: 780px;
+    position: relative;
+    pointer-events: none;
+    visibility: inherit;
+    top: 80px;
+    display: block;
+    margin: auto;
+    color: black;
+    line-height: 1.875em;
+    text-align: center;
+    font: normal normal normal 15px/1.875em helvetica-w01-light,helvetica-w02-light,sans-serif;
+    font-weight: bold;
+}
+
+.getInTouchButton {
+    position: relative;
+    visibility: inherit;
+    top: 130px;
+    height: 45px;
+    min-height: 28px;
+    width: 124px;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 1);
+    border: solid transparent 0px;
+    cursor: pointer !important;
+    text-align: initial;
+    display: block;
+    margin: auto;
+    align-items: center;
+}
+
+.getInTouchButtonText {
+    font: normal normal normal 15px/1.875em helvetica-w01-light,helvetica-w02-light,sans-serif;
+    transition: color 0.4s ease 0s;
+    color: #FFFFFF;
+    display: block;
+    margin: auto;
+    position: relative;
+    white-space: nowrap;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/************************/
+.PriceSection {
+    flex: 980 1 0%;
+    margin-left: 0px;
+    min-width: 980px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    top: 0px;
+    height: 480px;
+    position: relative;
+    background-position: center;
+    background-image: url(../imgs/PriceSection.PNG);
+    background-size: cover;
+}
+
+.PriceSectionBG {
+    height: 480px;
+    position: relative;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+
+.priceTitle {
+    position: relative;
+    pointer-events: none;
+    visibility: inherit;
+    color: white;
+    text-align: center;
+    width: calc(100% - 160px);
+    display: block;
+    margin: auto;
+    font: normal normal normal 40px/1.35em oswald-extralight,oswald,sans-serif;
+}
+
+.priceSubTitle {
+    position: relative;
+    pointer-events: none;
+    visibility: inherit;
+    color: black;
+    text-align: center;
+    width: calc(100% - 160px);
+    display: block;
+    margin: auto;
+    font: normal normal normal 18px/1.75em Playfair Display,serif;
+    color: white;
+}
+
+.priceItems {
+    margin-left: 0px;
+    width: calc(100% - 160px);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    height: 600px;
+    position: relative;
+}
+
+.priceItem {
+    margin-left: 0px;
+    height: 440px;
+    width: auto;
+    object-fit: cover;
+    margin: auto;
+    display: block;
+    position: relative;
+}

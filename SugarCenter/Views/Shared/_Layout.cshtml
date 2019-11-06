@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SugarCenter</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/Home.css" />
+    <link rel="stylesheet" href="~/css/Blog.css" />
+    <link rel="stylesheet" href="~/css/SideMenu.css" />
+    <link rel="stylesheet" href="~/css/Shop.css" />
+    <link rel="stylesheet" href="~/css/AdminConsoleHome.css"/>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
+            <div class="container" style="margin-right: 60px;">
+                @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SugarCenter</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>*@
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
+                    <ul class="navbar-nav flex-grow-1" style="display: contents;">
+                        <li class="nav-item">
+                            <button class="js-menu-show header__menu-toggle material-icons" style="padding-left: 2px; display: block; margin: auto;" href="https://www.facebook.com/Sugaring.centre.auckland/">
+                                <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/Carticon.png" />
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark"  style="padding-right: 2px;" href="https://www.facebook.com/Sugaring.centre.auckland/">
+                                <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/f_logo.png" />
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Shop">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Booking">Book Online</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                    </ul>
+
+                    <aside class="js-side-nav side-nav">
+                        <nav class="js-side-nav__container side-nav__container">
+                            <button class="js-menu-hide side-nav__hide material-icons">close</button>
+                            <header class="side-nav__header">
+                                Side Nav
+                            </header>
+                            <ul class="side-nav__content">
+                                <li>Link 1</li>
+                                <li>Link 2</li>
+                                <li>Link 3</li>
+                                <li>Link 4</li>
+                            </ul>
+                        </nav>
+                    </aside>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="full_size">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted">
+        <div class="footerTitle">Sugaring Centre</div>
+
+        <section class="module">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="header-block">
+                            <div class="title" style="text-align: center;">Get in touch</div>
+                        </div>
+                        <div class="inputBlock">
+                            <form id="contactForm" role="form" method="post">
+                                <div class="form-group">
+                                    <label class="sr-only" for="name">Name</label>
+                                    <input class="form-control" type="text" id="name" name="name" placeholder="Your Name*" required="required" data-validation-required-message="Please enter your name."/>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="email">Email</label>
+                                    <input class="form-control" type="email" id="email" name="email" placeholder="Your Email*" required="required" data-validation-required-message="Please enter your email address."/>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="7" id="message" name="message" placeholder="Your Message*" required="required" data-validation-required-message="Please enter your message."></textarea>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div>
+                                    <button class="subscriptionButton"><span>Submit</span></button>
+                                </div>
+                            </form>
+                            </div>
+                        <div class="ajax-response font-alt" id="contactFormResponse"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="footerSubscriptionForm">
+                            <div class="header-block">
+                                <div class="title">Subscribe Form</div>
+                            </div>
+                            <div class="inputBlock">
+                                <div class="form-group">
+                                    <label class="sr-only" for="email2">Email</label>
+                                    <input class="form-control" type="email" id="email2" name="email2" placeholder="Your Email*" required="required" data-validation-required-message="Please enter your email address." />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div>
+                                    <button class="subscriptionButton"><span>Submit</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="footerInfo">
+            <p style="margin: 0px">sugaring.centre.nz@gmail.com</p>
+            <p style="margin: 0px">40 St Benedicts st, Eden Terrace</p>
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/js/side-nav.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
