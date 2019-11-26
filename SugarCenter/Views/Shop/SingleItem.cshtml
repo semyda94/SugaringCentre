@@ -1,35 +1,33 @@
-﻿<div class="main">
+﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ShopItem
+
+
+<div class="main">
     <section class="module">
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 mb-sm-40">
-                    <a class="gallery" href="assets/images/shop/product-7.jpg"><img src="assets/images/shop/product-7.jpg" alt="Single Product Image" /></a>
+                    <a class="gallery" href="~/imgs/Brown_wax.PNG"><img src="assets/images/shop/product-7.jpg" alt="Single Product Image" /></a>
                     <ul class="product-gallery">
-                        <li><a class="gallery" href="assets/images/shop/product-8.jpg"></a><img src="assets/images/shop/product-8.jpg" alt="Single Product" /></li>
-                        <li><a class="gallery" href="assets/images/shop/product-9.jpg"></a><img src="assets/images/shop/product-9.jpg" alt="Single Product" /></li>
-                        <li><a class="gallery" href="assets/images/shop/product-10.jpg"></a><img src="assets/images/shop/product-10.jpg" alt="Single Product" /></li>
+                        <li><a class="gallery" href="~/imgs/IMG_1209.jpg"></a><img src="assets/images/shop/product-8.jpg" alt="Single Product" /></li>
+                        <li><a class="gallery" href="~/imgs/IMG_1210.jpg"></a><img src="assets/images/shop/product-9.jpg" alt="Single Product" /></li>
+                        <li><a class="gallery" href="~/imgs/waxing.jpg"></a><img src="assets/images/shop/product-10.jpg" alt="Single Product" /></li>
                     </ul>
                 </div>
                 <div class="col-sm-6">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h1 class="product-title font-alt">Accessories Pack</h1>
+                            <h1 class="product-title font-alt">@Model.Name</h1>
                         </div>
                     </div>
                     <div class="row mb-20">
                         <div class="col-sm-12">
-                            <span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span><a class="open-tab section-scroll" href="#reviews">-2customer reviews</a>
-                        </div>
-                    </div>
-                    <div class="row mb-20">
-                        <div class="col-sm-12">
-                            <div class="price font-alt"><span class="amount">£20.00</span></div>
+                            <div class="price font-alt"><span class="amount">$@Model.Price</span></div>
                         </div>
                     </div>
                     <div class="row mb-20">
                         <div class="col-sm-12">
                             <div class="description">
-                                <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.</p>
+                                <p>@Model.Desc</p>
                             </div>
                         </div>
                     </div>
@@ -42,49 +40,27 @@
                     <div class="row mb-20">
                         <div class="col-sm-12">
                             <div class="product_meta">
-                                Categories:<a href="#"> Man, </a><a href="#">Clothing, </a><a href="#">T-shirts</a>
+                                Categories:<a href="#" style="color: #111;" > Man, </a><a href="#" style="color: #111;">Clothing, </a><a href="#" style="color: #111;">T-shirts</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <cc1:Editor 
+                ID="Editor1" 
+                Width="450px"  
+                Height="200px"
+                runat="server"/>
             <div class="row mt-70">
                 <div class="col-sm-12">
                     <ul class="nav nav-tabs font-alt" role="tablist">
                         <li class="active"><a href="#description" data-toggle="tab"><span class="icon-tools-2"></span>Description</a></li>
-                        <li><a href="#data-sheet" data-toggle="tab"><span class="icon-tools-2"></span>Data sheet</a></li>
                         <li><a href="#reviews" data-toggle="tab"><span class="icon-tools-2"></span>Reviews (2)</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="description">
                             <p>Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words. If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages.</p>
                             <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.</p>
-                        </div>
-                        <div class="tab-pane" id="data-sheet">
-                            <table class="table table-striped ds-table table-responsive">
-                                <tbody>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Info</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Compositions</td>
-                                        <td>Jeans</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Size</td>
-                                        <td>44, 46, 48</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Color</td>
-                                        <td>Black</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Brand</td>
-                                        <td>Somebrand</td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                         <div class="tab-pane" id="reviews">
                             <div class="comments reviews">
@@ -207,140 +183,4 @@
         </div>
     </section>
     <hr class="divider-w">
-    <section class="module">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <h2 class="module-title font-alt">Exclusive products</h2>
-                    <div class="module-subtitle font-serif">The languages only differ in their grammar, their pronunciation and their most common words.</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="owl-carousel text-center" data-items="5" data-pagination="false" data-navigation="false">
-                    <div class="owl-item">
-                        <div class="col-sm-12">
-                            <div class="ex-product">
-                                <a href="#"><img src="assets/images/shop/product-1.jpg" alt="Leather belt" /></a>
-                                <h4 class="shop-item-title font-alt"><a href="#">Leather belt</a></h4>£12.00
-                            </div>
-                        </div>
-                    </div>
-                    <div class="owl-item">
-                        <div class="col-sm-12">
-                            <div class="ex-product">
-                                <a href="#"><img src="assets/images/shop/product-3.jpg" alt="Derby shoes" /></a>
-                                <h4 class="shop-item-title font-alt"><a href="#">Derby shoes</a></h4>£54.00
-                            </div>
-                        </div>
-                    </div>
-                    <div class="owl-item">
-                        <div class="col-sm-12">
-                            <div class="ex-product">
-                                <a href="#"><img src="assets/images/shop/product-2.jpg" alt="Leather belt" /></a>
-                                <h4 class="shop-item-title font-alt"><a href="#">Leather belt</a></h4>£19.00
-                            </div>
-                        </div>
-                    </div>
-                    <div class="owl-item">
-                        <div class="col-sm-12">
-                            <div class="ex-product">
-                                <a href="#"><img src="assets/images/shop/product-4.jpg" alt="Leather belt" /></a>
-                                <h4 class="shop-item-title font-alt"><a href="#">Leather belt</a></h4>£14.00
-                            </div>
-                        </div>
-                    </div>
-                    <div class="owl-item">
-                        <div class="col-sm-12">
-                            <div class="ex-product">
-                                <a href="#"><img src="assets/images/shop/product-5.jpg" alt="Chelsea boots" /></a>
-                                <h4 class="shop-item-title font-alt"><a href="#">Chelsea boots</a></h4>£44.00
-                            </div>
-                        </div>
-                    </div>
-                    <div class="owl-item">
-                        <div class="col-sm-12">
-                            <div class="ex-product">
-                                <a href="#"><img src="assets/images/shop/product-6.jpg" alt="Leather belt" /></a>
-                                <h4 class="shop-item-title font-alt"><a href="#">Leather belt</a></h4>£19.00
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class="module-small bg-dark">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="widget">
-                        <h5 class="widget-title font-alt">About Titan</h5>
-                        <p>The languages only differ in their grammar, their pronunciation and their most common words.</p>
-                        <p>Phone: +1 234 567 89 10</p>Fax: +1 234 567 89 10
-                        <p>Email:<a href="#">somecompany@example.com</a></p>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="widget">
-                        <h5 class="widget-title font-alt">Recent Comments</h5>
-                        <ul class="icon-list">
-                            <li>Maria on <a href="#">Designer Desk Essentials</a></li>
-                            <li>John on <a href="#">Realistic Business Card Mockup</a></li>
-                            <li>Andy on <a href="#">Eco bag Mockup</a></li>
-                            <li>Jack on <a href="#">Bottle Mockup</a></li>
-                            <li>Mark on <a href="#">Our trip to the Alps</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="widget">
-                        <h5 class="widget-title font-alt">Blog Categories</h5>
-                        <ul class="icon-list">
-                            <li><a href="#">Photography - 7</a></li>
-                            <li><a href="#">Web Design - 3</a></li>
-                            <li><a href="#">Illustration - 12</a></li>
-                            <li><a href="#">Marketing - 1</a></li>
-                            <li><a href="#">Wordpress - 16</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="widget">
-                        <h5 class="widget-title font-alt">Popular Posts</h5>
-                        <ul class="widget-posts">
-                            <li class="clearfix">
-                                <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-1.jpg" alt="Post Thumbnail" /></a></div>
-                                <div class="widget-posts-body">
-                                    <div class="widget-posts-title"><a href="#">Designer Desk Essentials</a></div>
-                                    <div class="widget-posts-meta">23 january</div>
-                                </div>
-                            </li>
-                            <li class="clearfix">
-                                <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-2.jpg" alt="Post Thumbnail" /></a></div>
-                                <div class="widget-posts-body">
-                                    <div class="widget-posts-title"><a href="#">Realistic Business Card Mockup</a></div>
-                                    <div class="widget-posts-meta">15 February</div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr class="divider-d">
-    <footer class="footer bg-dark">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <p class="copyright font-alt">&copy; 2017&nbsp;<a href="index.html">TitaN</a>, All Rights Reserved</p>
-                </div>
-                <div class="col-sm-6">
-                    <div class="footer-social-links">
-                        <a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-dribbble"></i></a><a href="#"><i class="fa fa-skype"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SugarCenter.ViewModel;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
+using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
 
 namespace SugarCenter.Controllers
 {
@@ -57,7 +58,34 @@ namespace SugarCenter.Controllers
 
         public IActionResult AddEditProduct(int? productId)
         {
-            return View();
+             if (productId == null)
+            {
+                return View(new ShopItem{ShopItemId = -1});
+            }
+            else
+            {
+                return View(_elkRepository.GetShopItem(productId).GetAwaiter().GetResult());
+            }
+        }
+
+        public IActionResult SaveProduct(string productName, string productDescription, decimal productPrice, int? productId)
+        {
+            if (productId == null)
+            {
+                _elkRepository.CreateProduct(new ShopItem {Name = productName, Desc = productDescription, Price = productPrice}).GetAwaiter().GetResult();
+            }
+
+            return RedirectToAction("Products");
+        }
+
+        public IActionResult DeleteProduct(int? productId)
+        {
+            if (productId != null)
+            {
+                _elkRepository.DeleteProduct(productId).GetAwaiter().GetResult();
+            }
+
+            return RedirectToAction("Products");
         }
 
         public IActionResult Staff()

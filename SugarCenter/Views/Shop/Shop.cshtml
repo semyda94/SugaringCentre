@@ -44,7 +44,7 @@
                             <img src="~/imgs/logo.jpg" alt="@item.Name"/>
                             <div class="shop-item-detail"><a class="btn btn-round btn-b"><span class="icon-basket">Add To Cart</span></a></div>
                         </div>
-                        <h4 class="shop-item-title font-alt"><a href="#">@item.Name</a></h4>$@item.Price
+                        <h4 class="shop-item-title font-alt"><a href="@Url.Action("SingleItem", "Shop", new {productId = item.ShopItemId})">@item.Name</a></h4>$@item.Price
                     </div>
                 }
             </div>

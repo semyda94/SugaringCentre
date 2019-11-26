@@ -1,5 +1,46 @@
-﻿<div class="main">
+﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ShopItem;
+
+@{
+    string name = Model == null ? "" : Model.Name ?? "";
+    var price = Model == null ? 0 : Model.Price;
+    var desc = Model == null ? "" : Model.Desc ?? "";
+}
+
+<div class="main">
     <section class="module">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <h4 class="font-alt mb-0">Basic Product Data</h4>
+                    <hr class="divider-w mt-10 mb-20">
+                    @using (Html.BeginForm("SaveProduct", "AdminConsole"))
+                    {
+                        <div class="form-group">
+                            <input class="form-control input-lg" type="text" name="productName" id="productName" placeholder="Product Name" value="@name"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control input-lg" type="number" step="any" name="productPrice" id="productPrice" placeholder="Product Name" value="@price"/>
+                        </div>
+                        @*<div class="form-group">
+                <input class="form-control" type="text" placeholder="Default input"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control input-sm" type="text" placeholder="Small input"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Disabled input" disabled=""/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Readonly input" readonly=""/>
+            </div>*@
+                        <textarea class="form-control" rows="7" name="productDescription" id="productDescription" placeholder="Description">@desc</textarea>
+                        <button class="btn btn-success btn-circle" type="submit">Save Product</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+    @*<section class="module">
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 mb-sm-40">
@@ -78,5 +119,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section>*@
 </div>

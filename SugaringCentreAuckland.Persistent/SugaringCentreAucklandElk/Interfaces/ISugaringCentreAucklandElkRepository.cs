@@ -12,6 +12,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task<List<ShopItem>> GetShopItemsForCategory(int? categoryId = -1);
         Task DeleteCategory(int categoryId);
         Task CreatCategory(string categoryName);
+        Task CreateProduct(ShopItem product);
 
+        Task DeleteProduct(int? productId);
+        Task<ShopItem> GetShopItem(int? productId);
+        Task SubscribeForNews(string email);
     }
 }

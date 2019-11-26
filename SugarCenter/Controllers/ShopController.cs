@@ -30,9 +30,16 @@ namespace SugarCenter.Controllers
             return View(shopViewModel);
         }
 
-        public IActionResult SingleItem()
+        public IActionResult SingleItem(int? productId)
         {
-            return View();
+            if (productId == null)
+            {
+                return RedirectToAction("Shop");
+            }
+
+            var product = _elkRepository.GetShopItem(productId).GetAwaiter().GetResult();
+
+            return View(product);
         }
     }
 }

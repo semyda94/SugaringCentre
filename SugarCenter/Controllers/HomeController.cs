@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using InstaSharp;
 using Microsoft.AspNetCore.Mvc;
@@ -66,6 +67,35 @@ namespace SugarCenter.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult GetInTouchSend(string name, string email, string message)
+        {
+            var smtpClient = new SmtpClient
+            {
+                Host = "smtp.gmail.com", // set your SMTP server name here
+                Port = 587, // Port 
+                EnableSsl = true,
+                Credentials = new NetworkCredential("semykindmitrii94@gmail.com", "Nataliy1973")
+            };
+
+
+            using (var smtpMessage = new MailMessage("semykindmitrii94@gmail.com", "semykindmitrii94@gmail.com")
+            {
+                Subject = $"Support from '{email}'" ,
+                Body = $"{message}"
+            })
+            {
+                smtpClient.SendMailAsync(smtpMessage).GetAwaiter().GetResult();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult SubscribeForNews(string email2)
+        {
+            _elkRepository.SubscribeForNews(email2).GetAwaiter().GetResult();
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Blog()

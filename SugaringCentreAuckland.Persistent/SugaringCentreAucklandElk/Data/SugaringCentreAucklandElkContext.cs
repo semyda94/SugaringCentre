@@ -17,6 +17,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public virtual DbSet<ShopCategory> ShopCategory { get; set; }
         public virtual DbSet<ShopItem> ShopItem { get; set; }
+        public virtual DbSet<Subscription> Subscription { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,18 +35,28 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
             modelBuilder.Entity<ShopItem>(entity =>
             {
-                entity.Property(e => e.ShopItemId).ValueGeneratedNever();
+                entity.Property(e => e.ShopItemId).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Desc)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Price);
 
-                entity.HasOne(d => d.ShopCategory)
-                    .WithMany(p => p.ShopItem)
-                    .HasForeignKey(d => d.ShopCategoryId);
+            });
+
+            modelBuilder.Entity<Subscription>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
             });
         }
     }

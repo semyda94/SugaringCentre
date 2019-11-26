@@ -28,11 +28,11 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task<List<ShopItem>> GetShopItemsForCategory(int? categoryId = -1)
         {
-            return categoryId == -1
-                ? await _DbContext.ShopItem.ToListAsync()
-                : await _DbContext.ShopItem.Where(i => i.ShopCategoryId == categoryId).ToListAsync();
+            return await _DbContext.ShopItem.ToListAsync();
+            //return categoryId == -1
+            //    ? await _DbContext.ShopItem.ToListAsync()
+            //    : await _DbContext.ShopItem.Where(i => i.ShopCategoryId == categoryId).ToListAsync();
         }
-
         public async Task DeleteCategory(int categoryId)
         {
             var category = _DbContext.ShopCategory.Single(c => c.ShopCategoryId == categoryId);
@@ -44,6 +44,40 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public async Task CreatCategory(string categoryName)
         {
             _DbContext.ShopCategory.Add(new ShopCategory {Name = categoryName});
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task CreateProduct(ShopItem product)
+        {
+            _DbContext.Add(product);
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteProduct(int? productId)
+        {
+            var product = _DbContext.ShopItem.Single(p => p.ShopItemId == productId);
+            _DbContext.ShopItem.Remove(product);
+
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task<ShopItem> GetShopItem(int? productId)
+        {
+            var product = await _DbContext.ShopItem.FirstOrDefaultAsync(p => p.ShopItemId == productId);
+
+            if (product == null)
+            {
+                return new ShopItem{ ShopItemId = -1};
+            }
+            else
+            {
+                return product;
+            }
+        }
+
+        public async Task SubscribeForNews(string email)
+        {
+            _DbContext.Subscription.Add(new Subscription {Email = email});
             await _DbContext.SaveChangesAsync();
         }
     }
