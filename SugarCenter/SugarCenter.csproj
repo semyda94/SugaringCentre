@@ -16,6 +16,10 @@
     <PackageReference Include="InstaSharp" Version="2.0.6" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="4.0.1" />
+    <PackageReference Include="Tigra.CodeContracts.MSBuild" Version="1.7.11202.1007">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 

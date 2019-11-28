@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using  System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
+
 
 namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 {
@@ -10,6 +11,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         public string Name { get; set; }
         public string Desc { get; set; }
         public decimal Price { get; set; }
+        public byte[] ProductImg { get; set; }
 
     }
 }

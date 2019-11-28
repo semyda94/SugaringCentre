@@ -1,6 +1,6 @@
 ﻿@model SugarCenter.ViewModel.ShopViewModel
 
-<section class="module-small">
+    <section class="module-small">
     <div class="container">
         <form class="row">
             <div class="col-sm-4 mb-sm-20">
@@ -41,7 +41,7 @@
                 {
                     <div class="shop-item">
                         <div class="shop-item-image">
-                            <img src="~/imgs/logo.jpg" alt="@item.Name"/>
+                            <img src="~/imgs/logo.jpg" alt="@item.Name" />
                             <div class="shop-item-detail"><a class="btn btn-round btn-b"><span class="icon-basket">Add To Cart</span></a></div>
                         </div>
                         <h4 class="shop-item-title font-alt"><a href="@Url.Action("SingleItem", "Shop", new {productId = item.ShopItemId})">@item.Name</a></h4>$@item.Price

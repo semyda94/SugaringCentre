@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
 
@@ -52,6 +54,10 @@ namespace SugarCenter
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
+
+            services.AddSingleton<IFileProvider>(
+                new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,6 +79,7 @@ namespace SugarCenter
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
