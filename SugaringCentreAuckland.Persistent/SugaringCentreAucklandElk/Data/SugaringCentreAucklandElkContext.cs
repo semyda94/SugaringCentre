@@ -31,6 +31,9 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasMany(t => t.ShopItems)
+                    .WithOne(i => i.NavigationShopCategoryId);
             });
 
             modelBuilder.Entity<ShopItem>(entity =>
@@ -47,6 +50,9 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
                 entity.Property(e => e.Price);
 
+                entity.HasOne(i => i.NavigationShopCategoryId)
+                    .WithMany(t => t.ShopItems)
+                    .HasForeignKey(i => i.CategoryId);
             });
 
             modelBuilder.Entity<Subscription>(entity =>

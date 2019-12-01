@@ -18,20 +18,27 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task<List<ShopCategory>> GetShopCategories()
         {
-            return await _DbContext.ShopCategory.ToListAsync();
+            return await _DbContext.ShopCategory.Include(c => c.ShopItems).ToListAsync();
         }
 
         public async Task<List<ShopItem>> GetShoItems()
         {
-            return await _DbContext.ShopItem.ToListAsync();
+            return await _DbContext.ShopItem.Include(t => t.NavigationShopCategoryId).ToListAsync();
         }
 
-        public async Task<List<ShopItem>> GetShopItemsForCategory(int? categoryId = -1)
+        public async Task<List<ShopItem>> GetShopItemsForCategory(int? categoryId = -1, int? sorting = 1)
         {
-            return await _DbContext.ShopItem.ToListAsync();
-            //return categoryId == -1
-            //    ? await _DbContext.ShopItem.ToListAsync()
-            //    : await _DbContext.ShopItem.Where(i => i.ShopCategoryId == categoryId).ToListAsync();
+            //return await _DbContext.ShopItem.ToListAsync();
+            var notSorted = categoryId == -1
+                ? await _DbContext.ShopItem.ToListAsync()
+                : await _DbContext.ShopItem.Where(i => i.CategoryId == categoryId).ToListAsync();
+
+            switch (sorting)
+            {
+                case 3: return notSorted.OrderByDescending(x => x.Price).ToList();
+                case 4: return notSorted.OrderBy(x => x.Price).ToList();
+                default: return  notSorted;
+            }
         }
         public async Task DeleteCategory(int categoryId)
         {
@@ -63,7 +70,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task<ShopItem> GetShopItem(int? productId)
         {
-            var product = await _DbContext.ShopItem.FirstOrDefaultAsync(p => p.ShopItemId == productId);
+            var product = await _DbContext.ShopItem.Include(i => i.NavigationShopCategoryId.ShopItems).FirstOrDefaultAsync(p => p.ShopItemId == productId);
 
             if (product == null)
             {

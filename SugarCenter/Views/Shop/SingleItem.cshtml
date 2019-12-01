@@ -1,4 +1,6 @@
-﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ShopItem
+﻿@using System.IO
+@using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
+@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ShopItem
 @{
     Layout = null;
 }
@@ -14,7 +16,7 @@
                             <li class="breadcrumb-item">
                                 <a asp-area="" asp-controller="Shop" asp-action="Shop">Shop</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="#">Household Plants</a></li>
+                            <li class="breadcrumb-item"><a href="#">@Model.NavigationShopCategoryId.Name</a></li>
                             <li class="breadcrumb-item active">@Model.Name</li>
                         </ol>
                     </nav>
@@ -47,23 +49,37 @@
                 <div class="column-xs-12">
                     <h3>You may also like</h3>
                 </div>
-                <div class="column-xs-12 column-md-4">
-                    <img src="https://source.unsplash.com/miziNqvJx5M">
-                    <h4>Succulent</h4>
-                    <p class="price">$19.99</p>
-                </div>
-                <div class="column-xs-12 column-md-4">
-                    <img src="https://source.unsplash.com/2y6s0qKdGZg">
-                    <h4>Terranium</h4>
-                    <p class="price">$19.99</p>
-                </div>
-                <div class="column-xs-12 column-md-4">
-                    <img src="https://source.unsplash.com/6Rs76hNbIWE">
-                    <h4>Cactus</h4>
-                    <p class="price">$19.99</p>
-                </div>
+                @for (int i = 0; i < 3; i++)
+                {
+                    Random rnd = new Random();
+                    ShopItem tmp = Model.NavigationShopCategoryId.ShopItems.ElementAt(rnd.Next(Model.NavigationShopCategoryId.ShopItems.Count));
+                    var thumbImg = Convert.ToBase64String(tmp.ProductImg);
+                    
+                    <div class="column-xs-12 column-md-4">
+                        <img src="data:image/jpeg;base64,@thumbImg">
+                        <h4>@tmp.Name</h4>
+                        <p class="price">$@tmp.Price</p>
+                    </div>
+                }
             </div>
         </div>
     </section>
     <hr class="divider-w">
 </div>
+
+<script>
+    const activeImage = document.querySelector(".product-image .active");
+    const productImages = document.querySelectorAll(".image-list img");
+    const navItem = document.querySelector('a.toggle-nav');
+
+    function changeImage(e) {
+        activeImage.src = e.target.src;
+    }
+
+    function toggleNavigation(){
+        this.nextElementSibling.classList.toggle('active');
+    }
+
+    productImages.forEach(image => image.addEventListener("click", changeImage));
+    navItem.addEventListener('click', toggleNavigation);
+</script>

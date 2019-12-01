@@ -20,26 +20,31 @@ namespace SugarCenter.Controllers
         }
 
 
-        public IActionResult Shop()
+        public async Task<IActionResult> Shop(int? categorySorting, int? sorting = 1)
         {
             var shopViewModel = new ShopViewModel();
 
-            shopViewModel.ShopCategories = _elkRepository.GetShopCategories().GetAwaiter().GetResult();
-            shopViewModel.ShopItems = _elkRepository.GetShopItemsForCategory().GetAwaiter().GetResult();
+            shopViewModel.ShopCategories = await _elkRepository.GetShopCategories();
+            shopViewModel.ShopItems = await _elkRepository.GetShopItemsForCategory(categorySorting, sorting);
 
             return View(shopViewModel);
         }
 
-        public IActionResult SingleItem(int? productId)
+        public async Task<IActionResult> SingleItem(int? productId)
         {
             if (productId == null)
             {
                 return RedirectToAction("Shop");
             }
 
-            var product = _elkRepository.GetShopItem(productId).GetAwaiter().GetResult();
+            var product = await _elkRepository.GetShopItem(productId);
 
             return View(product);
+        }
+
+        public IActionResult ShopCheckout()
+        {
+            return View();
         }
     }
 }

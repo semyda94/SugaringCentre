@@ -2,23 +2,21 @@
 
     <section class="module-small">
     <div class="container">
-        <form class="row">
+        <form class="row" asp-controller="Shop" asp-action="Shop">
             <div class="col-sm-4 mb-sm-20">
-                <select class="form-control">
-                    <option selected="selected">Default Sorting</option>
-                    <option>Popular</option>
-                    <option>Latest</option>
-                    <option>Average Price</option>
-                    <option>High Price</option>
-                    <option>Low Price</option>
+                <select class="form-control" id="sorting" name="sorting">
+                    <option selected="selected" value="1">Default Sorting</option>
+                    <option value="2">Latest</option>
+                    <option value="3">High Price</option>
+                    <option value="4">Low Price</option>
                 </select>
             </div>
             <div class="col-sm-3 mb-sm-20">
-                <select class="form-control">
-                    <option selected="selected">All</option>
+                <select class="form-control" id="categorySorting" name="categorySorting">
+                    <option selected="selected" value="-1">All</option>
                     @foreach (var category in Model.ShopCategories)
                     {
-                        <option>@category.Name</option>
+                        <option value="@category.ShopCategoryId">@category.Name</option>
                     }
                 </select>
             </div>

@@ -40,6 +40,8 @@
                         <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Description"></textarea>
                         @*<textarea class="form-control" rows="7" name="productDescription" id="productDescription" placeholder="Description">@desc</textarea>*@
 
+                        @Html.DropDownList("PriorityID", (IEnumerable<SelectListItem>)ViewBag.PriorityID, new { @class = "dropdown" })
+
                         <label asp-for="ProductImg"></label>
                         <input type="file" id="files" asp-for="ProductImg" />
                         <input class="btn btn-success btn-circle" type="submit" name="submit" `>Save Product</input>

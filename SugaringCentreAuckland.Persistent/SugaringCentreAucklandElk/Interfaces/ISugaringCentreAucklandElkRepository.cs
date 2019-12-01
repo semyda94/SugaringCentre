@@ -9,7 +9,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
     {
         Task<List<ShopCategory>> GetShopCategories();
         Task<List<ShopItem>> GetShoItems();
-        Task<List<ShopItem>> GetShopItemsForCategory(int? categoryId = -1);
+        Task<List<ShopItem>> GetShopItemsForCategory(int? categoryId = -1, int? sorting = 1);
         Task DeleteCategory(int categoryId);
         Task CreatCategory(string categoryName);
         Task CreateProduct(ShopItem product);
