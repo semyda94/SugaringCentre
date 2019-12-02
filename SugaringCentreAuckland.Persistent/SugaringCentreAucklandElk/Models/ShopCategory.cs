@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 {
@@ -12,6 +13,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         public int ShopCategoryId { get; set; }
         public string Name { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<ShopItem> ShopItems { get; set; }
     }
 }

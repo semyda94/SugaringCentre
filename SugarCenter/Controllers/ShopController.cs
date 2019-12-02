@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SugarCenter.ViewModel;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
+using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -42,8 +43,25 @@ namespace SugarCenter.Controllers
             return View(product);
         }
 
+        public async Task<IActionResult> AddItemToCart(int productId)
+        {
+            var itemLists = HttpContext.Session.Get<List<ShopItem>>("CheckoutList");
+            var item = await _elkRepository.GetShopItem(productId);
+
+            if (itemLists == null)
+                itemLists = new List<ShopItem>();
+
+            itemLists.Add(item);
+
+            HttpContext.Session.Set<List<ShopItem>>("CheckoutList", itemLists);
+
+            return RedirectToAction("Shop");
+        }
+
         public IActionResult ShopCheckout()
         {
+            var itemLists = HttpContext.Session.Get<List<ShopItem>>("CheckoutList");
+            
             return View();
         }
     }

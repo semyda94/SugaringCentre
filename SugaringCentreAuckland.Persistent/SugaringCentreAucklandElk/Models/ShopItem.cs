@@ -2,6 +2,7 @@
 using  System.Web;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 
 namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
@@ -21,6 +22,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 
         public int CategoryId { get; set; }
 
+        [JsonIgnore]
         public virtual ShopCategory NavigationShopCategoryId { get; set; }
     }
 }
