@@ -21,13 +21,26 @@ namespace SugarCenter.Controllers
         }
 
 
-        public async Task<IActionResult> Shop(int? categorySorting, int? sorting = 1)
+        public async Task<IActionResult> Shop(int? categorySorting = -1, int? sorting = 1)
         {
-            var shopViewModel = new ShopViewModel();
+            ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
 
-            shopViewModel.ShopCategories = await _elkRepository.GetShopCategories();
-            shopViewModel.ShopItems = await _elkRepository.GetShopItemsForCategory(categorySorting, sorting);
+            if (shopViewModel != null && shopViewModel.CategorySorting == categorySorting &&
+                shopViewModel.Sorting == sorting)
+                return View(shopViewModel);
 
+            if (shopViewModel == null)
+                shopViewModel = new ShopViewModel();
+            
+            var shopCategoriesTask = _elkRepository.GetShopCategories();
+            var shopItemsTask = _elkRepository.GetShopItemsForCategory(categorySorting, sorting);
+            
+            Task.WaitAll(shopCategoriesTask, shopItemsTask);
+
+            shopViewModel.ShopCategories = shopCategoriesTask.Result;
+            shopViewModel.ShopItems = shopItemsTask.Result;
+            
+            HttpContext.Session.Set<ShopViewModel>("ShopViewModel", shopViewModel);
             return View(shopViewModel);
         }
 
@@ -37,10 +50,13 @@ namespace SugarCenter.Controllers
             {
                 return RedirectToAction("Shop");
             }
-
-            var product = await _elkRepository.GetShopItem(productId);
-
-            return View(product);
+            
+            /*ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
+            
+            if (shopViewModel == null || !shopViewModel.ShopItems.Exists(si => si.ShopItemId == productId))*/
+                return View(await _elkRepository.GetShopItem(productId));
+            
+            /*return View(shopViewModel.ShopItems.Single(si => si.ShopItemId == productId).);*/
         }
 
         public async Task<IActionResult> AddItemToCart(int productId)

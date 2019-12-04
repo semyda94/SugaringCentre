@@ -7,5 +7,7 @@ namespace SugarCenter.ViewModel
     {
         public List<ShopCategory> ShopCategories { get; set; }
         public List<ShopItem> ShopItems { get; set; }
+        public int Sorting { get; set; } = 1;
+        public int CategorySorting { get; set; } = -1;
     }
 }
