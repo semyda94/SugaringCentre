@@ -12,7 +12,6 @@ using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
 
 namespace SugarCenter.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class AdminConsoleController : Controller
     {
         private readonly ISugaringCentreAucklandElkRepository _elkRepository;
@@ -58,6 +57,11 @@ namespace SugarCenter.Controllers
             viewMovel.ShopItems = _elkRepository.GetShoItems().GetAwaiter().GetResult();
 
             return View(viewMovel);
+        }
+        
+        public IActionResult Services()
+        {
+           return View();
         }
 
         public IActionResult AddEditProduct(int? productId)

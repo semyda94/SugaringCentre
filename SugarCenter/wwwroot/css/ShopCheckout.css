@@ -1,0 +1,45 @@
+﻿
+/* Tables */
+.table-border > tbody > tr > td,
+.table-border > tbody > tr > th,
+.table-border > tfoot > tr > td,
+.table-border > tfoot > tr > th,
+.table-border > thead > tr > td,
+.table-border > thead > tr > th {
+    border-color: #e5e5e5;
+}
+
+.ds-table > tbody > tr > td,
+.ds-table > tbody > tr > th,
+.ds-table > tfoot > tr > td,
+.ds-table > tfoot > tr > th,
+.ds-table > thead > tr > td,
+.ds-table > thead > tr > th {
+    border-top: 0;
+}
+
+.checkout-table {
+    border: 1px solid #e5e5e5;
+}
+
+.checkout-table > tbody > tr > td,
+.checkout-table > tbody > tr > th,
+.checkout-table > tfoot > tr > td,
+.checkout-table > tfoot > tr > th,
+.checkout-table > thead > tr > td,
+.checkout-table > thead > tr > th {
+    padding: 12px;
+}
+
+.checkout-table tr td,
+.checkout-table tr th {
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    border-left: 1px solid #e5e5e5;
+}
+
+.checkout-table tbody tr td:first-child,
+.checkout-table tbody tr th:first-child {
+    max-width: 36px;
+}

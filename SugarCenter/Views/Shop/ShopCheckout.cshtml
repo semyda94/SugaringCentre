@@ -1,4 +1,6 @@
-﻿<div class="main">
+﻿@model List<SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ShopItem>
+@*TODO: Validation model is not empty*@
+<div class="main">
     <section class="module">
         <div class="container">
             <div class="row">
@@ -11,46 +13,34 @@
                 <div class="col-sm-12">
                     <table class="table table-striped table-border checkout-table">
                         <tbody>
+                        <tr>
+                            <th class="hidden-xs">Item</th>
+                            <th>Description</th>
+                            <th class="hidden-xs">Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                        @foreach (var item in @Model)
+                        {
+                            var thumbImg = Convert.ToBase64String(item.ProductImg);
                             <tr>
-                                <th class="hidden-xs">Item</th>
-                                <th>Description</th>
-                                <th class="hidden-xs">Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                                <th>Remove</th>
-                            </tr>
-                            <tr>
-                                <td class="hidden-xs"><a href="#"><img src="assets/images/shop/product-14.jpg" alt="Accessories Pack" /></a></td>
+                                <td class="hidden-xs">@*<a href="@Url.Action("SingleItem", "Shop", new {productId = item.ShopItemId})"><img src="data:image/jpeg;base64,@thumbImg" alt="@item.Name"/></a>*@</td>
                                 <td>
-                                    <h5 class="product-title font-alt">Accessories Pack</h5>
+                                    <h5 class="product-title font-alt">@item.Name</h5>
                                 </td>
                                 <td class="hidden-xs">
-                                    <h5 class="product-title font-alt">£20.00</h5>
+                                    <h5 class="product-title font-alt">$@item.Price</h5>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="number" name="" value="1" max="50" min="1" />
+                                    <input class="form-control" type="number" name="" value="1" max="50" min="1"/>
                                 </td>
                                 <td>
-                                    <h5 class="product-title font-alt">£20.00</h5>
+                                    <h5 class="product-title font-alt">$@item.Price</h5>
                                 </td>
                                 <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>
                             </tr>
-                            <tr>
-                                <td class="hidden-xs"><a href="#"><img src="assets/images/shop/product-13.jpg" alt="Men’s Casual Pack" /></a></td>
-                                <td>
-                                    <h5 class="product-title font-alt">Men’s Casual Pack</h5>
-                                </td>
-                                <td class="hidden-xs">
-                                    <h5 class="product-title font-alt">£20.00</h5>
-                                </td>
-                                <td>
-                                    <input class="form-control" type="number" name="" value="1" max="50" min="1" />
-                                </td>
-                                <td>
-                                    <h5 class="product-title font-alt">£20.00</h5>
-                                </td>
-                                <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>
-                            </tr>
+                        }
                         </tbody>
                     </table>
                 </div>
@@ -81,15 +71,15 @@
                             <tbody>
                                 <tr>
                                     <th>Cart Subtotal :</th>
-                                    <td>£40.00</td>
+                                    <td>$@Model.Select(m => m.Price).Sum()</td>
                                 </tr>
                                 <tr>
                                     <th>Shipping Total :</th>
-                                    <td>£2.00</td>
+                                    <td>$0.00</td>
                                 </tr>
                                 <tr class="shop-Cart-totalprice">
                                     <th>Total :</th>
-                                    <td>£42.00</td>
+                                    <td>@Model.Select(m => m.Price).Sum()</td>
                                 </tr>
                             </tbody>
                         </table>

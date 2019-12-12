@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using SugarCenter.ViewModel;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
@@ -14,10 +15,12 @@ namespace SugarCenter.Controllers
     public class ShopController : Controller
     {
         private readonly ISugaringCentreAucklandElkRepository _elkRepository;
+        private IMemoryCache _cache;
 
-        public ShopController(ISugaringCentreAucklandElkRepository sugaringCentreAucklandElkRepository)
+        public ShopController(ISugaringCentreAucklandElkRepository sugaringCentreAucklandElkRepository, IMemoryCache memoryCache)
         {
             _elkRepository = sugaringCentreAucklandElkRepository;
+            _cache = memoryCache;
         }
 
 
@@ -78,7 +81,7 @@ namespace SugarCenter.Controllers
         {
             var itemLists = HttpContext.Session.Get<List<ShopItem>>("CheckoutList");
             
-            return View();
+            return View(itemLists);
         }
     }
 }

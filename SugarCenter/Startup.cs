@@ -44,7 +44,9 @@ namespace SugarCenter
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDistributedMemoryCache();
+            //services.AddDistributedMemoryCache();
+
+            services.AddMemoryCache();
 
             services.AddSession(options =>
             {
