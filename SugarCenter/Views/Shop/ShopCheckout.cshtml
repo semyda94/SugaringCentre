@@ -1,4 +1,4 @@
-﻿@model List<SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ShopItem>
+﻿@model List<SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Product>
 @*TODO: Validation model is not empty*@
 <div class="main">
     <section class="module">
@@ -23,9 +23,9 @@
                         </tr>
                         @foreach (var item in @Model)
                         {
-                            var thumbImg = Convert.ToBase64String(item.ProductImg);
+                            //var thumbImg = Convert.ToBase64String(item.ProductImg);
                             <tr>
-                                <td class="hidden-xs">@*<a href="@Url.Action("SingleItem", "Shop", new {productId = item.ShopItemId})"><img src="data:image/jpeg;base64,@thumbImg" alt="@item.Name"/></a>*@</td>
+                                <td class="hidden-xs">@*<a href="@Url.Action("SingleItem", "Shop", new {productSubscriptionId = item.ProductSubscriptionId})"><img src="data:image/jpeg;base64,@thumbImg" alt="@item.Name"/></a>*@</td>
                                 <td>
                                     <h5 class="product-title font-alt">@item.Name</h5>
                                 </td>

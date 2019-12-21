@@ -62,21 +62,6 @@
                             <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                     </ul>
-
-                    <aside class="js-side-nav side-nav">
-                        <nav class="js-side-nav__container side-nav__container">
-                            <button class="js-menu-hide side-nav__hide material-icons">close</button>
-                            <header class="side-nav__header">
-                                Side Nav
-                            </header>
-                            <ul class="side-nav__content">
-                                <li>Link 1</li>
-                                <li>Link 2</li>
-                                <li>Link 3</li>
-                                <li>Link 4</li>
-                            </ul>
-                        </nav>
-                    </aside>
                 </div>
             </div>
         </nav>
@@ -93,7 +78,7 @@
         <section class="module">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" id="GetInTouch">
                         <div class="header-block">
                             <div class="title" style="text-align: center;">Get in touch</div>
                         </div>
@@ -169,8 +154,8 @@
                 integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
         </script>
     </environment>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
 
-    @RenderSection("Scripts", required: false)
+@RenderSection("Scripts", required: false)
 </body>
 </html>

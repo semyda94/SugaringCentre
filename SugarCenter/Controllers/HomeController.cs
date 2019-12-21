@@ -95,7 +95,14 @@ namespace SugarCenter.Controllers
         public IActionResult SubscribeForNews(string email2)
         {
             _elkRepository.SubscribeForNews(email2).GetAwaiter().GetResult();
-            return RedirectToAction("Index");
+            return View("Index");
+        
+        }
+
+        public JsonResult SubscribeWithPopUp(string email2)
+        {
+            _elkRepository.SubscribeForNews(email2).GetAwaiter().GetResult();
+            return new JsonResult(new {Status = "Success", Result = "You email has been added to newslatter database"});
         }
 
         public async Task<IActionResult> Blog()

@@ -5,8 +5,8 @@ namespace SugarCenter.ViewModel
 {
     public class ShopViewModel
     {
-        public List<ShopCategory> ShopCategories { get; set; }
-        public List<ShopItem> ShopItems { get; set; }
+        public List<Category> ShopCategories { get; set; }
+        public List<Product> ShopItems { get; set; }
         public int Sorting { get; set; } = 1;
         public int CategorySorting { get; set; } = -1;
     }

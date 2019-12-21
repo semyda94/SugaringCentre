@@ -56,30 +56,30 @@ namespace SugarCenter.Controllers
             
             /*ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
             
-            if (shopViewModel == null || !shopViewModel.ShopItems.Exists(si => si.ShopItemId == productId))*/
+            if (shopViewModel == null || !shopViewModel.Products.Exists(si => si.ProductId == productId))*/
                 return View(await _elkRepository.GetShopItem(productId));
             
-            /*return View(shopViewModel.ShopItems.Single(si => si.ShopItemId == productId).);*/
+            /*return View(shopViewModel.Products.Single(si => si.ProductId == productId).);*/
         }
 
         public async Task<IActionResult> AddItemToCart(int productId)
         {
-            var itemLists = HttpContext.Session.Get<List<ShopItem>>("CheckoutList");
+            var itemLists = HttpContext.Session.Get<List<Product>>("CheckoutList");
             var item = await _elkRepository.GetShopItem(productId);
 
             if (itemLists == null)
-                itemLists = new List<ShopItem>();
+                itemLists = new List<Product>();
 
             itemLists.Add(item);
 
-            HttpContext.Session.Set<List<ShopItem>>("CheckoutList", itemLists);
+            HttpContext.Session.Set<List<Product>>("CheckoutList", itemLists);
 
             return RedirectToAction("Shop");
         }
 
         public IActionResult ShopCheckout()
         {
-            var itemLists = HttpContext.Session.Get<List<ShopItem>>("CheckoutList");
+            var itemLists = HttpContext.Session.Get<List<Product>>("CheckoutList");
             
             return View(itemLists);
         }

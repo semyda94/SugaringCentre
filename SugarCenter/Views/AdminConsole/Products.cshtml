@@ -11,11 +11,11 @@
         @foreach (var shopItem in Model.ShopItems)
         {
             <li class="table-row">
-                @*<div class="col col-1" data-label="Category Name">@Model.ShopCategories.Single(c => c.ShopCategoryId == shopItem.ShopCategoryId).Name</div>*@
+                @*<div class="col col-1" data-label="Category Name">@Model.ShopCategories.Single(c => c.CategorySubscriptionId == shopItem.CategorySubscriptionId).Name</div>*@
                 <div class="col col-2" data-label="Product Name">@shopItem.Name</div>
                 <div class="col col-3" data-label="Action">
-                    <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteProduct", "AdminConsole", new {productId = shopItem.ShopItemId})";'>Delete</button>
-                    <button class="btn btn-success btn-circle" type="button" onclick='window.location = "@Url.Action("AddEditProduct", "AdminConsole", new {productId = shopItem.ShopItemId})";'>Edit</button>
+                    <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteProduct", "AdminConsole", new {productId = shopItem.ProductId})";'>Delete</button>
+                    <button class="btn btn-success btn-circle" type="button" onclick='window.location = "@Url.Action("AddEditProduct", "AdminConsole", new {productId = shopItem.ProductId})";'>Edit</button>
                 </div>
             </li>
         }

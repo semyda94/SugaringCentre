@@ -26,7 +26,9 @@ namespace SugarCenter.Controllers
             return View();
         }
 
-        public IActionResult Categories()
+        #region Category
+
+        public IActionResult Category()
         {
             var categories = _elkRepository.GetShopCategories().GetAwaiter().GetResult();
 
@@ -39,15 +41,17 @@ namespace SugarCenter.Controllers
             {
                 _elkRepository.DeleteCategory(id.Value);
             }
-            return RedirectToAction("Categories");
+            return RedirectToAction("Category");
         }
 
         [Microsoft.AspNetCore.Mvc.HttpPost]
         public IActionResult AddCategory(string newCategoryText)
         {
             _elkRepository.CreatCategory(newCategoryText).GetAwaiter().GetResult();
-            return RedirectToAction("Categories");
+            return RedirectToAction("Category");
         }
+
+        #endregion
 
         public IActionResult Products()
         {
@@ -68,7 +72,7 @@ namespace SugarCenter.Controllers
         {
              if (productId == null)
             {
-                return View(new ShopItem{ShopItemId = -1});
+                return View(new Product{ProductId = -1});
             }
             else
             {
@@ -80,21 +84,21 @@ namespace SugarCenter.Controllers
         //{
         //    if (productId == null)
         //    {
-        //        _elkRepository.CreateProduct(new ShopItem {Name = productName, Desc = productDescription, Price = productPrice}).GetAwaiter().GetResult();
+        //        _elkRepository.CreateProduct(new Product {Name = productName, Desc = productDescription, Price = productPrice}).GetAwaiter().GetResult();
         //    }
 
         //    return RedirectToAction("Products");
         //}
 
         [Microsoft.AspNetCore.Mvc.HttpPost]
-        public async Task<IActionResult> SaveProduct(ShopItem item, List<IFormFile> ProductImg)
+        public async Task<IActionResult> SaveProduct(Product item, List<IFormFile> ProductImg)
         {
             foreach (var i in ProductImg)
             {
                 using (var stream = new MemoryStream())
                 {
                     await i.CopyToAsync(stream);
-                    item.ProductImg = stream.ToArray();
+                    //item.ProductImg = stream.ToArray();
                     await _elkRepository.CreateProduct(item);
                 }
             }

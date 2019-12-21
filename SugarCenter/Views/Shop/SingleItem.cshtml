@@ -1,6 +1,6 @@
 ﻿@using System.IO
 @using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
-@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ShopItem
+@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Product
 @{
     Layout = null;
 }
@@ -16,7 +16,7 @@
                             <li class="breadcrumb-item">
                                 <a asp-area="" asp-controller="Shop" asp-action="Shop">Shop</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="#">@Model.NavigationShopCategoryId.Name</a></li>
+                            <li class="breadcrumb-item"><a href="#">@Model.NavigationCategoryId.Name</a></li>
                             <li class="breadcrumb-item active">@Model.Name</li>
                         </ol>
                     </nav>
@@ -52,11 +52,11 @@
                 @for (int i = 0; i < 3; i++)
                 {
                     Random rnd = new Random();
-                    ShopItem tmp = Model.NavigationShopCategoryId.ShopItems.ElementAt(rnd.Next(Model.NavigationShopCategoryId.ShopItems.Count));
-                    var thumbImg = Convert.ToBase64String(tmp.ProductImg);
+                    Product tmp = Model.NavigationCategoryId.Products.ElementAt(rnd.Next(Model.NavigationCategoryId.Products.Count));
+                    //var thumbImg = Convert.ToBase64String(tmp.ProductImg);
                     
                     <div class="column-xs-12 column-md-4">
-                        <img src="data:image/jpeg;base64,@thumbImg">
+                        @* <img src="data:image/jpeg;base64,@thumbImg"> *@
                         <h4>@tmp.Name</h4>
                         <p class="price">$@tmp.Price</p>
                     </div>

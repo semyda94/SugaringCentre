@@ -16,19 +16,19 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public SugaringCentreAucklandElkRepository(SugaringCentreAucklandElkContext ElkContext) =>
             _DbContext = ElkContext;
 
-        public async Task<List<ShopCategory>> GetShopCategories()
+        public async Task<List<Category>> GetShopCategories()
         {
-            return await _DbContext.ShopCategory.Include(c => c.ShopItems).ToListAsync();
+            return await _DbContext.ShopCategory.Include(c => c.Products).ToListAsync();
         }
 
-        public async Task<List<ShopItem>> GetShoItems()
+        public async Task<List<Product>> GetShoItems()
         {
-            return await _DbContext.ShopItem.Include(t => t.NavigationShopCategoryId).ToListAsync();
+            return await _DbContext.ShopItem.Include(t => t.NavigationCategoryId).ToListAsync();
         }
 
-        public async Task<List<ShopItem>> GetShopItemsForCategory(int? categoryId = -1, int? sorting = 1)
+        public async Task<List<Product>> GetShopItemsForCategory(int? categoryId = -1, int? sorting = 1)
         {
-            //return await _DbContext.ShopItem.ToListAsync();
+            //return await _DbContext.Product.ToListAsync();
             var notSorted = categoryId == -1
                 ? await _DbContext.ShopItem.ToListAsync()
                 : await _DbContext.ShopItem.Where(i => i.CategoryId == categoryId).ToListAsync();
@@ -42,7 +42,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         }
         public async Task DeleteCategory(int categoryId)
         {
-            var category = _DbContext.ShopCategory.Single(c => c.ShopCategoryId == categoryId);
+            var category = _DbContext.ShopCategory.Single(c => c.CategoryId == categoryId);
             _DbContext.ShopCategory.Remove(category);
 
             await _DbContext.SaveChangesAsync();
@@ -50,11 +50,11 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task CreatCategory(string categoryName)
         {
-            _DbContext.ShopCategory.Add(new ShopCategory {Name = categoryName});
+            _DbContext.ShopCategory.Add(new Category {Name = categoryName});
             await _DbContext.SaveChangesAsync();
         }
 
-        public async Task CreateProduct(ShopItem product)
+        public async Task CreateProduct(Product product)
         {
             _DbContext.Add(product);
             await _DbContext.SaveChangesAsync();
@@ -62,19 +62,19 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task DeleteProduct(int? productId)
         {
-            var product = _DbContext.ShopItem.Single(p => p.ShopItemId == productId);
+            var product = _DbContext.ShopItem.Single(p => p.ProductId == productId);
             _DbContext.ShopItem.Remove(product);
 
             await _DbContext.SaveChangesAsync();
         }
 
-        public async Task<ShopItem> GetShopItem(int? productId)
+        public async Task<Product> GetShopItem(int? productId)
         {
-            var product = await _DbContext.ShopItem.Include(i => i.NavigationShopCategoryId.ShopItems).FirstOrDefaultAsync(p => p.ShopItemId == productId);
+            var product = await _DbContext.ShopItem.Include(i => i.NavigationCategoryId.Products).FirstOrDefaultAsync(p => p.ProductId == productId);
 
             if (product == null)
             {
-                return new ShopItem{ ShopItemId = -1};
+                return new Product{ ProductId = -1};
             }
             else
             {

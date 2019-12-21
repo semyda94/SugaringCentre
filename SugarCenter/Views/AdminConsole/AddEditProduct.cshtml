@@ -1,4 +1,4 @@
-﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ShopItem;
+﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Product;
 
 @{
     string name = Model == null ? "" : Model.Name ?? "";
@@ -42,8 +42,8 @@
 
                         @Html.DropDownList("PriorityID", (IEnumerable<SelectListItem>)ViewBag.PriorityID, new { @class = "dropdown" })
 
-                        <label asp-for="ProductImg"></label>
-                        <input type="file" id="files" asp-for="ProductImg" />
+                        @*<label asp-for="ProductImg"></label>
+                        <input type="file" id="files" asp-for="ProductImg" />*@
                         <input class="btn btn-success btn-circle" type="submit" name="submit" `>Save Product</input>
                     </form>
 
