@@ -1,0 +1,111 @@
+﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Product;
+
+@{
+    Layout = null;
+    string name = Model == null ? "" : Model.Name ?? "";
+    var price = Model == null ? 0 : Model.Price;
+    var desc = Model == null ? "" : Model.Desc ?? "";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SugarCenter</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="~/css/AdminConsole/Typography.css"/>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300" />
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
+        <div class="container" style="margin-right: 60px;">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
+                <ul class="navbar-nav flex-grow-1" style="display: contents;">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="AdminConsole" asp-action="Home">AdminConsole</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Shop">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Booking">Book Online</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    
+    <div class="main">
+        <section class="module">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <h4 class="font-alt mb-0">Basic Products Data</h4>
+                        <hr class="divider-w mt-10 mb-20">
+                        <form asp-action="SaveProduct" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label asp-for="Name"></label>
+                                <input asp-for="Name" class="form-control input-lg" />
+                                @* <input class="form-control input-lg" type="text" name="productName" id="productName" placeholder="Products Name" value="@name" />*@
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Price"></label>
+                                <input type="number" step="any" asp-for="Price" class="form-control input-lg" />
+                                @*<input class="form-control input-lg" type="number" step="any" name="productPrice" id="productPrice" placeholder="Products Name" value="@price"/>*@
+                            </div>
+                            @*<div class="form-group">
+            <input class="form-control" type="text" placeholder="Default input"/>
+        </div>
+        <div class="form-group">
+            <input class="form-control input-sm" type="text" placeholder="Small input"/>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="Disabled input" disabled=""/>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="Readonly input" readonly=""/>
+        </div>*@
+                            <label asp-for="Desc"></label>
+                            <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Description"></textarea>
+                            @*<textarea class="form-control" rows="7" name="productDescription" id="productDescription" placeholder="Description">@desc</textarea>*@
+
+                            @*@Html.DropDownList("PriorityID", (IEnumerable<SelectListItem>)ViewBag.PriorityID, new { @class = "dropdown" })*@
+
+                            @*<label asp-for="ProductsImg"></label>
+                        <input type="file" id="files" asp-for="ProductsImg" />*@
+                            <input class="btn btn-success btn-circle" type="submit" name="Save Products"></input>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</header>
+
+<script src="~/lib/" asp-append-version="true"></script>
+</body>
+</html>

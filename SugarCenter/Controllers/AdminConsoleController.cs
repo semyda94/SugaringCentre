@@ -53,44 +53,77 @@ namespace SugarCenter.Controllers
 
         #endregion
 
-        public IActionResult Products()
+        #region Products
+
+        public async Task<IActionResult> Products()
         {
             var viewMovel = new ShopViewModel();
 
-            viewMovel.ShopCategories = _elkRepository.GetShopCategories().GetAwaiter().GetResult();
-            viewMovel.ShopItems = _elkRepository.GetShoItems().GetAwaiter().GetResult();
+            viewMovel.Categories = await _elkRepository.GetShopCategories();
+            viewMovel.Products = await _elkRepository.GetProducts();
 
             return View(viewMovel);
         }
+        
+        public IActionResult DeleteProduct(int? productId)
+        {
+            if (productId != null)
+            {
+                _elkRepository.DeleteProduct(productId).GetAwaiter().GetResult();
+            }
+
+            return RedirectToAction("Products");
+        }
+        
+        //TODO: Delete method below
+        public async Task<IActionResult> AddEditProduct(int? productId)
+        {
+            return View(productId == null ? new Product{ProductId = -1} : await _elkRepository.GetShopItem(productId));
+        }
+        
+        public async Task<IActionResult> ProductConfiguration(int? productId)
+        {
+            return View(productId == null ? new Product{ProductId = -1} : await _elkRepository.GetShopItem(productId));
+        }
+        
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        public async Task<IActionResult> SaveProduct(Product product)
+        {
+            if (product != null)
+            {
+                product.CategoryId = 1;
+                product.NavigationCategoryId = _elkRepository.GetShopCategories().Result.Single(x => x.CategoryId == 1);
+                await _elkRepository.CreateProduct(product);
+            }
+            else
+            {
+                
+            }
+
+            return RedirectToAction("Products");
+        }
+
+        #endregion
+
+
         
         public IActionResult Services()
         {
            return View();
         }
-
-        public IActionResult AddEditProduct(int? productId)
-        {
-             if (productId == null)
-            {
-                return View(new Product{ProductId = -1});
-            }
-            else
-            {
-                return View(_elkRepository.GetShopItem(productId).GetAwaiter().GetResult());
-            }
-        }
+        
 
         //public IActionResult SaveProduct(string productName, string productDescription, decimal productPrice, int? productId)
         //{
         //    if (productId == null)
         //    {
-        //        _elkRepository.CreateProduct(new Product {Name = productName, Desc = productDescription, Price = productPrice}).GetAwaiter().GetResult();
+        //        _elkRepository.CreateProduct(new Products {Name = productName, Desc = productDescription, Price = productPrice}).GetAwaiter().GetResult();
         //    }
 
         //    return RedirectToAction("Products");
         //}
 
-        [Microsoft.AspNetCore.Mvc.HttpPost]
+        /*[Microsoft.AspNetCore.Mvc.HttpPost]
         public async Task<IActionResult> SaveProduct(Product item, List<IFormFile> ProductImg)
         {
             foreach (var i in ProductImg)
@@ -103,17 +136,7 @@ namespace SugarCenter.Controllers
                 }
             }
             return RedirectToAction("Products");
-        }
-
-        public IActionResult DeleteProduct(int? productId)
-        {
-            if (productId != null)
-            {
-                _elkRepository.DeleteProduct(productId).GetAwaiter().GetResult();
-            }
-
-            return RedirectToAction("Products");
-        }
+        }*/
 
         public IActionResult Staff()
         {

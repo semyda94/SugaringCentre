@@ -22,10 +22,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         public string Name { get; set; }
         [Column("Description")]
         public string Desc { get; set; }
+        [RegularExpression(@"^\d+\.\d{0,2}$")]
         public decimal Price { get; set; }
         /*public byte[] ProductImg { get; set; }*/
-        [Column("Category")]
-        public int CategoryId { get; set; }
+        [NotMapped] public int CategoryId { get; set; } = 0;
 
         [JsonIgnore]
         public virtual Category NavigationCategoryId { get; set; }

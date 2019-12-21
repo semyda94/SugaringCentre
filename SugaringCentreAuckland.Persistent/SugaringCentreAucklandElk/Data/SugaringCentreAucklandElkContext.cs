@@ -15,8 +15,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         {
         }
 
-        public virtual DbSet<Category> ShopCategory { get; set; }
-        public virtual DbSet<Product> ShopItem { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Subscription> Subscription { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,7 +42,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(255)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Desc)

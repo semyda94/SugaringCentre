@@ -11,18 +11,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2">
-                    <h4 class="font-alt mb-0">Basic Product Data</h4>
+                    <h4 class="font-alt mb-0">Basic Products Data</h4>
                     <hr class="divider-w mt-10 mb-20">
                     <form asp-action="SaveProduct" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label asp-for="Name"></label>
                             <input asp-for="Name" class="form-control input-lg" />
-                            @* <input class="form-control input-lg" type="text" name="productName" id="productName" placeholder="Product Name" value="@name" />*@
+                            @* <input class="form-control input-lg" type="text" name="productName" id="productName" placeholder="Products Name" value="@name" />*@
                         </div>
                         <div class="form-group">
                             <label asp-for="Price"></label>
-                            <input type="number" asp-for="Price" class="form-control input-lg" />
-                            @*<input class="form-control input-lg" type="number" step="any" name="productPrice" id="productPrice" placeholder="Product Name" value="@price"/>*@
+                            <input type="number" step="any" asp-for="Price" class="form-control input-lg" />
+                            @*<input class="form-control input-lg" type="number" step="any" name="productPrice" id="productPrice" placeholder="Products Name" value="@price"/>*@
                         </div>
                         @*<div class="form-group">
             <input class="form-control" type="text" placeholder="Default input"/>
@@ -42,9 +42,9 @@
 
                         @Html.DropDownList("PriorityID", (IEnumerable<SelectListItem>)ViewBag.PriorityID, new { @class = "dropdown" })
 
-                        @*<label asp-for="ProductImg"></label>
-                        <input type="file" id="files" asp-for="ProductImg" />*@
-                        <input class="btn btn-success btn-circle" type="submit" name="submit" `>Save Product</input>
+                        @*<label asp-for="ProductsImg"></label>
+                        <input type="file" id="files" asp-for="ProductsImg" />*@
+                        <input class="btn btn-success btn-circle" type="submit" name="submit" `>Save Products</input>
                     </form>
 
 
@@ -56,11 +56,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 mb-sm-40">
-                    <a class="gallery" href="assets/images/shop/product-7.jpg"><img src="assets/images/shop/product-7.jpg" alt="Single Product Image" /></a>
+                    <a class="gallery" href="assets/images/shop/product-7.jpg"><img src="assets/images/shop/product-7.jpg" alt="Single Products Image" /></a>
                     <ul class="product-gallery">
-                        <li><a class="gallery" href="assets/images/shop/product-8.jpg"></a><img src="assets/images/shop/product-8.jpg" alt="Single Product" /></li>
-                        <li><a class="gallery" href="assets/images/shop/product-9.jpg"></a><img src="assets/images/shop/product-9.jpg" alt="Single Product" /></li>
-                        <li><a class="gallery" href="assets/images/shop/product-10.jpg"></a><img src="assets/images/shop/product-10.jpg" alt="Single Product" /></li>
+                        <li><a class="gallery" href="assets/images/shop/product-8.jpg"></a><img src="assets/images/shop/product-8.jpg" alt="Single Products" /></li>
+                        <li><a class="gallery" href="assets/images/shop/product-9.jpg"></a><img src="assets/images/shop/product-9.jpg" alt="Single Products" /></li>
+                        <li><a class="gallery" href="assets/images/shop/product-10.jpg"></a><img src="assets/images/shop/product-10.jpg" alt="Single Products" /></li>
                     </ul>
                 </div>
                 <div class="col-sm-6">

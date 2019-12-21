@@ -40,8 +40,8 @@ namespace SugarCenter.Controllers
             
             Task.WaitAll(shopCategoriesTask, shopItemsTask);
 
-            shopViewModel.ShopCategories = shopCategoriesTask.Result;
-            shopViewModel.ShopItems = shopItemsTask.Result;
+            shopViewModel.Categories = shopCategoriesTask.Result;
+            shopViewModel.Products = shopItemsTask.Result;
             
             HttpContext.Session.Set<ShopViewModel>("ShopViewModel", shopViewModel);
             return View(shopViewModel);

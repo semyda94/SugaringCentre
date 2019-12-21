@@ -18,20 +18,20 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task<List<Category>> GetShopCategories()
         {
-            return await _DbContext.ShopCategory.Include(c => c.Products).ToListAsync();
+            return await _DbContext.Categories.Include(c => c.Products).ToListAsync();
         }
 
-        public async Task<List<Product>> GetShoItems()
+        public async Task<List<Product>> GetProducts()
         {
-            return await _DbContext.ShopItem.Include(t => t.NavigationCategoryId).ToListAsync();
+            return await _DbContext.Products.ToListAsync(); //.Include(t => t.NavigationCategoryId).ToListAsync();
         }
 
         public async Task<List<Product>> GetShopItemsForCategory(int? categoryId = -1, int? sorting = 1)
         {
             //return await _DbContext.Product.ToListAsync();
             var notSorted = categoryId == -1
-                ? await _DbContext.ShopItem.ToListAsync()
-                : await _DbContext.ShopItem.Where(i => i.CategoryId == categoryId).ToListAsync();
+                ? await _DbContext.Products.ToListAsync()
+                : await _DbContext.Products.Where(i => i.CategoryId == categoryId).ToListAsync();
 
             switch (sorting)
             {
@@ -42,15 +42,15 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         }
         public async Task DeleteCategory(int categoryId)
         {
-            var category = _DbContext.ShopCategory.Single(c => c.CategoryId == categoryId);
-            _DbContext.ShopCategory.Remove(category);
+            var category = _DbContext.Categories.Single(c => c.CategoryId == categoryId);
+            _DbContext.Categories.Remove(category);
 
             await _DbContext.SaveChangesAsync();
         }
 
         public async Task CreatCategory(string categoryName)
         {
-            _DbContext.ShopCategory.Add(new Category {Name = categoryName});
+            _DbContext.Categories.Add(new Category {Name = categoryName});
             await _DbContext.SaveChangesAsync();
         }
 
@@ -62,15 +62,15 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task DeleteProduct(int? productId)
         {
-            var product = _DbContext.ShopItem.Single(p => p.ProductId == productId);
-            _DbContext.ShopItem.Remove(product);
+            var product = _DbContext.Products.Single(p => p.ProductId == productId);
+            _DbContext.Products.Remove(product);
 
             await _DbContext.SaveChangesAsync();
         }
 
         public async Task<Product> GetShopItem(int? productId)
         {
-            var product = await _DbContext.ShopItem.Include(i => i.NavigationCategoryId.Products).FirstOrDefaultAsync(p => p.ProductId == productId);
+            var product = await _DbContext.Products.Include(i => i.NavigationCategoryId.Products).FirstOrDefaultAsync(p => p.ProductId == productId);
 
             if (product == null)
             {

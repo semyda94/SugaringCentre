@@ -82,7 +82,12 @@
                                     <h5 class="product-title font-alt">@c.Name</h5>
                                 </td>
                                 <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>
-                                <td class="pr-remove"><div data-label="Action"> <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteCategory", "AdminConsole", new { id = c.CategoryId })";'>Delete</button> </div></td>
+                                <td class="pr-remove"><div data-label="Action">
+                                    @if (c.CategoryId != 1)
+                                    {
+                                        <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteCategory", "AdminConsole", new {id = c.CategoryId})";'>Delete</button>
+                                    }
+                                </div></td>
                             </tr>
                         }
                         </tbody>
