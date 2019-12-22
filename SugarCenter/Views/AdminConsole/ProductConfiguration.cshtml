@@ -1,7 +1,7 @@
 ﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Product;
 
 @{
-    Layout = null;
+    Layout = "ProductLayout";
     string name = Model == null ? "" : Model.Name ?? "";
     var price = Model == null ? 0 : Model.Price;
     var desc = Model == null ? "" : Model.Desc ?? "";
@@ -11,24 +11,27 @@
 
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>SugarCenter</title>
-
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
     </environment>
     <link rel="stylesheet" href="~/css/AdminConsole/Typography.css"/>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300" />
-</head>
+    <link href="~/css/select2/select2.min.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
+
+    <script src="~/js/select2.min.js"></script>
+   </head>
 <body>
 
 <header>
@@ -73,28 +76,18 @@
                             <div class="form-group">
                                 <label asp-for="Price"></label>
                                 <input type="number" step="any" asp-for="Price" class="form-control input-lg" />
-                                @*<input class="form-control input-lg" type="number" step="any" name="productPrice" id="productPrice" placeholder="Products Name" value="@price"/>*@
                             </div>
-                            @*<div class="form-group">
-            <input class="form-control" type="text" placeholder="Default input"/>
-        </div>
-        <div class="form-group">
-            <input class="form-control input-sm" type="text" placeholder="Small input"/>
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" placeholder="Disabled input" disabled=""/>
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" placeholder="Readonly input" readonly=""/>
-        </div>*@
                             <label asp-for="Desc"></label>
                             <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Description"></textarea>
-                            @*<textarea class="form-control" rows="7" name="productDescription" id="productDescription" placeholder="Description">@desc</textarea>*@
-
-                            @*@Html.DropDownList("PriorityID", (IEnumerable<SelectListItem>)ViewBag.PriorityID, new { @class = "dropdown" })*@
-
-                            @*<label asp-for="ProductsImg"></label>
-                        <input type="file" id="files" asp-for="ProductsImg" />*@
+                            
+                            <input type="hidden" id="categories" asp-for="CategorySelected"/>
+                            
+                            <select class="js-example-basic-single" name="categories[]" multiple="multiple" style="width: 300px;">
+                                <option></option>
+                                <option value="t1">test 1</option>
+                                <option value="t2">test 2</option>
+                            </select>
+                            
                             <input class="btn btn-success btn-circle" type="submit" name="Save Products"></input>
                         </form>
 
@@ -106,6 +99,42 @@
     </div>
 </header>
 
-<script src="~/lib/" asp-append-version="true"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.js-example-basic-single').select2({
+    placeholder: "Select a category",
+    allowClear: true,
+    theme: "classic",
+    ajax : {
+       url : "/AdminConsole/GetCategory",
+       dataType : "json",
+       delay : 250,
+       data : function(params) {
+         return {
+             searchCategoryName : params.term
+             }
+       },
+       processResults : function(data, params) {
+         return {
+             results : data
+         };
+       }
+    }
+  });
+});
+
+$(".js-example-basic-single").on("change", function() {
+  var categoryId = $(this).val();
+  $("#categories").val(categoryId);
+  
+  var textBoxValueData = $("#categories").val();
+  $.ajax({
+      url : '/AdminConsole/SaveCategorySelection?categoryIds=' +  textBoxValueData,
+      dataType : 'json',
+      type: 'post'
+  });
+});
+</script>
+
 </body>
 </html>

@@ -17,6 +17,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductCategory> ProductCategory { get; set; }
         public virtual DbSet<Subscription> Subscription { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,13 +32,12 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                entity.HasMany(t => t.Products)
-                    .WithOne(i => i.NavigationCategoryId);
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
+                entity.HasKey(e => e.ProductId);
+                
                 entity.Property(e => e.ProductId).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Name)
@@ -49,10 +49,21 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.Price);
+            });
+            
+            modelBuilder.Entity<ProductCategory>(entity =>
+            {
+                entity.HasKey(e => e.ProductCategoryId);
+                
+                entity.HasOne(d => d.CategoryNavigation)
+                    .WithMany(p => p.ProductCategory)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasOne(i => i.NavigationCategoryId)
-                    .WithMany(t => t.Products)
-                    .HasForeignKey(i => i.CategoryId);
+                entity.HasOne(d => d.ProductNavigation)
+                    .WithMany(p => p.ProductCategory)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Subscription>(entity =>

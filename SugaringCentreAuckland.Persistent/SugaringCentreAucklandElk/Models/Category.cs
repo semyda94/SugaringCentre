@@ -10,15 +10,14 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
     {
         public Category()
         {
-            Products = new HashSet<Product>();
+            ProductCategory = new HashSet<ProductCategory>();
         }
         
         [Column("Category")]
         public int CategoryId { get; set; }
         [MaxLength(255)]
         public string Name { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<Product> Products { get; set; }
+        
+        public virtual ICollection<ProductCategory> ProductCategory { get; set; }
     }
 }

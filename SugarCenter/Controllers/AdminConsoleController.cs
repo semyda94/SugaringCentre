@@ -4,11 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SugarCenter.ViewModel;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
+using JsonResult = Microsoft.AspNetCore.Mvc.JsonResult;
 
 namespace SugarCenter.Controllers
 {
@@ -51,6 +55,17 @@ namespace SugarCenter.Controllers
             return RedirectToAction("Category");
         }
 
+        public async Task<JsonResult> GetCategory(string searchCategoryName)
+        {
+            var category = await _elkRepository.GetShopCategoriesForAc(searchCategoryName);
+            var modifiedData = category.Select(x => new
+            {
+                id = x.CategoryId,
+                text = x.Name
+            });
+            return Json(modifiedData, new JsonSerializerSettings());
+        }
+
         #endregion
 
         #region Products
@@ -74,16 +89,15 @@ namespace SugarCenter.Controllers
 
             return RedirectToAction("Products");
         }
-        
-        //TODO: Delete method below
-        public async Task<IActionResult> AddEditProduct(int? productId)
+
+        public async Task<IActionResult> ProductConfiguration(int? productId)
         {
             return View(productId == null ? new Product{ProductId = -1} : await _elkRepository.GetShopItem(productId));
         }
         
-        public async Task<IActionResult> ProductConfiguration(int? productId)
+        public JsonResult SaveCategorySelection(string categoryIds)
         {
-            return View(productId == null ? new Product{ProductId = -1} : await _elkRepository.GetShopItem(productId));
+            return Json(0, new JsonSerializerSettings());
         }
         
         [Microsoft.AspNetCore.Mvc.HttpPost]
@@ -91,8 +105,6 @@ namespace SugarCenter.Controllers
         {
             if (product != null)
             {
-                product.CategoryId = 1;
-                product.NavigationCategoryId = _elkRepository.GetShopCategories().Result.Single(x => x.CategoryId == 1);
                 await _elkRepository.CreateProduct(product);
             }
             else

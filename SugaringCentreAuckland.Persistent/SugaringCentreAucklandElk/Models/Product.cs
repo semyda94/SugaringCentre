@@ -13,9 +13,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
     {
         public Product()
         {
-            NavigationCategoryId = new Category();
+            ProductCategory = new HashSet<ProductCategory>();
         }
-
+        
+        [Key]
         [Column("Product")]
         public int ProductId { get; set; }
         [MaxLength(255)]
@@ -24,10 +25,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         public string Desc { get; set; }
         [RegularExpression(@"^\d+\.\d{0,2}$")]
         public decimal Price { get; set; }
-        /*public byte[] ProductImg { get; set; }*/
-        [NotMapped] public int CategoryId { get; set; } = 0;
-
-        [JsonIgnore]
-        public virtual Category NavigationCategoryId { get; set; }
+        [NotMapped] public string CategorySelected { get; set; }
+        
+        public virtual ICollection<ProductCategory> ProductCategory { get; set; }
     }
 }
