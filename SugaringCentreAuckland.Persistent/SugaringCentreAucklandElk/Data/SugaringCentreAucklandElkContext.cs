@@ -23,6 +23,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         
         public virtual DbSet<Staff> Staff { get; set; }
         public virtual DbSet<StaffImage> StaffImage { get; set; }
+        
+        public virtual DbSet<Service> Service { get; set; }
+        public virtual DbSet<ServiceImage> ServiceImage { get; set; }
+        public virtual DbSet<ServiceStaff> ServiceStaff { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

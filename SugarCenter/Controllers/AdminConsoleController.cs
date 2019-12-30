@@ -161,9 +161,18 @@ namespace SugarCenter.Controllers
 
         #endregion
         
-        public IActionResult Services()
+        public async Task<IActionResult> Services()
         {
-           return View();
+            var services = await _elkRepository.GetServices();
+           return View(services);
+        }
+
+        public async Task<IActionResult> DeleteService(int? serviceId)
+        {
+            if (serviceId != null)
+                await _elkRepository.DeleteService(serviceId.Value);
+                
+            return RedirectToAction("Services");
         }
         
 

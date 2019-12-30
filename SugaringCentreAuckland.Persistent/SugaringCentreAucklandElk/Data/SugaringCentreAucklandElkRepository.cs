@@ -206,5 +206,22 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         }
 
         #endregion
+
+        #region Services
+
+        public async Task<IEnumerable<Service>> GetServices()
+        {
+            return await _DbContext.Service.ToListAsync();
+        }
+
+        public async Task DeleteService(int serviceId)
+        {
+            var service = _DbContext.Service.Single(x => x.ServiceId == serviceId);
+            _DbContext.Service.Remove(service);
+            
+            await _DbContext.SaveChangesAsync();
+        }
+
+        #endregion
     }
 }
