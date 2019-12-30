@@ -63,7 +63,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task CreateProduct(Product product, string projectWebRootPath)
         {
-            _DbContext.Add(product);
+            _DbContext.Products.Add(product);
 
             if (product.CategorySelected != null)
             {
@@ -167,6 +167,42 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 _DbContext.Staff.Remove(staff);
                 await _DbContext.SaveChangesAsync();
             }
+        }
+        
+        public async Task UpdateStaff(Staff staff)
+        {
+            _DbContext.Staff.Update(staff);
+            await _DbContext.SaveChangesAsync();
+        }
+        
+        public async Task CreateStaff(Staff staff)
+        {
+            _DbContext.Staff.Add(staff);
+
+            if (staff.ImagesToUpload.Any())
+            {
+                var imageToSafe = new List<StaffImage>();
+                foreach (var image in staff.ImagesToUpload)
+                {
+                    if (image.Length > 0)
+                    {
+                       
+                        using (var stream = new MemoryStream())
+                        {
+                            await image.CopyToAsync(stream);
+                            imageToSafe.Add(new StaffImage
+                            {
+                                StaffId = staff.StaffId,
+                                Image = stream.ToArray()
+                            });
+                        }
+                    }
+                }
+                
+                _DbContext.StaffImage.AddRange(imageToSafe);
+            }
+
+            await _DbContext.SaveChangesAsync();
         }
 
         #endregion

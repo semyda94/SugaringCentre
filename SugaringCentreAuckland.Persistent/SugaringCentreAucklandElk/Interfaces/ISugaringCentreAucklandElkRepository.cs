@@ -24,6 +24,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task<IEnumerable<Staff>> GetStaffList();
         Task<Staff> GetStaff(int staffId);
         Task DeleteStaff(int staffId);
+        Task UpdateStaff(Staff staff);
+        Task CreateStaff(Staff staff);
 
         #endregion
     }

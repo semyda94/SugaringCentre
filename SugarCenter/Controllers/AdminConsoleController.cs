@@ -144,6 +144,21 @@ namespace SugarCenter.Controllers
             return View(staffId == null ? new Staff{StaffId = -1} : await _elkRepository.GetStaff(staffId.Value));
         }
 
+        public async Task<IActionResult> SaveStaff(Staff staff)
+        {
+            if (staff.StaffId <= 0 )
+            {
+                var projectWebRootPath = _hostingEnvironment.WebRootPath;
+                await _elkRepository.CreateStaff(staff);
+            }
+            else
+            {
+                await _elkRepository.UpdateStaff(staff);
+            }
+            
+            return RedirectToAction("Staff");
+        }
+
         #endregion
         
         public IActionResult Services()

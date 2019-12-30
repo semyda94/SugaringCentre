@@ -22,6 +22,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public virtual DbSet<Subscription> Subscription { get; set; }
         
         public virtual DbSet<Staff> Staff { get; set; }
+        public virtual DbSet<StaffImage> StaffImage { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -90,6 +91,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             
             modelBuilder.Entity<Staff>(entity =>
             {
+                entity.HasKey(e => e.StaffId);
+                
                 entity.Property(e => e.StaffId).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.FirstName)
@@ -104,6 +107,15 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 entity.Property(e => e.Title)
                     .HasMaxLength(255)
                     .IsUnicode(false);
+            });
+            
+            modelBuilder.Entity<StaffImage>(entity =>
+            {
+                entity.HasKey(e => e.StaffImageId);
+
+                entity.HasOne(d => d.StaffNavigation)
+                    .WithMany(p => p.StaffImage)
+                    .HasForeignKey(d => d.StaffId);
             });
         }
     }
