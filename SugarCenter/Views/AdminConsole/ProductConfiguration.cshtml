@@ -2,9 +2,9 @@
 
 @{
     Layout = "ProductLayout";
-    string name = Model == null ? "" : Model.Name ?? "";
+    string name = Model.Name == null ? "Name" : Model.Name ?? "";
     var price = Model == null ? 0 : Model.Price;
-    var desc = Model == null ? "" : Model.Desc ?? "";
+    var desc = Model.Desc == null ? "Desc" : Model.Desc ?? "";
 }
 
 <!DOCTYPE html>
@@ -24,6 +24,7 @@
               crossorigin="anonymous"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
     </environment>
+    <link href="@Url.Content("~/css/SingleItem.css")" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="~/css/AdminConsole/Typography.css"/>
     <link href="~/css/select2/select2.min.css" rel="stylesheet"/>
 
@@ -58,46 +59,80 @@
             </div>
         </div>
     </nav>
-    
-    
+</header>
+
+<main>
     <div class="main">
         <section class="module">
             <div class="container">
-                <div class="row">
-                    <div class="col-sm-8 col-sm-offset-2">
-                        <h4 class="font-alt mb-0">Basic Products Data</h4>
-                        <hr class="divider-w mt-10 mb-20">
-                        <form asp-action="SaveProduct" method="post" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label asp-for="Name"></label>
-                                <input asp-for="Name" class="form-control input-lg" />
-                                @* <input class="form-control input-lg" type="text" name="productName" id="productName" placeholder="Products Name" value="@name" />*@
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Price"></label>
-                                <input type="number" step="any" asp-for="Price" class="form-control input-lg" />
-                            </div>
-                            <label asp-for="Desc"></label>
-                            <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Description"></textarea>
-                            
-                            <input type="hidden" id="categories" asp-for="CategorySelected"/>
-                            
-                            <select class="js-example-basic-single" name="categories[]" multiple="multiple" style="width: 300px;">
-                                <option></option>
-                                <option value="t1">test 1</option>
-                                <option value="t2">test 2</option>
-                            </select>
-                            
-                            <input class="btn btn-success btn-circle" type="submit" name="Save Products"></input>
-                        </form>
-
-
+                <div class="grid second-nav">
+                    <div class="column-xs-12">
+                        <nav>
+                            <ol class="breadcrumb-list">
+                                <li class="breadcrumb-item">
+                                    <a asp-area="" asp-controller="AdminConsole" asp-action="Products">Product list</a>
+                                </li>
+                                <li class="breadcrumb-item active">@Model.Name</li>
+                            </ol>
+                        </nav>
                     </div>
                 </div>
+                <form asp-action="SaveProduct" method="post" enctype="multipart/form-data">
+                <div class="grid product">
+                    <div class="column-xs-12 column-md-7">
+                        <div class="product-gallery">
+                            <div class="product-image">
+                                <img class="active" src="https://source.unsplash.com/W1yjvf5idqA">
+                            </div>
+                            <ul class="image-list">
+                                <li class="image-item"><img src="https://source.unsplash.com/W1yjvf5idqA"></li>
+                                <li class="image-item"><img src="https://source.unsplash.com/W1yjvf5idqA"></li>
+                                <li class="image-item"><img src="https://source.unsplash.com/VgbUxvW3gS4"></li>
+                                <li class="image-item"><img src="https://source.unsplash.com/5WbYFH0kf_8"></li>
+                            </ul>
+                        </div>
+                        <input type="file" id="files" multiple="multiple" asp-for="ImagesToUpload"/>
+                    </div>
+                    <div class="column-xs-12 column-md-5">
+                        <input asp-for="Name" placeholder="Enter product name" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
+                        <input type="number" step="any" asp-for="Price" placeholder="Enter product price" class="form-control input-lg" style="border: 0px; font-size: 26px; font-weight: bold; padding: 0px;"/>
+                        <input type="hidden" id="categories" asp-for="CategorySelected"/>
+                                                    
+                        <select class="js-example-basic-single" name="categories[]" multiple="multiple" style="width: 100%; padding-top: 32px;">
+                            @foreach (var c in Model.ProductCategory)
+                            {
+                                <option selected="selected" value="@c.CategoryId">@c.CategoryId</option>
+                            }
+                        </select>
+                        <div class="description">
+                            <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Enter product description" style="border: 0px;"></textarea>
+                        </div>
+                        <button class="add-to-cart" type="submit">Save Product</button>
+                    </div>
+                </div>
+                </form>
+                @*<div class="grid related-products">
+                    <div class="column-xs-12">
+                        <h3>You may also like</h3>
+                    </div>
+                    @for (int i = 0; i < 3; i++)
+                    {
+                        Random rnd = new Random();
+    //                    Product tmp = Model.NavigationCategoryId.Products.ElementAt(rnd.Next(Model.NavigationCategoryId.Products.Count));
+                        //var thumbImg = Convert.ToBase64String(tmp.ProductImg);
+                        
+    $1$                     <div class="column-xs-12 column-md-4"> #1#
+    $1$                         $2$ <img src="data:image/jpeg;base64,@thumbImg"> #2# #1#
+    $1$                         <h4>@tmp.Name</h4> #1#
+    $1$                         <p class="price">$@tmp.Price</p> #1#
+    $1$                     </div> #1#
+                    }
+                </div>*@
             </div>
         </section>
+        <hr class="divider-w">
     </div>
-</header>
+</main>
 
 <script type="text/javascript">
 $(document).ready(function() {

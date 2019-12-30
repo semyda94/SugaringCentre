@@ -18,6 +18,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         [MaxLength(255)]
         public string Name { get; set; }
         
+        [JsonIgnore]
         public virtual ICollection<ProductCategory> ProductCategory { get; set; }
     }
 }

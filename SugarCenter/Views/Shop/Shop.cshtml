@@ -44,10 +44,12 @@
         <div class="row multi-columns-row">
             @foreach (var item in Model.Products)
             {
+                var thumbImg = Convert.ToBase64String(item.ProductImage.First().Image);
+                
                     <div class="col-sm-6 col-md-3 col-lg-3">
                         <div class="shop-item">
                             <div class="shop-item-image">
-                                <img src="~/imgs/logo.jpg" alt="@item.Name"/>
+                                <img src="data:image/jpeg;base64,@thumbImg" alt="@item.Name"/>
                                 <div class="shop-item-detail"><a class="btn btn-round btn-b" href="@Url.Action("AddItemToCart", "Shop", new {productId = item.ProductId})"><span class="icon-basket">Add To Cart</span></a></div>
                             </div>
                             <h4 class="shop-item-title font-alt"><a href="@Url.Action("SingleItem", "Shop", new {productId = item.ProductId})">@item.Name</a></h4>$@item.Price

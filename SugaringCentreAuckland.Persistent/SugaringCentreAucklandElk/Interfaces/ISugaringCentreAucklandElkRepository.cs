@@ -10,13 +10,21 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task<List<Category>> GetShopCategories();
         Task<List<Category>> GetShopCategoriesForAc(string searchName);
         Task<List<Product>> GetProducts();
-        Task<List<Product>> GetShopItemsForCategory(int? categoryId = -1, int? sorting = 1);
+        Task<List<Product>> GetproductsForCategory(int? categoryId = -1, int? sorting = 1);
         Task DeleteCategory(int categoryId);
         Task CreatCategory(string categoryName);
-        Task CreateProduct(Product product);
-
+        Task CreateProduct(Product product, string projectWebRootPath);
+        Task UpdateProduct(Product product);
         Task DeleteProduct(int? productId);
         Task<Product> GetShopItem(int? productId);
         Task SubscribeForNews(string email);
+
+        #region Staff
+
+        Task<IEnumerable<Staff>> GetStaffList();
+        Task<Staff> GetStaff(int staffId);
+        Task DeleteStaff(int staffId);
+
+        #endregion
     }
 }

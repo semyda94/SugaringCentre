@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -19,10 +20,12 @@ namespace SugarCenter.Controllers
     public class AdminConsoleController : Controller
     {
         private readonly ISugaringCentreAucklandElkRepository _elkRepository;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public AdminConsoleController (ISugaringCentreAucklandElkRepository sugaringCentreAucklandElkRepository)
+        public AdminConsoleController (ISugaringCentreAucklandElkRepository sugaringCentreAucklandElkRepository, IHostingEnvironment hostingEnvironment)
         {
             _elkRepository = sugaringCentreAucklandElkRepository;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public IActionResult Home()
@@ -103,13 +106,14 @@ namespace SugarCenter.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost]
         public async Task<IActionResult> SaveProduct(Product product)
         {
-            if (product != null)
+            if (product.ProductId <= 0 )
             {
-                await _elkRepository.CreateProduct(product);
+                var projectWebRootPath = _hostingEnvironment.WebRootPath;
+                await _elkRepository.CreateProduct(product, projectWebRootPath);
             }
             else
             {
-                
+                await _elkRepository.UpdateProduct(product);
             }
 
             return RedirectToAction("Products");
@@ -117,7 +121,30 @@ namespace SugarCenter.Controllers
 
         #endregion
 
+        #region Staff
+        
+        public async Task<IActionResult> Staff()
+        {
+            var staffList = await _elkRepository.GetStaffList();
+            return View(staffList);
+        }
+        
+        public async Task<IActionResult> DeleteStaff(int? staffId)
+        {
+            if (staffId != null)
+            {
+               await _elkRepository.DeleteStaff(staffId.Value);
+            }
 
+            return RedirectToAction("Staff");
+        }
+        
+        public async Task<IActionResult> StaffConfiguration(int? staffId)
+        {
+            return View(staffId == null ? new Staff{StaffId = -1} : await _elkRepository.GetStaff(staffId.Value));
+        }
+
+        #endregion
         
         public IActionResult Services()
         {
@@ -149,10 +176,6 @@ namespace SugarCenter.Controllers
             }
             return RedirectToAction("Products");
         }*/
-
-        public IActionResult Staff()
-        {
-            return View();
-        }
+        
     }
 }

@@ -18,7 +18,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
+        public virtual DbSet<ProductImage> ProductImage { get; set; }
         public virtual DbSet<Subscription> Subscription { get; set; }
+        
+        public virtual DbSet<Staff> Staff { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -65,6 +68,15 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
+            
+            modelBuilder.Entity<ProductImage>(entity =>
+            {
+                entity.HasKey(e => e.ProductImageId);
+
+                /*entity.HasOne(d => d.ProductNavigation)
+                    .WithMany(p => p.ProductImage)
+                    .HasForeignKey(d => d.ProductId);*/
+            });
 
             modelBuilder.Entity<Subscription>(entity =>
             {
@@ -73,6 +85,24 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(256)
+                    .IsUnicode(false);
+            });
+            
+            modelBuilder.Entity<Staff>(entity =>
+            {
+                entity.Property(e => e.StaffId).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(255)
                     .IsUnicode(false);
             });
         }

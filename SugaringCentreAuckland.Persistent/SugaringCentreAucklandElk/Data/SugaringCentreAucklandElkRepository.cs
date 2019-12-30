@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public SugaringCentreAucklandElkRepository(SugaringCentreAucklandElkContext ElkContext) =>
             _DbContext = ElkContext;
 
+        
         public async Task<List<Category>> GetShopCategories()
         {
             return await _DbContext.Categories/*.Include(c => c.Products)*/.ToListAsync();
@@ -31,20 +33,19 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             return await _DbContext.Products.ToListAsync(); //.Include(t => t.NavigationCategoryId).ToListAsync();
         }
 
-        public async Task<List<Product>> GetShopItemsForCategory(int? categoryId = -1, int? sorting = 1)
+        public async Task<List<Product>> GetproductsForCategory(int? categoryId = -1, int? sorting = 1)
         {
-            /*//return await _DbContext.Product.ToListAsync();
+            //return await _DbContext.Product.ToListAsync();
             var notSorted = categoryId == -1
-                ? await _DbContext.Products.ToListAsync()
-                : await _DbContext.Products.Where(i => i.CategoryId == categoryId).ToListAsync();
+                ? await _DbContext.Products.Include(x => x.ProductImage).ToListAsync()
+                : await _DbContext.ProductCategory.Include(x => x.ProductNavigation).ThenInclude(x => x.ProductImage).Where(i => i.CategoryId == categoryId).Select(x => x.ProductNavigation).ToListAsync();
 
             switch (sorting)
             {
                 case 3: return notSorted.OrderByDescending(x => x.Price).ToList();
                 case 4: return notSorted.OrderBy(x => x.Price).ToList();
                 default: return  notSorted;
-            }*/
-            return new List<Product>();
+            }
         }
         public async Task DeleteCategory(int categoryId)
         {
@@ -60,7 +61,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             await _DbContext.SaveChangesAsync();
         }
 
-        public async Task CreateProduct(Product product)
+        public async Task CreateProduct(Product product, string projectWebRootPath)
         {
             _DbContext.Add(product);
 
@@ -81,6 +82,29 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 _DbContext.AddRange(productCategories);
             }
 
+            if (product.ImagesToUpload.Any())
+            {
+                var productImagesToSave = new List<ProductImage>();
+                foreach (var image in product.ImagesToUpload)
+                {
+                    if (image.Length > 0)
+                    {
+                       
+                        using (var stream = new MemoryStream())
+                        {
+                            await image.CopyToAsync(stream);
+                            productImagesToSave.Add(new ProductImage
+                            {
+                                ProductId = product.ProductId,
+                                Image = stream.ToArray()
+                            });
+                        }
+                    }
+                }
+                
+                _DbContext.ProductImage.AddRange(productImagesToSave);
+            }
+
             await _DbContext.SaveChangesAsync();
         }
 
@@ -96,9 +120,15 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             await _DbContext.SaveChangesAsync();
         }
 
+        public async Task UpdateProduct(Product product)
+        {
+            _DbContext.Products.Update(product);
+            await _DbContext.SaveChangesAsync();
+        }
+
         public async Task<Product> GetShopItem(int? productId)
         {
-            var product = await _DbContext.Products/*.Include(i => i.NavigationCategoryId.Products)*/.FirstOrDefaultAsync(p => p.ProductId == productId);
+            var product = await _DbContext.Products.Include(i => i.ProductImage).FirstOrDefaultAsync(p => p.ProductId == productId);
 
             if (product == null)
             {
@@ -115,5 +145,30 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             _DbContext.Subscription.Add(new Subscription {Email = email});
             await _DbContext.SaveChangesAsync();
         }
+
+        #region Staff
+
+        public async Task<IEnumerable<Staff>> GetStaffList()
+        {
+            return await _DbContext.Staff.ToListAsync();
+        }
+
+        public async Task<Staff> GetStaff(int staffId)
+        {
+            return await _DbContext.Staff.Where(x => x.StaffId == staffId).SingleOrDefaultAsync();
+        }
+
+        public async Task DeleteStaff(int staffId)
+        {
+            var staff = _DbContext.Staff.SingleOrDefault(x => x.StaffId == staffId);
+
+            if (staff != null)
+            {
+                _DbContext.Staff.Remove(staff);
+                await _DbContext.SaveChangesAsync();
+            }
+        }
+
+        #endregion
     }
 }

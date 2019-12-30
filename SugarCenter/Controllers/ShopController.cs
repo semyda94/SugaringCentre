@@ -36,12 +36,14 @@ namespace SugarCenter.Controllers
                 shopViewModel = new ShopViewModel();
             
             var shopCategoriesTask = _elkRepository.GetShopCategories();
-            var shopItemsTask = _elkRepository.GetShopItemsForCategory(categorySorting, sorting);
+            var shopItemsTask = _elkRepository.GetproductsForCategory(categorySorting, sorting);
             
             Task.WaitAll(shopCategoriesTask, shopItemsTask);
 
             shopViewModel.Categories = shopCategoriesTask.Result;
             shopViewModel.Products = shopItemsTask.Result;
+            shopViewModel.Sorting = sorting ?? -1;
+            shopViewModel.CategorySorting = categorySorting ?? 1;
             
             HttpContext.Session.Set<ShopViewModel>("ShopViewModel", shopViewModel);
             return View(shopViewModel);
@@ -54,15 +56,15 @@ namespace SugarCenter.Controllers
                 return RedirectToAction("Shop");
             }
             
-            /*ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
+            ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
             
-            if (shopViewModel == null || !shopViewModel.Products.Exists(si => si.ProductId == productId))*/
+            if (shopViewModel == null || !shopViewModel.Products.Exists(si => si.ProductId == productId))
                 return View(await _elkRepository.GetShopItem(productId));
             
-            /*return View(shopViewModel.Products.Single(si => si.ProductId == productId).);*/
+            return View(shopViewModel.Products.Single(si => si.ProductId == productId));
         }
 
-        public async Task<IActionResult> AddItemToCart(int productId)
+        /*public async Task<IActionResult> AddItemToCart(int productId, int? qty = 1)
         {
             var itemLists = HttpContext.Session.Get<List<Product>>("CheckoutList");
             var item = await _elkRepository.GetShopItem(productId);
@@ -70,9 +72,29 @@ namespace SugarCenter.Controllers
             if (itemLists == null)
                 itemLists = new List<Product>();
 
-            itemLists.Add(item);
+            for (var i = 0; i < qty.Value; ++i)
+            {
+                itemLists.Add(item);
+            }
 
             HttpContext.Session.Set<List<Product>>("CheckoutList", itemLists);
+
+            return RedirectToAction("Shop");
+        }*/
+        
+        public async Task<IActionResult> AddItemToCart(Product product)
+        {
+            var products = HttpContext.Session.Get<List<Product>>("CheckoutList");
+
+            if (products == null)
+                products = new List<Product>();
+
+            for (var i = 0; i < product.Qty; ++i)
+            {
+                products.Add(product);
+            }
+
+            HttpContext.Session.Set<List<Product>>("CheckoutList", products);
 
             return RedirectToAction("Shop");
         }
