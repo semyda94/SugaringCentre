@@ -117,6 +117,43 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .WithMany(p => p.StaffImage)
                     .HasForeignKey(d => d.StaffId);
             });
+            
+            modelBuilder.Entity<Service>(entity =>
+            {
+                entity.HasKey(e => e.ServiceId);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ServiceImage>(entity =>
+            {
+                entity.HasKey(e => e.ServiceImageId);
+
+                entity.Property(e => e.ServiceImageId);
+
+                entity.HasOne(d => d.ServiceNavigation)
+                    .WithMany(p => p.ServiceImage)
+                    .HasForeignKey(d => d.Service);
+            });
+
+            modelBuilder.Entity<ServiceStaff>(entity =>
+            {
+                entity.HasKey(e => e.ServiceStaffId);
+
+                entity.Property(e => e.ServiceStaffId);
+
+                entity.HasOne(d => d.ServiceNavigation)
+                    .WithMany(p => p.ServiceStaff)
+                    .HasForeignKey(d => d.Service);
+
+                entity.HasOne(d => d.StaffNavigation)
+                    .WithMany(p => p.ServiceStaff)
+                    .HasForeignKey(d => d.Staff)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
         }
     }
 }

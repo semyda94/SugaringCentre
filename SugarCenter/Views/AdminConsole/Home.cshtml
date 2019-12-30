@@ -1,61 +1,130 @@
-﻿<section class="module">
-    <div class="container">
-        <div class="row multi-columns-row post-columns">
-            <div class="col-sm-6 col-md-4 col-lg-4">
-                <div class="post">
-                    <div class="post-thumbnail"><a asp-area="" asp-controller="AdminConsole" asp-action="Category"><img src="~/imgs/AdminConsole/Category.png" alt="Categories Thumbnail" style="width: 100%; height: auto" /></a></div>
-                    <div class="post-header font-alt">
-                        <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Category">Products Categories</a></h2>
-                    </div>
-                    <div class="post-entry">
-                        <p>Manage your categories, create, delete or ..... actually thats all at this moment</p>
-                    </div>
-                </div>
+﻿@{
+    Layout = "ProductLayout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SugarCenter</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+    </environment>
+     <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/Home.css" />
+        <link rel="stylesheet" href="~/css/Blog.css" />
+        <link rel="stylesheet" href="~/css/SideMenu.css" />
+        <link rel="stylesheet" href="~/css/Shop.css" />
+        <link rel="stylesheet" href="~/css/ShopCheckout.css" />
+        <link rel="stylesheet" href="~/css/AdminConsoleHome.css"/>
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
+
+    <script src="~/js/select2.min.js"></script>
+   </head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
+        <div class="container" style="margin-right: 60px;">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
+                <ul class="navbar-nav flex-grow-1" style="display: contents;">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="AdminConsole" asp-action="Home">AdminConsole</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Shop">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Booking">Book Online</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                </ul>
             </div>
-            <div class="col-sm-6 col-md-4 col-lg-4">
-                <div class="post">
-                    <div class="post-thumbnail"><a asp-area="" asp-controller="AdminConsole" asp-action="Products"><img src="~/imgs/AdminConsole/Products.jpg" alt="Products Thumbnail" style="width: 100%; height: auto" /></a></div>
-                    <div class="post-header font-alt">
-                        <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Products">Products</a></h2>
-                    </div>
-                    <div class="post-entry">
-                        <p>Edit your products, add new one, enable specials and discounts</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-4">
-                            <div class="post">
-                                <div class="post-thumbnail"><a asp-area="" asp-controller="AdminConsole" asp-action="Services"><img src="~/imgs/AdminConsole/Products.jpg" alt="Products Thumbnail" style="width: 100%; height: auto" /></a></div>
-                                <div class="post-header font-alt">
-                                    <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Services">Services</a></h2>
-                                </div>
-                                <div class="post-entry">
-                                    <p>Add or edit your services</p>
-                                </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="main">
+        <section class="module">
+            <div class="container">
+                <div class="row multi-columns-row post-columns">
+                    <div class="col-sm-6 col-md-4 col-lg-4">
+                        <div class="post">
+                            <div class="post-thumbnail"><a asp-area="" asp-controller="AdminConsole" asp-action="Category"><img src="~/imgs/AdminConsole/Category.png" alt="Categories Thumbnail" style="width: 100%; height: auto" /></a></div>
+                            <div class="post-header font-alt">
+                                <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Category">Products Categories</a></h2>
+                            </div>
+                            <div class="post-entry">
+                                <p>Manage your categories, create, delete or ..... actually thats all at this moment</p>
                             </div>
                         </div>
-            <div class="col-sm-6 col-md-4 col-lg-4">
-                <div class="post">
-                    <div class="post-thumbnail"><a  asp-area="" asp-controller="AdminConsole" asp-action="Staff"><img src="~/imgs/AdminConsole/Staff.jpg" alt="Staff Thumbnail" style="width: 100%; height: auto" /></a></div>
-                    <div class="post-header font-alt">
-                        <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Staff">Staff</a></h2>
                     </div>
-                    <div class="post-entry">
-                        <p>Manage your personal, edit staff info, hire new people or FIRE them ;) </p>
+                    <div class="col-sm-6 col-md-4 col-lg-4">
+                        <div class="post">
+                            <div class="post-thumbnail"><a asp-area="" asp-controller="AdminConsole" asp-action="Products"><img src="~/imgs/AdminConsole/Products.jpg" alt="Products Thumbnail" style="width: 100%; height: auto" /></a></div>
+                            <div class="post-header font-alt">
+                                <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Products">Products</a></h2>
+                            </div>
+                            <div class="post-entry">
+                                <p>Edit your products, add new one, enable specials and discounts</p>
+                            </div>
+                        </div>
                     </div>
+                    <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <div class="post">
+                                        <div class="post-thumbnail"><a asp-area="" asp-controller="AdminConsole" asp-action="Services"><img src="~/imgs/AdminConsole/Products.jpg" alt="Products Thumbnail" style="width: 100%; height: auto" /></a></div>
+                                        <div class="post-header font-alt">
+                                            <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Services">Services</a></h2>
+                                        </div>
+                                        <div class="post-entry">
+                                            <p>Add or edit your services</p>
+                                        </div>
+                                    </div>
+                                </div>
+                    <div class="col-sm-6 col-md-4 col-lg-4">
+                        <div class="post">
+                            <div class="post-thumbnail"><a  asp-area="" asp-controller="AdminConsole" asp-action="Staff"><img src="~/imgs/AdminConsole/Staff.jpg" alt="Staff Thumbnail" style="width: 100%; height: auto" /></a></div>
+                            <div class="post-header font-alt">
+                                <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Staff">Staff</a></h2>
+                            </div>
+                            <div class="post-entry">
+                                <p>Manage your personal, edit staff info, hire new people or FIRE them ;) </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="post">
+                        <div class="post-thumbnail"><a  ><img src="~/imgs/AdminConsole/Staff.jpg" alt="Correspondence Thumbnail" style="width: 100%; height: auto" /></a></div>
+                        <div class="post-header font-alt">
+                            <h2 class="post-title"><a >Correspondence</a></h2>
+                        </div>
+                        <div class="post-entry">
+                            <p>Send the news, specials or memes to people who subscribed to newsletter</p>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="post">
-                <div class="post-thumbnail"><a  ><img src="~/imgs/AdminConsole/Staff.jpg" alt="Correspondence Thumbnail" style="width: 100%; height: auto" /></a></div>
-                <div class="post-header font-alt">
-                    <h2 class="post-title"><a >Correspondence</a></h2>
-                </div>
-                <div class="post-entry">
-                    <p>Send the news, specials or memes to people who subscribed to newsletter</p>
-                </div>
-            </div>
-        </div>
-        </div>
+        </section>
     </div>
-</section>
+</main>
+
+</body>
+</html>
