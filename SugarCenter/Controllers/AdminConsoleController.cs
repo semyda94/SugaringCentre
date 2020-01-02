@@ -160,11 +160,13 @@ namespace SugarCenter.Controllers
         }
 
         #endregion
-        
+
+        #region Service
+
         public async Task<IActionResult> Services()
         {
             var services = await _elkRepository.GetServices();
-           return View(services);
+            return View(services);
         }
 
         public async Task<IActionResult> DeleteService(int? serviceId)
@@ -174,7 +176,28 @@ namespace SugarCenter.Controllers
                 
             return RedirectToAction("Services");
         }
+
+        public async Task<IActionResult> ServiceConfiguration(int? serviceId)
+        {
+            return View(serviceId == null ? new Service{ServiceId = -1} : await _elkRepository.GetService(serviceId.Value));
+        }
         
+        public async Task<IActionResult> SaveService(Service service)
+        {
+            if (service.ServiceId <= 0 )
+            {
+                await _elkRepository.CreateService(service);
+            }
+            else
+            {
+                await _elkRepository.UpdateService(service);
+            }
+            
+            return RedirectToAction("Services");
+        }
+
+        #endregion
+
 
         //public IActionResult SaveProduct(string productName, string productDescription, decimal productPrice, int? productId)
         //{

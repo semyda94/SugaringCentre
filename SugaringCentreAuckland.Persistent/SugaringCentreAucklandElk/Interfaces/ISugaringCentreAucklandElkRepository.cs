@@ -33,7 +33,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
 
         Task<IEnumerable<Service>> GetServices();
         Task DeleteService(int serviceId);
-
+        Task<Service> GetService(int serviceId);
+        Task CreateService(Service service);
+        Task UpdateService(Service service);
         #endregion
+        
     }
 }

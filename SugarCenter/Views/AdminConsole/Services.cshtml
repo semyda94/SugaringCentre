@@ -72,8 +72,7 @@
                         <tbody>
                         <tr>
                             <th class="hidden-xs">Name</th>
-                            <th>Duration</th>
-                            <th class="hidden-xs">Price</th>
+                            <th>Description</th>
                             <th>Edit</th>
                             <th>Remove</th>
                         </tr>
@@ -81,13 +80,10 @@
                         {
                             <tr>
                                 <td class="hidden-xs"><a href="#" class="product-title font-alt">@s.Name</a></td>
-                                <td>
-                                    <h5>@s.Duration min</h5>
-                                </td>
                                 <td class="hidden-xs">
-                                    <h5 class="product-title font-alt">@s.Price</h5>
+                                    <h5 class="product-title font-alt">@s.Desc</h5>
                                 </td>
-                                <td class="pr-remove"><div data-label="Action" style="text-align: center"> <button class="btn btn-success btn-circle" style="margin: auto" type="button" onclick='window.location = "@Url.Action("StaffConfiguration", "AdminConsole", new { staffId = s.ServiceId})";'>Edit</button> </div></td>
+                                <td class="pr-remove"><div data-label="Action" style="text-align: center"> <button class="btn btn-success btn-circle" style="margin: auto" type="button" onclick='window.location = "@Url.Action("ServiceConfiguration", "AdminConsole", new { serviceId = s.ServiceId})";'>Edit</button> </div></td>
                                 <td class="pr-remove"><div data-label="Action"> <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteService", "AdminConsole", new { serviceId = s.ServiceId })";'>Delete</button> </div> </td>
                             </tr>
                         }
@@ -98,7 +94,7 @@
         }
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3" style="margin: auto;">
-                            <div data-label="Action" style="text-align: center"> <button class="btn btn-success btn-circle" style="margin: auto" type="button" onclick='window.location = "@Url.Action("StaffConfiguration", "AdminConsole")";'>Add Service</button> </div>
+                            <div data-label="Action" style="text-align: center"> <button class="btn btn-success btn-circle" style="margin: auto" type="button" onclick='window.location = "@Url.Action("ServiceConfiguration", "AdminConsole")";'>Add Service</button> </div>
                         </div>
                     </div>
                     <hr class="divider-w pt-20">
