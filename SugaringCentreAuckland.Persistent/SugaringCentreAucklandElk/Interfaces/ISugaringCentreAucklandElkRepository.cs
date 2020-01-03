@@ -22,6 +22,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         #region Staff
 
         Task<IEnumerable<Staff>> GetStaffList();
+        Task<List<Staff>> GetStaff(string searchName);
         Task<Staff> GetStaff(int staffId);
         Task DeleteStaff(int staffId);
         Task UpdateStaff(Staff staff);
@@ -37,6 +38,16 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task CreateService(Service service);
         Task UpdateService(Service service);
         #endregion
-        
+
+        #region ServiceType
+
+        Task<IEnumerable<ServiceType>> GetServiceTypes();
+        Task<List<Service>> GetServiceTypes(string searchName);
+
+        Task DeleteServiceType(int serviceTypeId);
+        Task<ServiceType> GetServiceType(int serviceTypeId);
+        Task CreateServiceType(ServiceType serviceType);
+        Task UpdateServiceType(ServiceType serviceType);
+        #endregion
     }
 }

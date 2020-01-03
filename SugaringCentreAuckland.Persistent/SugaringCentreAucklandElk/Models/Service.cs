@@ -9,7 +9,6 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         public Service()
         {
             ServiceImage = new HashSet<ServiceImage>();
-            ServiceStaff = new HashSet<ServiceStaff>();
         }
 
         [Column("Service")]
@@ -21,6 +20,6 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         [NotMapped] public List<IFormFile> ImagesToUpload { get; set; }
 
         public virtual ICollection<ServiceImage> ServiceImage { get; set; }
-        public virtual ICollection<ServiceStaff> ServiceStaff { get; set; }
+        public virtual ICollection<ServiceType> ServiceType { get; set; }
     }
 }

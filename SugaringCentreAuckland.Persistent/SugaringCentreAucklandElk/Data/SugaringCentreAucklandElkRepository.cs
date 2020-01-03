@@ -152,6 +152,11 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         {
             return await _DbContext.Staff.ToListAsync();
         }
+        
+        public async Task<List<Staff>> GetStaff(string searchName)
+        {
+            return await (searchName == null ? _DbContext.Staff.ToListAsync() : _DbContext.Staff.Where(x => (x.FirstName + ' ' + x.LastName).Contains(searchName)).ToListAsync());
+        }
 
         public async Task<Staff> GetStaff(int staffId)
         {
@@ -263,6 +268,63 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             await _DbContext.SaveChangesAsync();
         }
 
+        #endregion
+
+        #region ServiceTypes
+
+        public async Task<IEnumerable<ServiceType>> GetServiceTypes()
+        {
+            return await _DbContext.ServiceType.ToListAsync();
+        }
+        
+        public async Task<List<Service>> GetServiceTypes(string searchName)
+        {
+            return await (searchName == null ? _DbContext.Service.ToListAsync() : _DbContext.Service.Where(x => x.Name.Contains(searchName)).ToListAsync());
+        }
+
+        public async Task DeleteServiceType(int serviceTypeId)
+        {
+            var serviceType = _DbContext.ServiceType.Single(x => x.ServiceTypeId == serviceTypeId);
+            _DbContext.ServiceType.Remove(serviceType);
+            
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task<ServiceType> GetServiceType(int serviceTypeId)
+        {
+            return await _DbContext.ServiceType.SingleOrDefaultAsync(x => x.ServiceTypeId == serviceTypeId);
+        }
+
+        public async Task UpdateServiceType(ServiceType serviceType)
+        {
+            _DbContext.ServiceType.Update(serviceType);
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task CreateServiceType(ServiceType serviceType)
+        {
+            _DbContext.ServiceType.Add(serviceType);
+            
+            if (serviceType.SelectedStaff != null)
+            {
+                var splitedStaff = serviceType.SelectedStaff.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                var serviceTypeStaff = new List<ServiceTypeStaff>();
+                
+                foreach (var staff in splitedStaff)
+                {
+                    serviceTypeStaff.Add(new ServiceTypeStaff
+                    {
+                        Staff = Int32.Parse(staff),
+                        ServiceType = serviceType.ServiceTypeId
+                    });
+                }
+
+                _DbContext.ServiceTypeStaff.AddRange(serviceTypeStaff);
+            }
+
+            await _DbContext.SaveChangesAsync();
+        }
+        
         #endregion
     }
 }

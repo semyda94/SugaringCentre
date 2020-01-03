@@ -26,7 +26,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         
         public virtual DbSet<Service> Service { get; set; }
         public virtual DbSet<ServiceImage> ServiceImage { get; set; }
-        public virtual DbSet<ServiceStaff> ServiceStaff { get; set; }
+        public virtual DbSet<ServiceType> ServiceType { get; set; }
+        public virtual DbSet<ServiceTypeStaff> ServiceTypeStaff { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -143,18 +144,33 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .HasForeignKey(d => d.Service);
             });
 
-            modelBuilder.Entity<ServiceStaff>(entity =>
+            modelBuilder.Entity<ServiceType>(entity =>
             {
-                entity.HasKey(e => e.ServiceStaffId);
+                entity.HasKey(e => e.ServiceTypeId);
+                
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .IsUnicode(false);
 
-                entity.Property(e => e.ServiceStaffId);
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
+            
+            modelBuilder.Entity<ServiceTypeStaff>(entity =>
+            {
+                entity.HasKey(e => e.ServiceTypeStaffId);
 
-                entity.HasOne(d => d.ServiceNavigation)
-                    .WithMany(p => p.ServiceStaff)
-                    .HasForeignKey(d => d.Service);
+                entity.Property(e => e.ServiceTypeStaffId);
+
+                entity.HasOne(d => d.ServiceTypeNavigation)
+                    .WithMany(p => p.ServiceTypeStaff)
+                    .HasForeignKey(d => d.ServiceType)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(d => d.StaffNavigation)
-                    .WithMany(p => p.ServiceStaff)
+                    .WithMany(p => p.ServiceTypeStaff)
                     .HasForeignKey(d => d.Staff)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });

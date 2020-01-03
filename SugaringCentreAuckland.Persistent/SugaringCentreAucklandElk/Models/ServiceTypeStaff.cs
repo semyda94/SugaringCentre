@@ -2,14 +2,14 @@
 
 namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 {
-    public partial class ServiceStaff
+    public partial class ServiceTypeStaff
     {
-        [Column("ServiceStaff")]
-        public int ServiceStaffId { get; set; }
-        public int Service { get; set; }
+        [Column("ServiceTypeStaff")]
+        public int ServiceTypeStaffId { get; set; }
+        public int ServiceType { get; set; }
         public int Staff { get; set; }
 
-        public virtual Service ServiceNavigation { get; set; }
+        public virtual ServiceType ServiceTypeNavigation { get; set; }
         public virtual Staff StaffNavigation { get; set; }
     }
 }

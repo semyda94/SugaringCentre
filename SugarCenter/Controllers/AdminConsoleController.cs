@@ -129,6 +129,18 @@ namespace SugarCenter.Controllers
             return View(staffList);
         }
         
+        public async Task<JsonResult> GetStaff (string searchStaffName)
+        {
+            var services = await _elkRepository.GetStaff(searchStaffName);
+            
+            var modifiedData = services.Select(x => new
+            {
+                id = x.StaffId,
+                text = (x.FirstName + ' ' +  x.LastName)
+            });
+            return Json(modifiedData, new JsonSerializerSettings());
+        }
+        
         public async Task<IActionResult> DeleteStaff(int? staffId)
         {
             if (staffId != null)
@@ -198,6 +210,54 @@ namespace SugarCenter.Controllers
 
         #endregion
 
+        #region Service
+
+        public async Task<IActionResult> ServiceType()
+        {
+            var servicesTypes = await _elkRepository.GetServiceTypes();
+            return View(servicesTypes);
+        }
+        
+        public async Task<JsonResult> GetServices (string searchServiceName)
+        {
+            var services = await _elkRepository.GetServiceTypes(searchServiceName);
+            
+            var modifiedData = services.Select(x => new
+            {
+                id = x.ServiceId,
+                text = x.Name
+            });
+            return Json(modifiedData, new JsonSerializerSettings());
+        }
+
+        public async Task<IActionResult> DeleteServiceType(int? serviceTypeId)
+        {
+            if (serviceTypeId != null)
+                await _elkRepository.DeleteServiceType(serviceTypeId.Value);
+                
+            return RedirectToAction("ServiceType");
+        }
+
+        public async Task<IActionResult> ServiceTypeConfiguration(int? serviceTypeId)
+        {
+            return View(serviceTypeId == null ? new ServiceType{ServiceTypeId = -1} : await _elkRepository.GetServiceType(serviceTypeId.Value));
+        }
+        
+        public async Task<IActionResult> SaveServiceType(ServiceType serviceType)
+        {
+            if (serviceType.ServiceTypeId <= 0 )
+            {
+                await _elkRepository.CreateServiceType(serviceType);
+            }
+            else
+            {
+                await _elkRepository.UpdateServiceType(serviceType);
+            }
+            
+            return RedirectToAction("ServiceType");
+        }
+
+        #endregion
 
         //public IActionResult SaveProduct(string productName, string productDescription, decimal productPrice, int? productId)
         //{
