@@ -117,6 +117,16 @@
     padding: 5px;
 }
 
+.typeTitle>a {
+    color: black;
+    text-decoration: none;
+}
+
+.typeTitle>a:hover {
+    color: black;
+    text-decoration: none;
+}
+
 .typeList .priceAndDuration {
     position: relative;
     display: block;
@@ -143,4 +153,24 @@
 .typeList .bookItButton:hover {
     background-color: #D0AE54;
     color: white;
+}
+
+.circleThumbnail {
+    display: inline-block;
+    /* width: 100px; */
+    height:18rem;
+    width:18rem;
+    background-position: 50% 50%;
+    background-size: cover;
+    border-radius: 50%;
+    margin: auto;
+}
+
+.imageLink{
+    height: 18rem;
+    width: 18rem;
+    background-position: 50% 50%;
+    background-size: cover;
+    border-radius: 50%;
+    margin: auto;
 }

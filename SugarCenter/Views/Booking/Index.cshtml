@@ -1,7 +1,10 @@
-﻿@model SugarCenter.ViewModel.BookingViewModel
+﻿@using Microsoft.AspNetCore.Rewrite.Internal
+@model SugarCenter.ViewModel.BookingViewModel
 @{
     var slidemenuWidth = (Model.Services.Count() * 150).ToString() + "px";
     var elementWdth = (100 / Model.Services.Count()).ToString();
+    var displayValue = "flex";
+    var defaultServiceId = 0;
 }
 
 
@@ -13,6 +16,7 @@
         <!-- Item i -->
         @if (index == 0)
         {
+            defaultServiceId = service.ServiceId;
             <input type="radio" name="slideItem" id="slide-item-@index" class="slide-toggle" rel="@service.ServiceId" checked onclick="changeCategory(@index)"/>
         }
         else
@@ -34,20 +38,34 @@
 <section class="typeList">
     @foreach (var serviceType in Model.ServiceTypes)
     {
-        <div class="row service-@serviceType.ServiceId">
-            <div class="col">
-
-            </div>
-            <div class="divider-h">
-            </div>
-            <div class="col" style="text-align: center; display: inline-grid;">
-                <div style="margin-top: auto; margin-bottom: auto; height: auto;">
-                    <div class="typeTitle">@serviceType.Title</div>
-                    <div class="priceAndDuration"> @serviceType.Duration min | $@serviceType.Price</div>
-                    <button class="bookItButton">Book It</button>
+        @if (serviceType.ServiceId != defaultServiceId)
+            {
+                displayValue = "none";
+            }
+            else
+            {
+                displayValue = "flex";
+            }
+        <div class="row service-@serviceType.ServiceId" style="display: @displayValue">
+                
+                <div class="col" style="display: flex;">
+                @{ var activeImage = Convert.ToBase64String(serviceType.Tmbnail);}
+                <a href="@Url.Action("Index", "Home")" class="imageLink">
+                <div class="circleThumbnail" style="background-image: url(data:image/jpeg;base64,@activeImage)">
+                    @*<img style="max-height: 100%; max-width: 100%; object-fit: contain" src="data:image/jpeg;base64,@activeImage"/>*@
+                </div>
+                </a>
+                </div>
+                <div class="divider-h">
+                </div>
+                <div class="col" style="text-align: center; display: inline-grid;">
+                    <div style="margin-top: auto; margin-bottom: auto; height: auto;">
+                        <div class="typeTitle"><a href="@Url.Action("Index", "Home")">@serviceType.Title</a></div>
+                        <div class="priceAndDuration"> @serviceType.Duration min | $@serviceType.Price</div>
+                        <button class="bookItButton">Book It</button>
+                    </div>
                 </div>
             </div>
-        </div>
     }
 </section>
 
