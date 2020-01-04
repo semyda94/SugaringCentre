@@ -1,34 +1,54 @@
-﻿@model List<SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Service>
+﻿@model SugarCenter.ViewModel.BookingViewModel
 @{
-    var slidemenuWidth = (Model.Count * 150).ToString() + "px";
-    var elementWdth = (100 / Model.Count).ToString();
+    var slidemenuWidth = (Model.Services.Count() * 150).ToString() + "px";
+    var elementWdth = (100 / Model.Services.Count()).ToString();
 }
 
 
-<section class="slidemenu" style="max-width: @slidemenuWidth;">
+<div class="slidemenu" style="max-width: @slidemenuWidth;">
     
-    @foreach(var m in Model)
+    @foreach(var service in Model.Services)
     {
-        var index = Model.IndexOf(m);
+        var index = Model.Services.IndexOf(service);
         <!-- Item i -->
-        @if (index == 1)
+        @if (index == 0)
         {
-            <input type="radio" name="slideItem" id="slide-item-@index" class="slide-toggle" checked onclick="changeCategory(@index)"/>
+            <input type="radio" name="slideItem" id="slide-item-@index" class="slide-toggle" rel="@service.ServiceId" checked onclick="changeCategory(@index)"/>
         }
         else
         {
-            <input type="radio" name="slideItem" id="slide-item-@index" class="slide-toggle" onclick="changeCategory(@index)"/>
+            <input type="radio" name="slideItem" id="slide-item-@index" class="slide-toggle" rel="@service.ServiceId" onclick="changeCategory(@index)"/>
         }
-        <label for="slide-item-@index" style="width:@elementWdth%"><span>@m.Name</span></label>
+        <label for="slide-item-@index" style="width:@elementWdth%"><span>@service.Name</span></label>
     }
 
     <div class="clear"></div>
   
-  <!-- Bar -->
-  <div class="slider">
-    <div class="bar" style="width: @elementWdth%"></div>
-  </div>
+    <!-- Bar -->
+    <div class="slider">
+        <div class="bar" style="width: @elementWdth%"></div>
+    </div>
   
+</div>
+
+<section class="typeList">
+    @foreach (var serviceType in Model.ServiceTypes)
+    {
+        <div class="row service-@serviceType.ServiceId">
+            <div class="col">
+
+            </div>
+            <div class="divider-h">
+            </div>
+            <div class="col" style="text-align: center; display: inline-grid;">
+                <div style="margin-top: auto; margin-bottom: auto; height: auto;">
+                    <div class="typeTitle">@serviceType.Title</div>
+                    <div class="priceAndDuration"> @serviceType.Duration min | $@serviceType.Price</div>
+                    <button class="bookItButton">Book It</button>
+                </div>
+            </div>
+        </div>
+    }
 </section>
 
 <section class="module pt-0 pb-0">
@@ -90,10 +110,17 @@
     </div>
 </section>
 
-<script>
+<script type="text/javascript">
 var changeCategory = function (index) {
     var margin = (index * @elementWdth) + '%';
     $('.bar').css('margin-left', margin);
+    
+    $('.typeList > .row').hide();
+    $('.slidemenu').find('input:checked').each(function () {
+                            $('.typeList > .service-' + $(this).attr('rel')).show();
+                        });
+                        if(!$('.slidemenu').find('input:checked').length){
+                            $('.typeList > .row').show();
+                        }
 }
-
 </script>

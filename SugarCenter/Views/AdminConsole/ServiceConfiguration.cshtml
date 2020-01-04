@@ -75,46 +75,16 @@
                                 <li class="image-item"><img src="https://source.unsplash.com/5WbYFH0kf_8"></li>
                             </ul>
                         </div>
-                        <input type="file" id="files" multiple="multiple" asp-for="ImagesToUpload"/>
                     </div>
                     <div class="column-xs-12 column-md-5">
                         <input asp-for="Name"placeholder="Enter Service Name" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
                         <div class="description">
                             <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Enter general service description" style="border: 0px;"></textarea>
                         </div>
-                        @*<input asp-for="" placeholder="Enter Job Title" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
-                        <input type="date" asp-for="Dob" placeholder="Enter DOB" class="form-control input-lg" style="border: 0px; font-size: 26px; font-weight: bold; padding: 0px;"/>*@
-
-                        @*<select class="js-example-basic-single" name="categories[]" multiple="multiple" style="width: 100%; padding-top: 32px;">
-                            @foreach (var c in Model.ProductCategory)
-                            {
-                                <option selected="selected" value="@c.CategoryId">@c.CategoryId</option>
-                            }
-                        </select>
-                        <div class="description">
-                            <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Enter product description" style="border: 0px;"></textarea>
-                        </div>*@
                         <button class="add-to-cart" type="submit">Save Product</button>
                     </div>
                 </div>
                 </form>
-                @*<div class="grid related-products">
-                    <div class="column-xs-12">
-                        <h3>You may also like</h3>
-                    </div>
-                    @for (int i = 0; i < 3; i++)
-                    {
-                        Random rnd = new Random();
-    //                    Product tmp = Model.NavigationCategoryId.Products.ElementAt(rnd.Next(Model.NavigationCategoryId.Products.Count));
-                        //var thumbImg = Convert.ToBase64String(tmp.ProductImg);
-                        
-    $1$                     <div class="column-xs-12 column-md-4"> #1#
-    $1$                         $2$ <img src="data:image/jpeg;base64,@thumbImg"> #2# #1#
-    $1$                         <h4>@tmp.Name</h4> #1#
-    $1$                         <p class="price">$@tmp.Price</p> #1#
-    $1$                     </div> #1#
-                    }
-                </div>*@
             </div>
         </section>
         <hr class="divider-w">

@@ -25,7 +25,6 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public virtual DbSet<StaffImage> StaffImage { get; set; }
         
         public virtual DbSet<Service> Service { get; set; }
-        public virtual DbSet<ServiceImage> ServiceImage { get; set; }
         public virtual DbSet<ServiceType> ServiceType { get; set; }
         public virtual DbSet<ServiceTypeStaff> ServiceTypeStaff { get; set; }
 
@@ -133,17 +132,6 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<ServiceImage>(entity =>
-            {
-                entity.HasKey(e => e.ServiceImageId);
-
-                entity.Property(e => e.ServiceImageId);
-
-                entity.HasOne(d => d.ServiceNavigation)
-                    .WithMany(p => p.ServiceImage)
-                    .HasForeignKey(d => d.Service);
-            });
-
             modelBuilder.Entity<ServiceType>(entity =>
             {
                 entity.HasKey(e => e.ServiceTypeId);
@@ -172,6 +160,16 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 entity.HasOne(d => d.StaffNavigation)
                     .WithMany(p => p.ServiceTypeStaff)
                     .HasForeignKey(d => d.Staff)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+            
+            modelBuilder.Entity<ServiceTypeImage>(entity =>
+            {
+                entity.HasKey(e => e.ServiceTypeImageId);
+
+                entity.HasOne(d => d.ServiceTypeNavigation)
+                    .WithMany(p => p.ServiceTypeImage)
+                    .HasForeignKey(d => d.ServiceTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
         }

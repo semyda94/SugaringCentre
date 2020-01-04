@@ -61,8 +61,11 @@ namespace SugarCenter.Controllers
 
         public async Task<IActionResult> Booking()
         {
-            var services = await _elkRepository.GetServices();
-            return View(services);
+            var bookingViewModel = new BookingViewModel();
+            bookingViewModel.Services = (await _elkRepository.GetServices()).ToList();
+            bookingViewModel.ServiceTypes = (await _elkRepository.GetServiceTypes()).ToList();
+            
+            return View(bookingViewModel);
         }
 
         public IActionResult Privacy()

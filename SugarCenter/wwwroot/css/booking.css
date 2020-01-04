@@ -82,3 +82,65 @@
 .slidemenu #slide-item-2:checked ~ .slider .bar{ margin-left: 25%; }
 .slidemenu #slide-item-3:checked ~ .slider .bar{ margin-left: 50%; }
 .slidemenu #slide-item-4:checked ~ .slider .bar{ margin-left: 75%; }*/
+
+
+
+/*Type List*/
+
+.typeList {
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-bottom: 50px;
+}
+
+.typeList .row {
+    height:20rem;
+    border: 1px black solid;
+    margin-bottom: 1.5rem;
+}
+
+.typeList .divider-h {
+    height: 60%;
+    width: 1px;
+    border-left: 1px black solid;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.typeList .typeTitle {
+    position: relative;
+    display: block;
+    margin: auto;
+    font: normal normal lighter 30px/1.35em oswald-extralight,oswald,sans-serif;
+    padding: 5px;
+}
+
+.typeList .priceAndDuration {
+    position: relative;
+    display: block;
+    margin: auto;
+    font: normal normal lighter 20px/1.35em oswald-extralight,oswald,sans-serif;
+    padding: 5px;
+}
+
+.typeList .bookItButton {
+    background-color: #FFD869;
+    border: none;
+    color: white;
+    padding: 13px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.typeList .bookItButton:hover {
+    background-color: #D0AE54;
+    color: white;
+}

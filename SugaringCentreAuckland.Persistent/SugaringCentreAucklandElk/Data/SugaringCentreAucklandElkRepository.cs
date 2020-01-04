@@ -242,29 +242,6 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         {
             _DbContext.Service.Add(service);
 
-            if (service.ImagesToUpload != null && service.ImagesToUpload.Any())
-            {
-                var imageToSafe = new List<ServiceImage>();
-                foreach (var image in service.ImagesToUpload)
-                {
-                    if (image.Length > 0)
-                    {
-                       
-                        using (var stream = new MemoryStream())
-                        {
-                            await image.CopyToAsync(stream);
-                            imageToSafe.Add(new ServiceImage()
-                            {
-                                Service = service.ServiceId,
-                                Image = stream.ToArray()
-                            });
-                        }
-                    }
-                }
-                
-                _DbContext.ServiceImage.AddRange(imageToSafe);
-            }
-
             await _DbContext.SaveChangesAsync();
         }
 

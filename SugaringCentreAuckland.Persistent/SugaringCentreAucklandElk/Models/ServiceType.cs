@@ -6,7 +6,11 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 {
     public partial class ServiceType
     {
-        
+        public ServiceType()
+        {
+            ServiceTypeStaff = new HashSet<ServiceTypeStaff>();
+            ServiceTypeImage = new HashSet<ServiceTypeImage>();
+        }
         [Column("ServiceType")]
         public int ServiceTypeId { get; set; }
         [Column("Service")]
@@ -22,5 +26,6 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         public string SelectedStaff { get; set; }
         
         public virtual ICollection<ServiceTypeStaff> ServiceTypeStaff { get; set; }
+        public virtual ICollection<ServiceTypeImage> ServiceTypeImage { get; set; }
     }
 }
