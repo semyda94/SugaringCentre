@@ -298,6 +298,15 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
                 _DbContext.ServiceTypeStaff.AddRange(serviceTypeStaff);
             }
+            
+            if (serviceType.ImagesToUpload.Length > 0)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    await serviceType.ImagesToUpload.CopyToAsync(stream);
+                    serviceType.Tmbnail = stream.ToArray();
+                }
+            }
 
             await _DbContext.SaveChangesAsync();
         }

@@ -69,14 +69,8 @@
                             <div class="product-image">
                                 <img class="active" src="https://source.unsplash.com/W1yjvf5idqA">
                             </div>
-                            <ul class="image-list">
-                                <li class="image-item"><img src="https://source.unsplash.com/W1yjvf5idqA"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/W1yjvf5idqA"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/VgbUxvW3gS4"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/5WbYFH0kf_8"></li>
-                            </ul>
                         </div>
-                        <input type="file" id="files" multiple="multiple" asp-for="ImagesToUpload"/>
+                        <input type="file" id="files" asp-for="ImagesToUpload"/>
                     </div>
                     <div class="column-xs-12 column-md-5">
                         <input asp-for="Title" placeholder="Enter Title" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
@@ -92,27 +86,10 @@
                         <div class="description">
                             <textarea asp-for="Description" class="form-control" rows="7" placeholder="Enter product description" style="border: 0px;"></textarea>
                         </div>
-                        <button class="add-to-cart" type="submit">Save Product</button>
+                        <button class="add-to-cart" type="submit">Save Service</button>
                     </div>
                 </div>
                 </form>
-                @*<div class="grid related-products">
-                    <div class="column-xs-12">
-                        <h3>You may also like</h3>
-                    </div>
-                    @for (int i = 0; i < 3; i++)
-                    {
-                        Random rnd = new Random();
-    //                    Product tmp = Model.NavigationCategoryId.Products.ElementAt(rnd.Next(Model.NavigationCategoryId.Products.Count));
-                        //var thumbImg = Convert.ToBase64String(tmp.ProductImg);
-                        
-    $1$                     <div class="column-xs-12 column-md-4"> #1#
-    $1$                         $2$ <img src="data:image/jpeg;base64,@thumbImg"> #2# #1#
-    $1$                         <h4>@tmp.Name</h4> #1#
-    $1$                         <p class="price">$@tmp.Price</p> #1#
-    $1$                     </div> #1#
-                    }
-                </div>*@
             </div>
         </section>
         <hr class="divider-w">

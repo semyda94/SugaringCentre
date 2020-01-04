@@ -258,31 +258,7 @@ namespace SugarCenter.Controllers
         }
 
         #endregion
-
-        //public IActionResult SaveProduct(string productName, string productDescription, decimal productPrice, int? productId)
-        //{
-        //    if (productId == null)
-        //    {
-        //        _elkRepository.CreateProduct(new Products {Name = productName, Desc = productDescription, Price = productPrice}).GetAwaiter().GetResult();
-        //    }
-
-        //    return RedirectToAction("Products");
-        //}
-
-        /*[Microsoft.AspNetCore.Mvc.HttpPost]
-        public async Task<IActionResult> SaveProduct(Product item, List<IFormFile> ProductImg)
-        {
-            foreach (var i in ProductImg)
-            {
-                using (var stream = new MemoryStream())
-                {
-                    await i.CopyToAsync(stream);
-                    //item.ProductImg = stream.ToArray();
-                    await _elkRepository.CreateProduct(item);
-                }
-            }
-            return RedirectToAction("Products");
-        }*/
+        
         
     }
 }

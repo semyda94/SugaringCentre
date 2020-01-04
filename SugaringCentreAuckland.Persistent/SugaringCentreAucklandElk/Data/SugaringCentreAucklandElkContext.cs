@@ -163,15 +163,6 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
             
-            modelBuilder.Entity<ServiceTypeImage>(entity =>
-            {
-                entity.HasKey(e => e.ServiceTypeImageId);
-
-                entity.HasOne(d => d.ServiceTypeNavigation)
-                    .WithMany(p => p.ServiceTypeImage)
-                    .HasForeignKey(d => d.ServiceTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-            });
         }
     }
 }

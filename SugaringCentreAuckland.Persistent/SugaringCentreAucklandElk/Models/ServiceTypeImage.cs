@@ -8,7 +8,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         public int ServiceTypeImageId { get; set; }
         [Column("ServiceType")]
         public int ServiceTypeId { get; set; }
-        public byte[] Image { get; set; }
+        
 
         public virtual ServiceType ServiceTypeNavigation { get; set; }
     }
