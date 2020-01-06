@@ -25,5 +25,29 @@ namespace SugarCenter.Controllers
             
             return View(bookingViewModel);
         }
+        
+        public async Task<IActionResult> Service(int? serviceTypeId)
+        {
+            if (serviceTypeId == null || serviceTypeId <= 0)
+            {
+                RedirectToAction("Index");
+            }
+
+            var service = await _elkRepository.GetServiceType(serviceTypeId.Value);
+            
+            return View(service);
+        }
+
+        public async Task<IActionResult> BookService(int? serviceTypeId)
+        {
+            if (serviceTypeId == null || serviceTypeId <= 0)
+            {
+                RedirectToAction("Index");
+            }
+
+            var service = await _elkRepository.GetServiceType(serviceTypeId.Value);
+            
+            return View(service);
+        }
     }
 }

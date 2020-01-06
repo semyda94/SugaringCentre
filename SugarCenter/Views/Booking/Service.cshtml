@@ -1,0 +1,173 @@
+﻿@using System.IO
+@using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
+@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ServiceType
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SugarCenter</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+    </environment>
+    <link href="@Url.Content("~/css/SingleItem.css")" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
+
+    <script src="~/js/select2.min.js"></script>
+   </head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
+        <div class="container" style="margin-right: 60px;">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
+                <ul class="navbar-nav flex-grow-1" style="display: contents;">
+                    <li class="nav-item">
+                                                <a class="nav-link text-dark" style="padding-right: 2px;" asp-controller="Shop" asp-action="ShopCheckout">
+                                                    <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/Carticon.png" />
+                                                </a>
+                    </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark"  style="padding-right: 2px;" href="https://www.facebook.com/Sugaring.centre.auckland/">
+                                                    <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/f_logo.png" />
+                                                </a>
+                                            </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Shop">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="main">
+    <section class="module">
+        <div class="container">
+            <div class="grid second-nav">
+                <div class="column-xs-12">
+                    <nav>
+                        <ol class="breadcrumb-list">
+                            <li class="breadcrumb-item">
+                                <a asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
+                            </li>
+                            @* <li class="breadcrumb-item"><a href="#">@Model.NavigationCategoryId.Name</a></li> *@
+                            <li class="breadcrumb-item active">@Model.Title</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="grid product">
+                <div class="column-xs-12 column-md-7">
+                    <div class="product-gallery">
+                        
+                        <div class="product-image">
+                            @{ var activeImage = Convert.ToBase64String(Model.Tmbnail);}
+                            <img class="active" src="data:image/jpeg;base64,@activeImage">
+                        </div>
+                    </div>
+                </div>
+                <div class="column-xs-12 column-md-5">
+                    <h1>@Model.Title</h1>
+                    <h2>$@Model.Price  |  @Model.Duration min</h2>
+                    <div class="description">
+                        @Model.Description
+                    </div>
+                    @*<div class="description">
+                        Categories: 
+                    </div>*@
+                    
+
+                            <div style="display: flex;align-items: center;">
+                                <a  href="@Url.Action("BookService", "Booking", new {serviceTypeId = @Model.ServiceTypeId})" class="add-to-cart">Book Now</a>
+                            </div>
+                        
+                    
+                        @*Qty:
+                        <input name="#Qty" id="#Qty" type="number" placeholder="Enter the number of products" class="form-control input-lg" value="1" style="width: 100px; margin-left: 10px; margin-right: auto"/>
+                        <a class="add-to-cart" href="@Url.Action("AddItemToCart", "Shop", new {productId = Model.ProductId, qty = "xxx"})">Add To Cart</a>
+                        @Html.ActionLink("Add To Cart", "AddItemToCart", "Shop", new {productId = Model.ProductId, qty = "xxx"}, new {@class = "add-to-cart"})*@
+                    </div>
+            </div>
+            <div class="grid related-products">
+                <div class="column-xs-12">
+                    <h3>You may also like</h3>
+                </div>
+                @for (int i = 0; i < 3; i++)
+                {
+                    Random rnd = new Random();
+//                    Product tmp = Model.NavigationCategoryId.Products.ElementAt(rnd.Next(Model.NavigationCategoryId.Products.Count));
+                    //var thumbImg = Convert.ToBase64String(tmp.ProductImg);
+                    
+@*                     <div class="column-xs-12 column-md-4"> *@
+@*                         $1$ <img src="data:image/jpeg;base64,@thumbImg"> #1# *@
+@*                         <h4>@tmp.Name</h4> *@
+@*                         <p class="price">$@tmp.Price</p> *@
+@*                     </div> *@
+                }
+            </div>
+        </div>
+    </section>
+    <hr class="divider-w">
+</div>
+
+<script>
+    const activeImage = document.querySelector(".product-image .active");
+    const productImages = document.querySelectorAll(".image-list img");
+    const navItem = document.querySelector('a.toggle-nav');
+
+    function changeImage(e) {
+        activeImage.src = e.target.src;
+    }
+
+    function toggleNavigation(){
+        this.nextElementSibling.classList.toggle('active');
+    }
+
+    productImages.forEach(image => image.addEventListener("click", changeImage));
+    navItem.addEventListener('click', toggleNavigation);
+</script>
+
+@*<script type="text/javascript">
+$(document).ready(function() {
+  $.ajax({
+    url : "Shop"
+  });
+});
+</script>*@
+
+<script>
+  $(function () {
+    $('.add-to-cart').click(function () {
+      var qtyvalue = $("#Qty").val();
+      this.href = this.href.replace("xxx", qtyvalue);
+    });
+  });
+</script>
+
+</body>
+</html>
+
