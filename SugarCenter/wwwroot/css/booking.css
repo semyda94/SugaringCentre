@@ -176,4 +176,65 @@
 }
 
 
-/*************** date picker ***********/
+/* Related service*/
+
+.relatedServiceBox {
+    height:15rem;
+    width:15rem;
+    margin-bottom: 1.5rem;
+}
+
+.relatedServiceImage {
+    display: inline-block;
+    /* width: 100px; */
+    height:8rem;
+    width:8rem;
+    background-position: 50% 50%;
+    background-size: cover;
+    border-radius: 50%;
+    margin: auto;
+}
+
+.relatedServiceImageLink {
+    height:8rem;
+    width:8rem;
+    background-position: 50% 50%;
+    background-size: cover;
+    border-radius: 50%;
+    margin: auto;
+}
+
+#floatingRectangle {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    height: auto;
+    width: 18rem;
+    border: black 1px solid;
+    margin-left: 50%;
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+
+.nextButton {
+    background-color: #FFD869;
+    border: none;
+    color: white;
+    padding: 13px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.nextButton:hover {
+    background-color: #D0AE54;
+    color: white;
+}

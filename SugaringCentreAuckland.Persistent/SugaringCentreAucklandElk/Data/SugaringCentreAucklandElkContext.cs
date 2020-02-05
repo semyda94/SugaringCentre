@@ -163,6 +163,27 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
             
+            modelBuilder.Entity<Booking>(entity =>
+            {
+                entity.HasKey(e => e.BookingId);
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Message).IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+            });
+            
         }
     }
 }

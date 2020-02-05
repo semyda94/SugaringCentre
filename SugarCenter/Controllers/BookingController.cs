@@ -1,8 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SugarCenter.ViewModel;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
+using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
 
 namespace SugarCenter.Controllers
 {
@@ -26,16 +28,23 @@ namespace SugarCenter.Controllers
             return View(bookingViewModel);
         }
         
-        public async Task<IActionResult> Service(int? serviceTypeId)
+        public async Task<IActionResult> Service(int? serviceId, int? serviceTypeId)
         {
-            if (serviceTypeId == null || serviceTypeId <= 0)
+            var serviceTypeWithRecommended = new ServiceTypeWithRecommended();
+            if (serviceTypeId == null || serviceId == null ||  serviceTypeId <= 0 )
             {
                 RedirectToAction("Index");
             }
 
-            var service = await _elkRepository.GetServiceType(serviceTypeId.Value);
+            var servicesList = await _elkRepository.GetServiceTypesForService(serviceId.Value);
+
+            serviceTypeWithRecommended.ServiceTypeToDisplay =
+                servicesList.Single(x => x.ServiceTypeId == serviceTypeId.Value);
+
+            serviceTypeWithRecommended.RecommendedList =
+                servicesList.Where(x => x.ServiceTypeId != serviceTypeId.Value).Take(3).ToList();
             
-            return View(service);
+            return View(serviceTypeWithRecommended);
         }
 
         public async Task<IActionResult> BookService(int? serviceTypeId)
@@ -45,9 +54,28 @@ namespace SugarCenter.Controllers
                 RedirectToAction("Index");
             }
 
-            var service = await _elkRepository.GetServiceType(serviceTypeId.Value);
+            var viewModel = new BookingServiceViewModel();
             
-            return View(service);
+            viewModel.ServiceType = await _elkRepository.GetServiceType(serviceTypeId.Value);
+            
+            return View(viewModel);
+        }
+        
+        public async Task<JsonResult> GetStaffForBooking (/*int serviceTypeId,*/ string searchStaffName)
+        {
+            var services = await _elkRepository.GetStaff(searchStaffName);
+            
+            var modifiedData = services.Select(x => new
+            {
+                id = x.StaffId,
+                text = (x.FirstName + ' ' +  x.LastName)
+            });
+            return Json(modifiedData, new JsonSerializerSettings());
+        }
+
+        public async Task<IActionResult> SaveBooking(BookingServiceViewModel bookingService)
+        {
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,161 +1,148 @@
 ﻿@using System.IO
 @using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
-@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ServiceType
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>SugarCenter</title>
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
-    </environment>
-    <link href="@Url.Content("~/css/SingleItem.css")" rel="stylesheet" type="text/css" />
-
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
-
-    <link href="~/lib/node_modules/window-date-picker/dist/css/window-date-picker.css" rel="stylesheet">
-    
-    <script src="~/lib/node_modules/window-date-picker/dist/js/window-date-picker.js"></script>
-    
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-</head>
-<body>
-
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
-        <div class="container" style="margin-right: 60px;">
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
-                <ul class="navbar-nav flex-grow-1" style="display: contents;">
-                    <li class="nav-item">
-                                                <a class="nav-link text-dark" style="padding-right: 2px;" asp-controller="Shop" asp-action="ShopCheckout">
-                                                    <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/Carticon.png" />
-                                                </a>
-                    </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link text-dark"  style="padding-right: 2px;" href="https://www.facebook.com/Sugaring.centre.auckland/">
-                                                    <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/f_logo.png" />
-                                                </a>
-                                            </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Shop">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
+@model SugarCenter.ViewModel.BookingServiceViewModel
 
 <div class="main">
     <section class="module">
         <div class="container">
-            <div class="grid second-nav">
-                <div class="column-xs-12">
-                    <nav>
-                        <ol class="breadcrumb-list">
-                            <li class="breadcrumb-item">
-                                <a asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
-                            </li>
-                            @* <li class="breadcrumb-item"><a href="#">@Model.NavigationCategoryId.Name</a></li> *@
-                            <li class="breadcrumb-item active">@Model.Title</li>
-                        </ol>
-                    </nav>
+            <form asp-action="SaveBooking" method="post" enctype="multipart/form-data"> 
+            <div class="row second-nav">
+                <div class="col">
+<div class="w3-container">
+                    <h1 style="font: normal 100 normal 30px/1.79em Playfair Display, serif;">Schedule Online</h1>
+                    <hr class="divider-w pt-20">
+
+                    <select class="js-example-basic-single" required="required" name="staff" style="width: 100%; padding-top: 32px;"/>
+                    <input type="hidden" id="staff" asp-for="Booking.StaffId"/>
+                    
+                    <label  class="w3-text-teal" for="Date"><b>Date</b></label>
+                    <input id="Date" asp-for="Booking.Date" class="datepicker form-control w3-input w3-border w3-light-grey" name="date" required="required" type="date">
+                    
+                    <label  class="w3-text-teal" for="Time"><b>Time</b></label>
+                    <div class="form-group">
+                        <input asp-for="Booking.Time" class="timepicker form-control" required="required" type="time" name="time">
+                        </div>
+
+                    <h1 style="font: normal 100 normal 30px/1.79em Playfair Display, serif; margin-top: 20px;">Tell us a bit about yourself</h1>
+                    <hr class="divider-w pt-20">
+                    <div class="form-group">
+                        <input asp-for="Booking.Name" placeholder="Name*" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Booking.Email" type="email" placeholder="Email*" required class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Booking.Phone" placeholder="Phone Number" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                    <textarea asp-for="Booking.Message" class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                    </div>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <div id="picker"></div>
-                <input id="demo">
-                <button id="toggle">Lanuch</button>
-            </div>
-            
-            
-            <div class="grid product">
-                <div class="column-xs-12 column-md-7">
-                    <div class="product-gallery">
+                <div class="col">
+                    <div id="floatingRectangle">
+                        <span style="font: normal bold normal 20px/1.79em Playfair Display, serif">@Model.ServiceType.Title</span>
+                        <div>
+                            <span>@Model.ServiceType.Duration min | $@Model.ServiceType.Price</span>
+                        </div>
+                        <hr class="divider-w pt-20" style="color: black">
+                        <div class="form-group">
+                            <input id="masterContainer" placeholder="Master is not selected" class="form-control"/>
+                        </div>
                         
-                        <div class="product-image">
-                            @{ var activeImage = Convert.ToBase64String(Model.Tmbnail);}
-                            <img class="active" src="data:image/jpeg;base64,@activeImage">
+                        <div class="form-group">
+                            <input id="dateContainer" disabled="disabled" placeholder="Date is not selected" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <input id="timeContainer" placeholder="Time is not selected" class="form-control"/>
+                        </div>
+                        
+                        <div>
+                            <button class="nextButton">Next</button>
                         </div>
                     </div>
-                </div>
-                <div class="column-xs-12 column-md-5">
-                    <h1>@Model.Title</h1>
-                    <h2>$@Model.Price  |  @Model.Duration min</h2>
-                    <div class="description">
-                        @Model.Description
-                    </div>
-                    @*<div class="description">
-                        Categories: 
-                    </div>*@
-                    
-                    @using (Html.BeginForm("AddItemToCart", "Shop", FormMethod.Post))
-                    {
-                        <div style="display: flex;align-items: center;">
-                            <button type="submit" class="add-to-cart">Book Now</button>
-                        </div>
-                    }
-                    
-                    @*Qty:
-                        <input name="#Qty" id="#Qty" type="number" placeholder="Enter the number of products" class="form-control input-lg" value="1" style="width: 100px; margin-left: 10px; margin-right: auto"/>
-                        <a class="add-to-cart" href="@Url.Action("AddItemToCart", "Shop", new {productId = Model.ProductId, qty = "xxx"})">Add To Cart</a>
-                        @Html.ActionLink("Add To Cart", "AddItemToCart", "Shop", new {productId = Model.ProductId, qty = "xxx"}, new {@class = "add-to-cart"})*@
                 </div>
             </div>
+            </form>
         </div>
     </section>
-
-
 </div>
 
-<script>
-const picker = new WindowDatePicker({
-      el: '#picker',
-      toggleEl: '#toggle',
-      inputEl: '#demo'
+
+
+<script type="text/javascript"> 
+
+        var datepicker = $('.datepicker').pickadate({
+                  clear: 'Clear selection',
+                  close: 'Cancel',
+                  min: new Date(),
+                  disable: [1]
+                });
+        
+         var timpicker = $('.timepicker').pickatime({
+           min: [10,0],
+           max: [17,30],
+           disable: [12]
+         });
+         
+         timpicker.change(function(){
+                            $('#timeContainer').val($('.timepicker').val());
+                          });
+         
+         datepicker.change(function(){
+                                     $('#dateContainer').val($('.datepicker').val());
+                                   });
+    </script>
+    
+    
+<script type="text/javascript">
+
+$(".nextButton").click(function(){
+    $.ajax ({
+           url : "/Booking/GetStaffForBooking",
+           dataType : "json",
+           delay : 250,
+           data : function() {
+             return {
+                 searchStaffName : "params.term"
+                 }
+           },
+           processResults : function(data, params) {
+            alert("The paragraph was clicked.");
+           }
+        });
+  
+});
+
+$(document).ready(function() {
+  $('.js-example-basic-single').select2({
+    placeholder: "Select a staff",
+    allowClear: true,
+    theme: "classic",
+    ajax : {
+       url : "/Booking/GetStaffForBooking",
+       dataType : "json",
+       delay : 250,
+       data : function(params) {
+         return {
+             searchStaffName : params.term
+             }
+       },
+       processResults : function(data, params) {
+         return {
+             results : data
+         };
+       }
+    }
+  });
+});
+
+$(".js-example-basic-single").on("change", function() {
+  var staffId = $(this).val();
+  $("#staff").val(staffId);
+  
+  var staffName = $(this).text().trim();
+    $("#masterContainer").val(staffName);
+
 });
 </script>
-
-<script>
-    const activeImage = document.querySelector(".product-image .active");
-    const productImages = document.querySelectorAll(".image-list img");
-    const navItem = document.querySelector('a.toggle-nav');
-
-    function changeImage(e) {
-        activeImage.src = e.target.src;
-    }
-
-    function toggleNavigation(){
-        this.nextElementSibling.classList.toggle('active');
-    }
-
-    productImages.forEach(image => image.addEventListener("click", changeImage));
-    navItem.addEventListener('click', toggleNavigation);
-</script>
-
-
-</body>
-</html>
-

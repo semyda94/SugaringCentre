@@ -31,4 +31,86 @@
     <ProjectReference Include="..\SugaringCentreAuckland.Persistent\SugaringCentreAuckland.Persistent.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\.gitignore" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\.npmignore" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\.stylelintrc.yaml" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\.travis.yml" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\css\styles.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\android-icon-144x144.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\android-icon-192x192.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\android-icon-36x36.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\android-icon-48x48.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\android-icon-72x72.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\android-icon-96x96.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon-114x114.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon-120x120.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon-144x144.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon-152x152.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon-180x180.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon-57x57.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon-60x60.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon-72x72.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon-76x76.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon-precomposed.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\apple-icon.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\favicon-16x16.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\favicon-32x32.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\favicon-96x96.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\favicon.ico" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\favicon.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\helloweek.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\logo.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\ms-icon-144x144.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\ms-icon-150x150.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\ms-icon-310x310.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\images\ms-icon-70x70.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\assets\mddoks\mddoks.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\CHANGELOG.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\CONTRIBUTING.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\dist\css\hello.week.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\dist\css\hello.week.theme.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\dist\hello.week.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\dist\langs\en.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\dist\langs\es.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\dist\langs\it.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\dist\langs\pt.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\dist\langs\zh.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\callbacks.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\customization.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\date-format.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\disabled-dates.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\disabled-days-week.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\get-month-year.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\go-to-date.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\highlight-dates.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\locked.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\min-and-max.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\range.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\reset.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\retrieve-clicked-date.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\rtl.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\demos\selected-days.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\languages.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\methods.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\docs\options.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\index.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\LICENSE" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\manifest.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\mddoks.config.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\package.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\README.md" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\src\scripts\constants.ts" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\src\scripts\hello-week.ts" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\src\scripts\utilities.ts" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\src\styles\hello-week.scss" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\src\styles\theme.scss" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\src\styles\_variables.scss" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\tsconfig.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\tslint.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\webpack.config.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\__tests__\getToday.ts" />
+  </ItemGroup>
+
 </Project>

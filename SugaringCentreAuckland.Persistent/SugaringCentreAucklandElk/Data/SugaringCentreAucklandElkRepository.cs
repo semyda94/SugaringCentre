@@ -254,6 +254,11 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             return await _DbContext.ServiceType.ToListAsync();
         }
         
+        public async Task<IEnumerable<ServiceType>> GetServiceTypesForService(int serviceId)
+        {
+            return await _DbContext.ServiceType.Where(x => x.ServiceId == serviceId).ToListAsync();
+        }
+        
         public async Task<List<Service>> GetServiceTypes(string searchName)
         {
             return await (searchName == null ? _DbContext.Service.ToListAsync() : _DbContext.Service.Where(x => x.Name.Contains(searchName)).ToListAsync());

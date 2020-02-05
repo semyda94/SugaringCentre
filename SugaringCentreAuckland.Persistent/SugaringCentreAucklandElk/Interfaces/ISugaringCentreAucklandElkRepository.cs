@@ -46,8 +46,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
 
         Task DeleteServiceType(int serviceTypeId);
         Task<ServiceType> GetServiceType(int serviceTypeId);
+        Task<IEnumerable<ServiceType>> GetServiceTypesForService(int serviceId);
         Task CreateServiceType(ServiceType serviceType);
         Task UpdateServiceType(ServiceType serviceType);
         #endregion
+        
     }
 }

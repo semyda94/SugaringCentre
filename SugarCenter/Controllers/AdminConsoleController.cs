@@ -140,7 +140,7 @@ namespace SugarCenter.Controllers
             });
             return Json(modifiedData, new JsonSerializerSettings());
         }
-        
+
         public async Task<IActionResult> DeleteStaff(int? staffId)
         {
             if (staffId != null)
