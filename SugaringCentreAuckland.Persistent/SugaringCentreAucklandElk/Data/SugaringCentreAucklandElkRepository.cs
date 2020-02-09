@@ -38,7 +38,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             //return await _DbContext.Product.ToListAsync();
             var notSorted = categoryId == -1
                 ? await _DbContext.Products.Include(x => x.ProductImage).ToListAsync()
-                : await _DbContext.ProductCategory.Include(x => x.ProductNavigation).ThenInclude(x => x.ProductImage).Where(i => i.CategoryId == categoryId).Select(x => x.ProductNavigation).ToListAsync();
+                : await _DbContext.ProductCategory.Include(x => x.ProductNavigation).ThenInclude(x => x.ProductImage).Where(i => i.CategoryId == categoryId).Select(x => x.ProductNavigation).Include(x => x.ProductImage).ToListAsync();
 
             switch (sorting)
             {
@@ -213,6 +213,11 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         #endregion
 
         #region Services
+
+        public async Task<string> GetServiceNameById(int serviceId)
+        {
+            return (await _DbContext.Service.SingleAsync(s => s.ServiceId == serviceId)).Name;
+        }
 
         public async Task<IEnumerable<Service>> GetServices()
         {

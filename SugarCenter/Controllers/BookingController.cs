@@ -18,10 +18,21 @@ namespace SugarCenter.Controllers
             _elkRepository = elkRepository;
         }
         
-        // GET
         public async Task<IActionResult> Index()
         {
             var bookingViewModel = new BookingViewModel();
+            
+            bookingViewModel.Services = (await _elkRepository.GetServices()).ToList();
+            bookingViewModel.ServiceTypes = (await _elkRepository.GetServiceTypes()).ToList();
+            
+            return View(bookingViewModel);
+        }
+        
+        public async Task<IActionResult> ShowServiceTypesForService(int serviceId)
+        {
+            var bookingViewModel = new BookingViewModel();
+
+            bookingViewModel.MoveToServiceId = serviceId;
             bookingViewModel.Services = (await _elkRepository.GetServices()).ToList();
             bookingViewModel.ServiceTypes = (await _elkRepository.GetServiceTypes()).ToList();
             
@@ -36,6 +47,8 @@ namespace SugarCenter.Controllers
                 RedirectToAction("Index");
             }
 
+            serviceTypeWithRecommended.ServiceName = await _elkRepository.GetServiceNameById(serviceId.Value);
+            
             var servicesList = await _elkRepository.GetServiceTypesForService(serviceId.Value);
 
             serviceTypeWithRecommended.ServiceTypeToDisplay =

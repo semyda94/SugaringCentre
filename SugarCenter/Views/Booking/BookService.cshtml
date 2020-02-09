@@ -16,11 +16,11 @@
                     <input type="hidden" id="staff" asp-for="Booking.StaffId"/>
                     
                     <label  class="w3-text-teal" for="Date"><b>Date</b></label>
-                    <input id="Date" asp-for="Booking.Date" class="datepicker form-control w3-input w3-border w3-light-grey" name="date" required="required" type="date">
+                    <input id="Date" disabled="disabled" asp-for="Booking.Date" class="datepicker form-control w3-input w3-border w3-light-grey" name="date" required="required" type="date">
                     
                     <label  class="w3-text-teal" for="Time"><b>Time</b></label>
                     <div class="form-group">
-                        <input asp-for="Booking.Time" class="timepicker form-control" required="required" type="time" name="time">
+                        <input asp-for="Booking.Time" id="Time" disabled="disabled" class="timepicker form-control" required="required" type="time" name="time">
                         </div>
 
                     <h1 style="font: normal 100 normal 30px/1.79em Playfair Display, serif; margin-top: 20px;">Tell us a bit about yourself</h1>
@@ -58,7 +58,7 @@
                         </div>
                         
                         <div>
-                            <button class="nextButton">Next</button>
+                            <button class="nextButton">Book It</button>
                         </div>
                     </div>
                 </div>
@@ -96,6 +96,8 @@
     
     
 <script type="text/javascript">
+var staffName;
+var staffId;
 
 $(".nextButton").click(function(){
     $.ajax ({
@@ -138,11 +140,28 @@ $(document).ready(function() {
 });
 
 $(".js-example-basic-single").on("change", function() {
-  var staffId = $(this).val();
-  $("#staff").val(staffId);
-  
-  var staffName = $(this).text().trim();
-    $("#masterContainer").val(staffName);
+     staffId = $(this).val();
+     if (staffId != null ) {
+         $("#Date").prop('disabled', false);
+     } else {
+         $("#Date").prop('disabled', true);
+         $("#Time").prop('disabled', true);
+     }
+     
+     $("#staff").val(staffId);
+     
+     staffName = $(this).text().trim();
+     $("#masterContainer").val(staffName);
+     
+   });
 
+$("#Date").on("change", function() {
+  var dateValue = $(this).val();
+  if (dateValue != null || dateValue !== "") {
+      $("#Time").prop('disabled', false);
+  } else {
+      $("#Time").val('');
+      $("#Time").prop('disabled', true);
+  }
 });
 </script>

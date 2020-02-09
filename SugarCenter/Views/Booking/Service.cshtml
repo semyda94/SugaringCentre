@@ -53,7 +53,7 @@
                         <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Shop">Shop</a>
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
@@ -77,7 +77,7 @@
                             <li class="breadcrumb-item">
                                 <a asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
                             </li>
-                            @* <li class="breadcrumb-item"><a href="#">@Model.NavigationCategoryId.Name</a></li> *@
+                            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Booking", new {serviceId = @Model.ServiceTypeToDisplay.ServiceId})">@Model.ServiceName</a></li>
                             <li class="breadcrumb-item active">@Model.ServiceTypeToDisplay.Title</li>
                         </ol>
                     </nav>
@@ -99,21 +99,11 @@
                     <div class="description">
                         @Model.ServiceTypeToDisplay.Description
                     </div>
-                    @*<div class="description">
-                        Categories: 
-                    </div>*@
                     
-
-                            <div style="display: flex;align-items: center;">
-                                <a  href="@Url.Action("BookService", "Booking", new {serviceTypeId = @Model.ServiceTypeToDisplay.ServiceTypeId})" class="add-to-cart">Book Now</a>
-                            </div>
-                        
-                    
-                        @*Qty:
-                        <input name="#Qty" id="#Qty" type="number" placeholder="Enter the number of products" class="form-control input-lg" value="1" style="width: 100px; margin-left: 10px; margin-right: auto"/>
-                        <a class="add-to-cart" href="@Url.Action("AddItemToCart", "Shop", new {productId = Model.ProductId, qty = "xxx"})">Add To Cart</a>
-                        @Html.ActionLink("Add To Cart", "AddItemToCart", "Shop", new {productId = Model.ProductId, qty = "xxx"}, new {@class = "add-to-cart"})*@
+                    <div style="display: flex;align-items: center;">
+                        <a  href="@Url.Action("BookService", "Booking", new {serviceTypeId = @Model.ServiceTypeToDisplay.ServiceTypeId})" class="add-to-cart">Book Now</a>
                     </div>
+                </div>
             </div>
             @if(Model.RecommendedList.Any()) {
             <div class="related-products">
@@ -270,15 +260,6 @@ $(document).ready(function() {
   });
 });
 </script>*@
-
-<script>
-  $(function () {
-    $('.add-to-cart').click(function () {
-      var qtyvalue = $("#Qty").val();
-      this.href = this.href.replace("xxx", qtyvalue);
-    });
-  });
-</script>
 
 </body>
 </html>

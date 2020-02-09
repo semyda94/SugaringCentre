@@ -73,6 +73,7 @@ namespace SugarCenter.Controllers
 
         #region Products
 
+        //TODO : Implemet paginated for admin console
         public async Task<IActionResult> Products()
         {
             var viewMovel = new ShopViewModel();
