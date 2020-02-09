@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using SugarCenter.Classes;
 using SugarCenter.ViewModel;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
@@ -16,6 +17,8 @@ namespace SugarCenter.Controllers
     {
         private readonly ISugaringCentreAucklandElkRepository _elkRepository;
         private IMemoryCache _cache;
+        
+        private const int PageSize = 12;
 
         public ShopController(ISugaringCentreAucklandElkRepository sugaringCentreAucklandElkRepository, IMemoryCache memoryCache)
         {
@@ -24,28 +27,58 @@ namespace SugarCenter.Controllers
         }
 
 
-        public async Task<IActionResult> Shop(int? categorySorting = -1, int? sorting = 1)
+        public async Task<IActionResult> Index(int? categorySorting = -1, int? sorting = 1, int? pageNumber = 1)
         {
             ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
 
             if (shopViewModel != null && shopViewModel.CategorySorting == categorySorting &&
-                shopViewModel.Sorting == sorting)
+                shopViewModel.Sorting == sorting && shopViewModel.PageIndex == pageNumber)
                 return View(shopViewModel);
 
             if (shopViewModel == null)
+            {
                 shopViewModel = new ShopViewModel();
-            
-            var shopCategoriesTask = _elkRepository.GetShopCategories();
-            var shopItemsTask = _elkRepository.GetproductsForCategory(categorySorting, sorting);
-            
-            Task.WaitAll(shopCategoriesTask, shopItemsTask);
+                
+                shopViewModel.Sorting = sorting ?? -1;
+                shopViewModel.CategorySorting = categorySorting ?? 1;
+                
+                var shopCategoriesTask = _elkRepository.GetShopCategories();
+                var shopItemsTask = _elkRepository.GetproductsForCategory(categorySorting, sorting);
+                
+                Task.WaitAll(shopCategoriesTask, shopItemsTask);
+                
+                shopViewModel.Categories = shopCategoriesTask.Result;
+                shopViewModel.Products = shopItemsTask.Result;
+                
+                shopViewModel.PageIndex = 1;
+                shopViewModel.PageSize = PageSize;
+                shopViewModel.TotalPages = (int)Math.Ceiling(shopItemsTask.Result.Count / (double)PageSize);
+            }
 
-            shopViewModel.Categories = shopCategoriesTask.Result;
-            shopViewModel.Products = shopItemsTask.Result;
-            shopViewModel.Sorting = sorting ?? -1;
-            shopViewModel.CategorySorting = categorySorting ?? 1;
+            if (shopViewModel.CategorySorting != categorySorting || shopViewModel.Sorting != sorting)
+            {
+                var shopCategoriesTask = _elkRepository.GetShopCategories();
+                var shopItemsTask = _elkRepository.GetproductsForCategory(categorySorting, sorting);
+                
+                Task.WaitAll(shopCategoriesTask, shopItemsTask);
+                
+                shopViewModel.Sorting = sorting ?? -1;
+                shopViewModel.CategorySorting = categorySorting ?? 1;
+                
+                shopViewModel.Categories = shopCategoriesTask.Result;
+                shopViewModel.Products = shopItemsTask.Result;
+                
+                shopViewModel.PageIndex = 1;
+                shopViewModel.PageSize = PageSize;
+                shopViewModel.TotalPages = (int)Math.Ceiling(shopItemsTask.Result.Count / (double)PageSize);
+            }
             
-            HttpContext.Session.Set<ShopViewModel>("ShopViewModel", shopViewModel);
+            if (shopViewModel.PageIndex != pageNumber)
+            {
+                shopViewModel.PageIndex = (pageNumber ?? 1) >= 1 && (pageNumber ?? 1) <= shopViewModel.TotalPages ? (pageNumber ?? 1) : shopViewModel.PageIndex ;
+            }
+
+            HttpContext.Session.Set("ShopViewModel", shopViewModel);
             return View(shopViewModel);
         }
 
@@ -53,7 +86,7 @@ namespace SugarCenter.Controllers
         {
             if (productId == null)
             {
-                return RedirectToAction("Shop");
+                return RedirectToAction("Index");
             }
             
             ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
@@ -94,9 +127,9 @@ namespace SugarCenter.Controllers
                 products.Add(product);
             }
 
-            HttpContext.Session.Set<List<Product>>("CheckoutList", products);
+            HttpContext.Session.Set("CheckoutList", products);
 
-            return RedirectToAction("Shop");
+            return RedirectToAction("Index");
         }
 
         public IActionResult ShopCheckout()
