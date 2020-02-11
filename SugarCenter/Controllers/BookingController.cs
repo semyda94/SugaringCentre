@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using System.Web.WebPages;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SugarCenter.ViewModel;
@@ -76,14 +77,22 @@ namespace SugarCenter.Controllers
         
         public async Task<JsonResult> GetStaffForBooking (/*int serviceTypeId,*/ string searchStaffName)
         {
-            var services = await _elkRepository.GetStaff(searchStaffName);
-            
-            var modifiedData = services.Select(x => new
+            if (searchStaffName == string.Empty)
             {
-                id = x.StaffId,
-                text = (x.FirstName + ' ' +  x.LastName)
-            });
-            return Json(modifiedData, new JsonSerializerSettings());
+                return Json(null, new JsonSerializerSettings());
+            }
+            else
+            {
+                var services = await _elkRepository.GetStaff(searchStaffName);
+
+                var modifiedData = services.Select(x => new
+                {
+                    id = x.StaffId,
+                    text = (x.FirstName + ' ' + x.LastName)
+                });
+
+                return Json(modifiedData, new JsonSerializerSettings());
+            }
         }
 
         public async Task<IActionResult> SaveBooking(BookingServiceViewModel bookingService)

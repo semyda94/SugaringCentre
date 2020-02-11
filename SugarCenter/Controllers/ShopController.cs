@@ -90,11 +90,15 @@ namespace SugarCenter.Controllers
             }
             
             ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
+            SingleItemViewModel singleItemViewModel = new SingleItemViewModel();
             
-            if (shopViewModel == null || !shopViewModel.Products.Exists(si => si.ProductId == productId))
-                return View(await _elkRepository.GetShopItem(productId));
+//            if (shopViewModel == null || !shopViewModel.Products.Exists(si => si.ProductId == productId))
+//                return View(await _elkRepository.GetShopItem(productId));
+
+            singleItemViewModel.Product = shopViewModel.Products.Single(p => p.ProductId == productId);
+            singleItemViewModel.RelatiedProducts = shopViewModel.Products.Where(x => x.ProductId != productId).Take(3).ToList();
             
-            return View(shopViewModel.Products.Single(si => si.ProductId == productId));
+            return View(singleItemViewModel);
         }
 
         /*public async Task<IActionResult> AddItemToCart(int productId, int? qty = 1)
@@ -129,7 +133,7 @@ namespace SugarCenter.Controllers
 
             HttpContext.Session.Set("CheckoutList", products);
 
-            return RedirectToAction("Index");
+            return  RedirectToAction("Index");
         }
 
         public IActionResult ShopCheckout()

@@ -1,6 +1,6 @@
 ﻿@using System.IO
 @using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
-@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Product
+@model SugarCenter.ViewModel.SingleItemViewModel;
 @{
     Layout = null;
 }
@@ -74,8 +74,7 @@
                             <li class="breadcrumb-item">
                                 <a asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
                             </li>
-                            @* <li class="breadcrumb-item"><a href="#">@Model.NavigationCategoryId.Name</a></li> *@
-                            <li class="breadcrumb-item active">@Model.Name</li>
+                            <li class="breadcrumb-item active">@Model.Product.Name</li>
                         </ol>
                     </nav>
                 </div>
@@ -85,58 +84,52 @@
                     <div class="product-gallery">
                         
                         <div class="product-image">
-                            @{ var activeImage = Convert.ToBase64String(Model.ProductImage.First().Image);}
+                            @{ var activeImage = Convert.ToBase64String(Model.Product.ProductImage.First().Image);}
                             <img class="active" src="data:image/jpeg;base64,@activeImage">
                         </div>
-                        <ul class="image-list">
-                            @foreach (var productImage in Model.ProductImage)
-                            {
-                                var image = Convert.ToBase64String(productImage.Image);
-                            <li class="image-item"><img src="data:image/jpeg;base64,@image"></li>
-                            }
-                        </ul>
+                        @if (Model.Product.ProductImage.Count > 1)
+                        {
+                            <ul class="image-list">
+                                @foreach (var productImage in Model.Product.ProductImage)
+                                {
+                                    var image = Convert.ToBase64String(productImage.Image);
+                                    <li class="image-item"><img src="data:image/jpeg;base64,@image"></li>
+                                }
+                            </ul>
+                        }
                     </div>
                 </div>
                 <div class="column-xs-12 column-md-5">
-                    <h1>@Model.Name</h1>
-                    <h2>$@Model.Price</h2>
+                    <h1>@Model.Product.Name</h1>
+                    <h2>$@Model.Product.Price</h2>
                     <div class="description">
-                        @Model.Desc
+                        @Model.Product.Desc
                     </div>
-                    @*<div class="description">
-                        Categories: 
-                    </div>*@
-                    
-                        @using (Html.BeginForm("AddItemToCart", "Shop", FormMethod.Post))
-                        {
-                            <div style="display: flex;align-items: center;">
+
+                    @using (Html.BeginForm("AddItemToCart", "Shop", FormMethod.Post))
+                    {
+                        <div style="display: flex;align-items: center;">
                             Qty:
-                            @* @Html.TextBoxFor(model => model.Qty) *@
-                            <input asp-for="Qty" type="number" placeholder="Enter the number of products" class="form-control input-lg" value="1" style="width: 100px; margin-left: 10px; margin-right: auto"/>
-                            <button type="submit" class="add-to-cart">Add To Cart</button>
-                            </div>
-                        }
-                        @*Qty:
-                        <input name="#Qty" id="#Qty" type="number" placeholder="Enter the number of products" class="form-control input-lg" value="1" style="width: 100px; margin-left: 10px; margin-right: auto"/>
-                        <a class="add-to-cart" href="@Url.Action("AddItemToCart", "Shop", new {productId = Model.ProductId, qty = "xxx"})">Add To Cart</a>
-                        @Html.ActionLink("Add To Cart", "AddItemToCart", "Shop", new {productId = Model.ProductId, qty = "xxx"}, new {@class = "add-to-cart"})*@
-                    </div>
+                            <input asp-for="Product.Qty" type="number" placeholder="Enter the number of products" class="form-control input-lg" value="1" style="width: 100px; margin-left: 10px; margin-right: auto"/>
+                            <button  class="add-to-cart">Add To Cart</button>
+                            <div id="Results"></div>
+                        </div>
+                    }
+                </div>
             </div>
             <div class="grid related-products">
                 <div class="column-xs-12">
                     <h3>You may also like</h3>
                 </div>
-                @for (int i = 0; i < 3; i++)
+                @foreach (var relatedProduct in @Model.RelatiedProducts)
                 {
-                    Random rnd = new Random();
-//                    Product tmp = Model.NavigationCategoryId.Products.ElementAt(rnd.Next(Model.NavigationCategoryId.Products.Count));
-                    //var thumbImg = Convert.ToBase64String(tmp.ProductImg);
+                    var thumbImg = Convert.ToBase64String(relatedProduct.ProductImage.First().Image);
                     
-@*                     <div class="column-xs-12 column-md-4"> *@
-@*                         $1$ <img src="data:image/jpeg;base64,@thumbImg"> #1# *@
-@*                         <h4>@tmp.Name</h4> *@
-@*                         <p class="price">$@tmp.Price</p> *@
-@*                     </div> *@
+                    <div class="column-xs-12 column-md-4">
+                        <img src="data:image/jpeg;base64,@thumbImg">
+                        <h4>@relatedProduct.Name</h4>
+                        <p class="price">$@relatedProduct.Price</p>
+                    </div>
                 }
             </div>
         </div>
