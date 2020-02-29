@@ -126,7 +126,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             await _DbContext.SaveChangesAsync();
         }
 
-        public async Task<Product> GetShopItem(int? productId)
+        public async Task<Product> GetProduct(int? productId)
         {
             var product = await _DbContext.Products.Include(i => i.ProductImage).FirstOrDefaultAsync(p => p.ProductId == productId);
 

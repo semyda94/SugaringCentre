@@ -16,7 +16,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task CreateProduct(Product product, string projectWebRootPath);
         Task UpdateProduct(Product product);
         Task DeleteProduct(int? productId);
-        Task<Product> GetShopItem(int? productId);
+        Task<Product> GetProduct(int? productId);
         Task SubscribeForNews(string email);
 
         #region Staff

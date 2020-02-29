@@ -43,30 +43,31 @@ namespace SugarCenter.Controllers
     {
         private readonly ISugaringCentreAucklandElkRepository _elkRepository;
 
+        private static string appId = "2561182167502522";
+        private static string appSecret = "8e398dbb198eaa66c4d4a2539159d40e";
+        private static string instagrammRedirectUri = "https://localhost:5001/Home/Blog/OAuth";
+        private static string apiBaseURL = "https://api.instagram.com/oauth/authorize";
+        private static string scope = "user_profile,user_media";
+            
         private static string clientId = "535725053883034|Ho5VtL8KfcqEjb3V-8Bn5mLwZXU";
         private static string clietnSecret = "EAAHnPTWIspoBANmXxlxhwMLbXqteZBJZCMk3VkZBFRCSuHQdkatdLdTFSq3LYZC0CXwn7RgPoMH4ZCZBBC2Im2K5EL9nPZA80LLmvq6KeRwEuZB6sJfngwfjcOcmRYLoQjXOs3PZAb3ZArZC3TKg5w0ugiTaRXmZAoixaJ4rgU8Uo33bpAZDZD";
         private static string rederectUri = "https://localhost:44370/Home/OAuth";
         private static string realtimeUri = "";
-        private InstagramConfig _config = new InstagramConfig(clientId, clietnSecret, rederectUri);
+        private InstagramConfig _config = new InstagramConfig(appId, appSecret, rederectUri);
+
+        private string autorizationUrl = $"{apiBaseURL}?client_id={appId}&redirect_uri={instagrammRedirectUri}&scope={scope}&response_type=code" ;
 
         public HomeController(ISugaringCentreAucklandElkRepository sugaringCentreAucklandElkRepository)
         {
             _elkRepository = sugaringCentreAucklandElkRepository;
+            
+            
         }
 
         public IActionResult Index()
         {
             return View();
         }
-
-        /*public async Task<IActionResult> Booking()
-        {
-            var bookingViewModel = new BookingViewModel();
-            bookingViewModel.Services = (await _elkRepository.GetServices()).ToList();
-            bookingViewModel.ServiceTypes = (await _elkRepository.GetServiceTypes()).ToList();
-            
-            return View(bookingViewModel);
-        }*/
 
         public IActionResult Privacy()
         {
@@ -113,38 +114,39 @@ namespace SugarCenter.Controllers
         {
             var blogViewModel = new BlogViewModel();
 
-            //var oAuthResponse = HttpContext.Session.Get<OAuthResponse>("InstaSharp.AuthInfo");
+            var oAuthResponse = HttpContext.Session.Get<OAuthResponse>("InstaSharp.AuthInfo");
 
-            //if (oAuthResponse == null)
-            //{
-            //    return RedirectToAction("Login");
-            //}
-
-            //var users = new InstaSharp.Endpoints.Users(_config, oAuthResponse);
-
-            //blogViewModel.UserData = await users.GetSelf();
-            //blogViewModel.MediaList = users.RecentSelf().GetAwaiter().GetResult().Data;
-            var auth = new OAuth(_config);
-            var oAuthResponse = await auth.RequestToken(clietnSecret);
+            if (oAuthResponse == null)
+            {
+                return RedirectToAction("Login");
+            }
 
             var users = new InstaSharp.Endpoints.Users(_config, oAuthResponse);
 
             blogViewModel.UserData = await users.GetSelf();
             blogViewModel.MediaList = users.RecentSelf().GetAwaiter().GetResult().Data;
+            
+            /*var auth = new OAuth(_config);
+            var oAuthResponse = await auth.RequestToken(appSecret);
+
+            var users = new InstaSharp.Endpoints.Users(_config, oAuthResponse);
+
+            blogViewModel.UserData = await users.GetSelf();
+            blogViewModel.MediaList = users.RecentSelf().GetAwaiter().GetResult().Data;*/
 
             return View(blogViewModel);
         }
 
         public ActionResult Login()
         {
-            var scopes = new List<OAuth.Scope>();
-            scopes.Add(InstaSharp.OAuth.Scope.Basic);
+//            var scopes = new List<OAuth.Scope>();
+//            scopes.Add(InstaSharp.OAuth.Scope.);
+//
+//            var link = InstaSharp.OAuth.AuthLink(_config.OAuthUri + "authorize", _config.ClientId, _config.RedirectUri, scope, InstaSharp.OAuth.ResponseType.Code);
 
-            var link = InstaSharp.OAuth.AuthLink(_config.OAuthUri + "authorize", _config.ClientId, _config.RedirectUri, scopes, InstaSharp.OAuth.ResponseType.Code);
-
-            return Redirect(link);
+            return Redirect(autorizationUrl);
         }
-
+        
         public async Task<ActionResult> OAuth(string code)
         {
             // add this code to the auth object

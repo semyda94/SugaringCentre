@@ -93,7 +93,7 @@ namespace SugarCenter.Controllers
             SingleItemViewModel singleItemViewModel = new SingleItemViewModel();
             
 //            if (shopViewModel == null || !shopViewModel.Products.Exists(si => si.ProductId == productId))
-//                return View(await _elkRepository.GetShopItem(productId));
+//                return View(await _elkRepository.GetProduct(productId));
 
             singleItemViewModel.Product = shopViewModel.Products.Single(p => p.ProductId == productId);
             singleItemViewModel.RelatiedProducts = shopViewModel.Products.Where(x => x.ProductId != productId).Take(3).ToList();
@@ -101,34 +101,30 @@ namespace SugarCenter.Controllers
             return View(singleItemViewModel);
         }
 
-        /*public async Task<IActionResult> AddItemToCart(int productId, int? qty = 1)
-        {
-            var itemLists = HttpContext.Session.Get<List<Product>>("CheckoutList");
-            var item = await _elkRepository.GetShopItem(productId);
-
-            if (itemLists == null)
-                itemLists = new List<Product>();
-
-            for (var i = 0; i < qty.Value; ++i)
-            {
-                itemLists.Add(item);
-            }
-
-            HttpContext.Session.Set<List<Product>>("CheckoutList", itemLists);
-
-            return RedirectToAction("Shop");
-        }*/
-        
         public async Task<IActionResult> AddItemToCart(Product product)
         {
+            Product productToAdd = null;
+            
             var products = HttpContext.Session.Get<List<Product>>("CheckoutList");
-
+            
             if (products == null)
                 products = new List<Product>();
+            
+            ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
+
+            if (shopViewModel != null && shopViewModel.Products.Any())
+            {
+                productToAdd = shopViewModel.Products.SingleOrDefault(x => x.ProductId == product.ProductId);
+            }
+
+            if (product == null || shopViewModel == null)
+            {
+                productToAdd = await _elkRepository.GetProduct(product.ProductId);
+            }
 
             for (var i = 0; i < product.Qty; ++i)
             {
-                products.Add(product);
+                products.Add(productToAdd);
             }
 
             HttpContext.Session.Set("CheckoutList", products);

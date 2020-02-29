@@ -1,5 +1,81 @@
-﻿@model List<SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Product>
+﻿@using Microsoft.AspNetCore.Http.Internal
+@model List<SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Product>
 @*TODO: Validation model is not empty*@
+@{
+    Layout = null;
+    
+    
+    var groupedProducts = Model.GroupBy(x => x.ProductId).Select(x => new {Name = x.First().Name, SinglePrice = x.First().Price, SumPrice = x.Sum(s => s.Price), Qty = x.Count()}).ToList(); 
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SugarCenter</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/footer.css"/>
+        <link rel="stylesheet" href="~/css/booking.css"/>
+        <link href="~/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/Home.css" />
+        <link rel="stylesheet" href="~/css/Blog.css" />
+        <link rel="stylesheet" href="~/css/Shop.css" />
+        <link rel="stylesheet" href="~/css/ShopCheckout.css" />
+        <link rel="stylesheet" href="~/css/AdminConsoleHome.css"/>
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
+    
+   </head>
+<body>
+
+@* <script *@
+@*     src="https://www.paypal.com/sdk/js?client-ide&currency=NZD"> // Required. Replace SB_CLIENT_ID with your sandbox client ID. *@
+@*   </script> *@
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
+        <div class="container" style="margin-right: 60px;">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
+                <ul class="navbar-nav flex-grow-1" style="display: contents;">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="padding-right: 2px;" asp-controller="Shop" asp-action="ShopCheckout">
+                            <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/Carticon.png" />
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark"  style="padding-right: 2px;" href="https://www.facebook.com/Sugaring.centre.auckland/">
+                            <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/f_logo.png" />
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
 <div class="main">
     <section class="module">
         <div class="container">
@@ -21,7 +97,7 @@
                             <th>Total</th>
                             <th>Remove</th>
                         </tr>
-                        @foreach (var item in @Model)
+                        @foreach (var item in groupedProducts)
                         {
                             //var thumbImg = Convert.ToBase64String(item.ProductImg);
                             <tr>
@@ -30,13 +106,13 @@
                                     <h5 class="product-title font-alt">@item.Name</h5>
                                 </td>
                                 <td class="hidden-xs">
-                                    <h5 class="product-title font-alt">$@item.Price</h5>
+                                    <h5 class="product-title font-alt">$@item.SinglePrice</h5>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="number" name="" value="1" max="50" min="1"/>
+                                    <input class="form-control" type="number" name="" value="@item.Qty" max="50" min="1"/>
                                 </td>
                                 <td>
-                                    <h5 class="product-title font-alt">$@item.Price</h5>
+                                    <h5 class="product-title font-alt">$@item.SumPrice</h5>
                                 </td>
                                 <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>
                             </tr>
@@ -64,29 +140,73 @@
             </div>
             <hr class="divider-w">
             <div class="row mt-70">
+                <input id="totalTransaction" hidden="hidden" value="@Model.Select(m => m.Price).Sum()"/>
                 <div class="col-sm-5 col-sm-offset-7">
                     <div class="shop-Cart-totalbox">
                         <h4 class="font-alt">Cart Totals</h4>
                         <table class="table table-striped table-border checkout-table">
                             <tbody>
-                                <tr>
-                                    <th>Cart Subtotal :</th>
-                                    <td>$@Model.Select(m => m.Price).Sum()</td>
-                                </tr>
-                                <tr>
-                                    <th>Shipping Total :</th>
-                                    <td>$0.00</td>
-                                </tr>
-                                <tr class="shop-Cart-totalprice">
-                                    <th>Total :</th>
-                                    <td>@Model.Select(m => m.Price).Sum()</td>
-                                </tr>
+                            <tr>
+                                <th>Cart Subtotal :</th>
+                                <td>$@Model.Select(m => m.Price).Sum()</td>
+                            </tr>
+                            <tr>
+                                <th>Shipping Total :</th>
+                                <td>$0.00</td>
+                            </tr>
+                            <tr class="shop-Cart-totalprice">
+                                <th>Total :</th>
+                                <td>$@Model.Select(m => m.Price).Sum()</td>
+                            </tr>
                             </tbody>
                         </table>
-                        <button class="btn btn-lg btn-block btn-round btn-d" type="submit">Proceed to Checkout</button>
+
+                        <div id="paypal-button-container"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </div>
+
+
+<script>
+  var totalAmount = document.getElementById("totalTransaction").value;
+ 
+  var itemsFromModel = @Html.Raw(Json.Serialize(groupedProducts));
+  var productsToDisplay = [];
+  
+  for (var i = 0; i < itemsFromModel.length; ++i){
+     console.log(itemsFromModel[i]);
+     
+     productsToDisplay.push({
+        name: itemsFromModel[i].name,
+        price: itemsFromModel[i].singlePrice,
+        quantity: itemsFromModel[i].qty
+     })
+  }
+  
+  paypal.Buttons({
+      createOrder: function(data, actions) {
+        // This function sets up the details of the transaction, including the amount and line item details.
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: totalAmount
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        // This function captures the funds from the transaction.
+        return actions.order.capture().then(function(details) {
+          // This function shows a transaction success message to your buyer.
+          alert('Transaction completed by ' + details.payer.name.given_name);
+        });
+      }
+    }).render('#paypal-button-container');
+
+</script>
+
+</body>
+</html>

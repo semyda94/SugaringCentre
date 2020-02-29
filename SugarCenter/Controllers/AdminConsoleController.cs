@@ -96,7 +96,7 @@ namespace SugarCenter.Controllers
 
         public async Task<IActionResult> ProductConfiguration(int? productId)
         {
-            return View(productId == null ? new Product{ProductId = -1} : await _elkRepository.GetShopItem(productId));
+            return View(productId == null ? new Product{ProductId = -1} : await _elkRepository.GetProduct(productId));
         }
         
         public JsonResult SaveCategorySelection(string categoryIds)

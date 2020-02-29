@@ -108,6 +108,8 @@
 
                     @using (Html.BeginForm("AddItemToCart", "Shop", FormMethod.Post))
                     {
+                        
+                        <input asp-for="Product.ProductId" value="@Model.Product.ProductId" hidden="hidden"/>
                         <div style="display: flex;align-items: center;">
                             Qty:
                             <input asp-for="Product.Qty" type="number" placeholder="Enter the number of products" class="form-control input-lg" value="1" style="width: 100px; margin-left: 10px; margin-right: auto"/>
