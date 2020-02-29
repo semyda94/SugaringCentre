@@ -1,22 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
-using System.Threading.Tasks;
-using InstaSharp;
 using Microsoft.AspNetCore.Mvc;
 using SugarCenter.Models;
-using InstaSharp.Models.Responses;
-using Microsoft.IdentityModel.Protocols;
-using System.Web;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
-using SugarCenter.ViewModel;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
 
 
@@ -42,21 +30,7 @@ namespace SugarCenter.Controllers
     public class HomeController : Controller
     {
         private readonly ISugaringCentreAucklandElkRepository _elkRepository;
-
-        private static string appId = "2561182167502522";
-        private static string appSecret = "8e398dbb198eaa66c4d4a2539159d40e";
-        private static string instagrammRedirectUri = "https://sugaringcentre.com/Home/Blog/OAuth";
-        private static string apiBaseURL = "https://api.instagram.com/oauth/authorize";
-        private static string scope = "user_profile,user_media";
-            
-        private static string clientId = "535725053883034|Ho5VtL8KfcqEjb3V-8Bn5mLwZXU";
-        private static string clietnSecret = "EAAHnPTWIspoBANmXxlxhwMLbXqteZBJZCMk3VkZBFRCSuHQdkatdLdTFSq3LYZC0CXwn7RgPoMH4ZCZBBC2Im2K5EL9nPZA80LLmvq6KeRwEuZB6sJfngwfjcOcmRYLoQjXOs3PZAb3ZArZC3TKg5w0ugiTaRXmZAoixaJ4rgU8Uo33bpAZDZD";
-        private static string rederectUri = "https://localhost:44370/Home/OAuth";
-        private static string realtimeUri = "";
-        private InstagramConfig _config = new InstagramConfig(appId, appSecret, rederectUri);
-
-        private string autorizationUrl = $"{apiBaseURL}?client_id={appId}&redirect_uri={instagrammRedirectUri}&scope={scope}&response_type=code" ;
-
+        
         public HomeController(ISugaringCentreAucklandElkRepository sugaringCentreAucklandElkRepository)
         {
             _elkRepository = sugaringCentreAucklandElkRepository;
@@ -109,62 +83,7 @@ namespace SugarCenter.Controllers
             _elkRepository.SubscribeForNews(email2).GetAwaiter().GetResult();
             return new JsonResult(new {Status = "Success", Result = "You email has been added to newslatter database"});
         }
-
-        public async Task<IActionResult> Blog()
-        {
-            var blogViewModel = new BlogViewModel();
-
-            var oAuthResponse = HttpContext.Session.Get<OAuthResponse>("InstaSharp.AuthInfo");
-
-            if (oAuthResponse == null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            var users = new InstaSharp.Endpoints.Users(_config, oAuthResponse);
-
-            blogViewModel.UserData = await users.GetSelf();
-            blogViewModel.MediaList = users.RecentSelf().GetAwaiter().GetResult().Data;
-            
-            /*var auth = new OAuth(_config);
-            var oAuthResponse = await auth.RequestToken(appSecret);
-
-            var users = new InstaSharp.Endpoints.Users(_config, oAuthResponse);
-
-            blogViewModel.UserData = await users.GetSelf();
-            blogViewModel.MediaList = users.RecentSelf().GetAwaiter().GetResult().Data;*/
-
-            return View(blogViewModel);
-        }
-
-        public ActionResult Login()
-        {
-//            var scopes = new List<OAuth.Scope>();
-//            scopes.Add(InstaSharp.OAuth.Scope.);
-//
-//            var link = InstaSharp.OAuth.AuthLink(_config.OAuthUri + "authorize", _config.ClientId, _config.RedirectUri, scope, InstaSharp.OAuth.ResponseType.Code);
-
-            return Redirect(autorizationUrl);
-        }
         
-        public async Task<ActionResult> OAuth(string code)
-        {
-            // add this code to the auth object
-            var auth = new OAuth(_config);
-
-            // now we have to call back to instagram and include the code they gave us
-            // along with our client secret
-            var oauthResponse = await auth.RequestToken(code);
-
-            // both the client secret and the token are considered sensitive data, so we won't be
-            // sending them back to the browser. we'll only store them temporarily.  If a user's session times
-            // out, they will have to click on the authenticate button again - sorry bout yer luck.
-            HttpContext.Session.Set<OAuthResponse>("InstaSharp.AuthInfo", oauthResponse);
-
-            // all done, lets redirect to the home controller which will send some intial data to the app
-            return RedirectToAction("Blog");
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

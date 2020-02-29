@@ -1,0 +1,38 @@
+﻿@model SugarCenter.ViewModel.BlogViewModel;
+
+@{
+    ViewData["Title"] = "Blog";
+}
+
+<div class="blogSection">
+    <div class="blogHeader">
+        <span class="blogAllPosts">All Posts</span>
+        <span>@Model.UserData.Username</span>
+        @* <img class="blogProfilePicture" style="margin-left: auto;" src="@Model.UserData.Data.ProfilePicture"/> *@
+    </div>
+
+     @foreach (var media in Model.UserMediaResponse.UserMedia.Where(x => x.MediaType == "IMAGE").Take(3).ToList())
+     {
+         <div class="blogPost">
+             <div class="blogPostBorder">
+                 <div class="row">
+                     <div class="col">
+                         <div class="blogPostImage" style="background-image: url(@media.MediaUrl);"></div>
+                     </div>
+                     <div class="col">
+                         <div class="blogPostDescription">
+                                              <div>
+                                                  @* <img class="blogProfilePicture" src="@Model.UserData.Data.ProfilePicture"/> *@
+                                                  <div class="blogPostDescriptionHeader">
+                                                      <span class="BlogPostDesriptionUser">@Model.UserData.Username</span>
+                                                      <span class="BlogPostDesriptionUser">@media.DateTime.ToString("MMM d") </span>
+                                                      <span class="BlogPostDesriptionUser">@media.Caption </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     }
+</div>
