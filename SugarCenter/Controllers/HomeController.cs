@@ -45,7 +45,7 @@ namespace SugarCenter.Controllers
 
         private static string appId = "2561182167502522";
         private static string appSecret = "8e398dbb198eaa66c4d4a2539159d40e";
-        private static string instagrammRedirectUri = "https://localhost:5001/Home/Blog/OAuth";
+        private static string instagrammRedirectUri = "https://sugaringcentre.com/Home/Blog/OAuth";
         private static string apiBaseURL = "https://api.instagram.com/oauth/authorize";
         private static string scope = "user_profile,user_media";
             
