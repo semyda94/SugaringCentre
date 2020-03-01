@@ -3,23 +3,33 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SugarCenter.Classes;
 
 namespace SugarCenter.Helpers
 {
-    public static class InstagramBasicDisplayAPI
+    public static class InstagramBasicDisplayAPIHelper
     {
         private static HttpClient _client = new HttpClient();
         
-        private static string appId = "2561182167502522";
-        private static string appSecret = "8e398dbb198eaa66c4d4a2539159d40e";
-        private static string instagrammRedirectUri = "https://localhost:5001/Blog/OAuth";
-        private static string apiBaseURL = "https://api.instagram.com/oauth/authorize";
-        private static string scope = "user_profile,user_media";
+        private static string appId = "";
+        private static string appSecret = "";
+        private static string instagramRedirectUrl = "";
+        private static string apiBaseURL = "";
+        private static string scope = "";
 
-        public static readonly string AutorisationUrl = $"{apiBaseURL}?client_id={appId}&redirect_uri={instagrammRedirectUri}&scope={scope}&response_type=code";
-        
+        public static string AppId { set => appId = value; }
+        public static string AppSecret { set => appSecret = value; }
+        public static string InstagramRedirectUrl { set => instagramRedirectUrl = value; }
+        public static string ApiBaseUrl { set => apiBaseURL = value; }
+        public static string Scope { set => scope = value; }
+
+        public static string GetAuthorisationUrl()
+        {
+            return $"{apiBaseURL}?client_id={appId}&redirect_uri={instagramRedirectUrl}&scope={scope}&response_type=code";
+        }
+
         public static async Task<oAuthResponseWithToken> GetToken(string code)
         {
             const string tokenUrl = "https://api.instagram.com/oauth/access_token";
@@ -28,7 +38,7 @@ namespace SugarCenter.Helpers
                 new KeyValuePair<string, string>("client_id", appId),
                 new KeyValuePair<string, string>("client_secret", appSecret),
                 new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                new KeyValuePair<string, string>("redirect_uri", instagrammRedirectUri),
+                new KeyValuePair<string, string>("redirect_uri", instagramRedirectUrl),
                 new KeyValuePair<string, string>("code", code),
             });
             

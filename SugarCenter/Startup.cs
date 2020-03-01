@@ -13,6 +13,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
+using SugarCenter.Classes;
+using SugarCenter.Helpers;
+using SugarCenter.Interfaces;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
 
@@ -60,6 +63,19 @@ namespace SugarCenter
             services.AddSingleton<IFileProvider>(
                 new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+
+            var instagramBasicDisplayApiSettings = new InstagramBasicDisplayAPISettings();
+            Configuration.Bind("InstagramBasicDisplayAPISettings", instagramBasicDisplayApiSettings);
+            ConfigureInstagramBasicDispalyAPIHelper(instagramBasicDisplayApiSettings);
+        }
+
+        private void ConfigureInstagramBasicDispalyAPIHelper(InstagramBasicDisplayAPISettings settings)
+        {
+            InstagramBasicDisplayAPIHelper.AppId = settings.AppId.ToString();
+            InstagramBasicDisplayAPIHelper.AppSecret = settings.AppSecret;
+            InstagramBasicDisplayAPIHelper.InstagramRedirectUrl = settings.InstagramRedirectUrl;
+            InstagramBasicDisplayAPIHelper.ApiBaseUrl = settings.ApiBaseUrl;
+            InstagramBasicDisplayAPIHelper.Scope = settings.Scope;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
