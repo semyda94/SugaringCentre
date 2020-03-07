@@ -77,8 +77,8 @@
                             <li class="breadcrumb-item">
                                 <a asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Booking", new {serviceId = @Model.ServiceTypeToDisplay.ServiceId})">@Model.ServiceName</a></li>
-                            <li class="breadcrumb-item active">@Model.ServiceTypeToDisplay.Title</li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Booking", new {serviceId = @Model.ServicesToDisplay.ServiceId})">@Model.ServiceName</a></li>
+                            <li class="breadcrumb-item active">@Model.ServicesToDisplay.Title</li>
                         </ol>
                     </nav>
                 </div>
@@ -88,20 +88,20 @@
                     <div class="product-gallery">
                         
                         <div class="product-image">
-                            @{ var activeImage = Convert.ToBase64String(Model.ServiceTypeToDisplay.Tmbnail);}
+                            @{ var activeImage = Convert.ToBase64String(Model.ServicesToDisplay.Image);}
                             <img class="active" src="data:image/jpeg;base64,@activeImage">
                         </div>
                     </div>
                 </div>
                 <div class="column-xs-12 column-md-5">
-                    <h1>@Model.ServiceTypeToDisplay.Title</h1>
-                    <h2>$@Model.ServiceTypeToDisplay.Price  |  @Model.ServiceTypeToDisplay.Duration min</h2>
+                    <h1>@Model.ServicesToDisplay.Title</h1>
+                    <h2>$@Model.ServicesToDisplay.Price  |  @Model.ServicesToDisplay.Duration min</h2>
                     <div class="description">
-                        @Model.ServiceTypeToDisplay.Description
+                        @Model.ServicesToDisplay.Desc
                     </div>
                     
                     <div style="display: flex;align-items: center;">
-                        <a  href="@Url.Action("BookService", "Booking", new {serviceTypeId = @Model.ServiceTypeToDisplay.ServiceTypeId})" class="add-to-cart">Book Now</a>
+                        <a  href="@Url.Action("BookService", "Booking", new {serviceTypeId = @Model.ServicesToDisplay.ServiceId})" class="add-to-cart">Book Now</a>
                     </div>
                 </div>
             </div>
@@ -111,18 +111,18 @@
                     <h3>You may also like</h3>
                 </div>
                 <div class="row" style="text-align: center">
-                @foreach(var serviceTypeRecommended in Model.RecommendedList)
+                @foreach(var serviceRecommended in Model.RecommendedList)
                 {
-                    var thumbImg = Convert.ToBase64String(serviceTypeRecommended.Tmbnail);
+                    var thumbImg = Convert.ToBase64String(serviceRecommended.Image);
                     
                     <div class="col relatedServiceBox">
-                         <a href="@Url.Action("Service", "Booking", new {serviceId = serviceTypeRecommended.ServiceId, serviceTypeId = serviceTypeRecommended.ServiceTypeId})" class="imageLink">
+                         <a href="@Url.Action("Service", "Booking", new {serviceCategoryId = serviceRecommended.ServiceCategoryId, serviceId = serviceRecommended.ServiceId})" class="imageLink">
                                         <div class="relatedServiceImage" style="background-image: url(data:image/jpeg;base64,@thumbImg)">
                                             @*<img style="max-height: 100%; max-width: 100%; object-fit: contain" src="data:image/jpeg;base64,@activeImage"/>*@
                                         </div>
                                         </a>
-                        <h4><a href="@Url.Action("Service", "Booking", new {serviceId = serviceTypeRecommended.ServiceId, serviceTypeId = serviceTypeRecommended.ServiceTypeId})">@serviceTypeRecommended.Title</a></h4>
-                        <p class="price">$@serviceTypeRecommended.Price | @serviceTypeRecommended.Duration min</p>
+                        <h4><a href="@Url.Action("Service", "Booking", new {serviceCategoryId = serviceRecommended.ServiceCategoryId, serviceId = serviceRecommended.ServiceId})">@serviceRecommended.Title</a></h4>
+                        <p class="price">$@serviceRecommended.Price | @serviceRecommended.Duration min</p>
                     </div>
                 }
                 </div>

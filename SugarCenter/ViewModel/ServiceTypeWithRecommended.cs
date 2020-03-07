@@ -6,8 +6,8 @@ namespace SugarCenter.ViewModel
     public class ServiceTypeWithRecommended
     {
         public string ServiceName { get; set; }
-        public ServiceType ServiceTypeToDisplay { get; set; }
+        public Service ServicesToDisplay { get; set; }
         
-        public List<ServiceType> RecommendedList { get; set; }
+        public List<Service> RecommendedList { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace SugarCenter.Controllers
 
         public IActionResult Category()
         {
-            var categories = _elkRepository.GetShopCategories().GetAwaiter().GetResult();
+            var categories = _elkRepository.GetListOfCategories().GetAwaiter().GetResult();
 
             return View(categories);
         }
@@ -60,7 +60,7 @@ namespace SugarCenter.Controllers
 
         public async Task<JsonResult> GetCategory(string searchCategoryName)
         {
-            var category = await _elkRepository.GetShopCategoriesForAc(searchCategoryName);
+            var category = await _elkRepository.SearchCategoryByTitle(searchCategoryName);
             var modifiedData = category.Select(x => new
             {
                 id = x.CategoryId,
@@ -78,8 +78,8 @@ namespace SugarCenter.Controllers
         {
             var viewMovel = new ShopViewModel();
 
-            viewMovel.Categories = await _elkRepository.GetShopCategories();
-            viewMovel.Products = await _elkRepository.GetProducts();
+            viewMovel.Categories = await _elkRepository.GetListOfCategories();
+            viewMovel.Products = await _elkRepository.GetListOfProducts();
 
             return View(viewMovel);
         }
@@ -96,7 +96,7 @@ namespace SugarCenter.Controllers
 
         public async Task<IActionResult> ProductConfiguration(int? productId)
         {
-            return View(productId == null ? new Product{ProductId = -1} : await _elkRepository.GetProduct(productId));
+            return View(productId == null ? new Product{ProductId = -1} : await _elkRepository.GetProductById(productId));
         }
         
         public JsonResult SaveCategorySelection(string categoryIds)
@@ -109,8 +109,7 @@ namespace SugarCenter.Controllers
         {
             if (product.ProductId <= 0 )
             {
-                var projectWebRootPath = _hostingEnvironment.WebRootPath;
-                await _elkRepository.CreateProduct(product, projectWebRootPath);
+                await _elkRepository.CreateProduct(product);
             }
             else
             {
@@ -178,21 +177,79 @@ namespace SugarCenter.Controllers
 
         public async Task<IActionResult> Services()
         {
-            var services = await _elkRepository.GetServices();
+            var services = await _elkRepository.GetServiceCategories();
             return View(services);
+        }
+
+        public async Task<IActionResult> DeleteServiceCategory(int? serviceId)
+        {
+            if (serviceId != null)
+                await _elkRepository.DeleteServiceCategory(serviceId.Value);
+                
+            return RedirectToAction("Services");
+        }
+
+        public async Task<IActionResult> ServiceCategoryConfiguration(int? serviceCategoryId)
+        {
+            return View(serviceCategoryId == null
+                ? new ServiceCategory
+                {
+                    ServiceCategoryId = -1
+                }
+                : await _elkRepository.GetServiceCategoryById(serviceCategoryId.Value));
+        }
+        
+        public async Task<IActionResult> SaveServiceCategory(ServiceCategory serviceCategory)
+        {
+            if (serviceCategory.ServiceCategoryId <= 0 )
+            {
+                await _elkRepository.CreateServiceCategory(serviceCategory);
+            }
+            else
+            {
+                await _elkRepository.UpdateServiceCategory(serviceCategory);
+            }
+            
+            return RedirectToAction("Services");
+        }
+
+        #endregion
+
+        #region Service
+
+        public async Task<IActionResult> Service()
+        {
+            var servicesTypes = await _elkRepository.GetServices();
+            return View(servicesTypes);
+        }
+        
+        public async Task<JsonResult> GetServices (string searchServiceName)
+        {
+            var services = await _elkRepository.GetServiceBySearchTitle(searchServiceName);
+            
+            var modifiedData = services.Select(x => new
+            {
+                id = x.ServiceId,
+                text = x.Title
+            });
+            return Json(modifiedData, new JsonSerializerSettings());
         }
 
         public async Task<IActionResult> DeleteService(int? serviceId)
         {
             if (serviceId != null)
                 await _elkRepository.DeleteService(serviceId.Value);
-                
-            return RedirectToAction("Services");
+            return RedirectToAction("Service");
         }
 
         public async Task<IActionResult> ServiceConfiguration(int? serviceId)
         {
-            return View(serviceId == null ? new Service{ServiceId = -1} : await _elkRepository.GetService(serviceId.Value));
+            return View(serviceId == null
+                ? new Service
+                {
+                    ServiceId = -1
+                }
+                : await _elkRepository.GetServiceById(serviceId.Value));
         }
         
         public async Task<IActionResult> SaveService(Service service)
@@ -206,56 +263,7 @@ namespace SugarCenter.Controllers
                 await _elkRepository.UpdateService(service);
             }
             
-            return RedirectToAction("Services");
-        }
-
-        #endregion
-
-        #region Service
-
-        public async Task<IActionResult> ServiceType()
-        {
-            var servicesTypes = await _elkRepository.GetServiceTypes();
-            return View(servicesTypes);
-        }
-        
-        public async Task<JsonResult> GetServices (string searchServiceName)
-        {
-            var services = await _elkRepository.GetServiceTypes(searchServiceName);
-            
-            var modifiedData = services.Select(x => new
-            {
-                id = x.ServiceId,
-                text = x.Name
-            });
-            return Json(modifiedData, new JsonSerializerSettings());
-        }
-
-        public async Task<IActionResult> DeleteServiceType(int? serviceTypeId)
-        {
-            if (serviceTypeId != null)
-                await _elkRepository.DeleteServiceType(serviceTypeId.Value);
-                
-            return RedirectToAction("ServiceType");
-        }
-
-        public async Task<IActionResult> ServiceTypeConfiguration(int? serviceTypeId)
-        {
-            return View(serviceTypeId == null ? new ServiceType{ServiceTypeId = -1} : await _elkRepository.GetServiceType(serviceTypeId.Value));
-        }
-        
-        public async Task<IActionResult> SaveServiceType(ServiceType serviceType)
-        {
-            if (serviceType.ServiceTypeId <= 0 )
-            {
-                await _elkRepository.CreateServiceType(serviceType);
-            }
-            else
-            {
-                await _elkRepository.UpdateServiceType(serviceType);
-            }
-            
-            return RedirectToAction("ServiceType");
+            return RedirectToAction("Service");
         }
 
         #endregion

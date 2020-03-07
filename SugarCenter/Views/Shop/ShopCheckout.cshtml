@@ -5,7 +5,7 @@
     Layout = null;
     
     
-    var groupedProducts = Model.GroupBy(x => x.ProductId).Select(x => new {Name = x.First().Name, SinglePrice = x.First().Price, SumPrice = x.Sum(s => s.Price), Qty = x.Count()}).ToList(); 
+    var groupedProducts = Model.GroupBy(x => x.ProductId).Select(x => new {Name = x.First().Title, SinglePrice = x.First().Price, SumPrice = x.Sum(s => s.Price), Qty = x.Count()}).ToList(); 
 }
 <!DOCTYPE html>
 

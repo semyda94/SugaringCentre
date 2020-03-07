@@ -4,7 +4,7 @@ namespace SugarCenter.ViewModel
 {
     public class BookingServiceViewModel
     {
-        public ServiceType ServiceType { get; set; }
+        public Service Service { get; set; }
         public Booking Booking { get; set; }
     }
 }

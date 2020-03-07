@@ -11,7 +11,7 @@ namespace SugarCenter.ViewModel
         public int TotalPages { get; set; }
         public int PageSize { get; set; }
         
-        public List<Category> Categories { get; set; }
+        public IEnumerable<Category> Categories { get; set; }
         public List<Product> Products { get; set; }
         public int Sorting { get; set; } = 1;
         public int CategorySorting { get; set; } = -1;

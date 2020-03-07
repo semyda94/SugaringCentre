@@ -74,7 +74,7 @@
                             <li class="breadcrumb-item">
                                 <a asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
                             </li>
-                            <li class="breadcrumb-item active">@Model.Product.Name</li>
+                            <li class="breadcrumb-item active">@Model.Product.Title</li>
                         </ol>
                     </nav>
                 </div>
@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 <div class="column-xs-12 column-md-5">
-                    <h1>@Model.Product.Name</h1>
+                    <h1>@Model.Product.Title</h1>
                     <h2>$@Model.Product.Price</h2>
                     <div class="description">
                         @Model.Product.Desc
@@ -129,7 +129,7 @@
                     
                     <div class="column-xs-12 column-md-4">
                         <img src="data:image/jpeg;base64,@thumbImg">
-                        <h4>@relatedProduct.Name</h4>
+                        <h4>@relatedProduct.Title</h4>
                         <p class="price">$@relatedProduct.Price</p>
                     </div>
                 }

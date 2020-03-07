@@ -16,17 +16,17 @@
                     <input type="hidden" id="staff" asp-for="Booking.StaffId"/>
                     
                     <label  class="w3-text-teal" for="Date"><b>Date</b></label>
-                    <input id="Date" disabled="disabled" asp-for="Booking.Date" class="datepicker form-control w3-input w3-border w3-light-grey" name="date" required="required" type="date">
+                    <input id="Date" disabled="disabled" asp-for="Booking.DateTime" class="datepicker form-control w3-input w3-border w3-light-grey" name="date" required="required" type="date">
                     
                     <label  class="w3-text-teal" for="Time"><b>Time</b></label>
                     <div class="form-group">
-                        <input asp-for="Booking.Time" id="Time" disabled="disabled" class="timepicker form-control" required="required" type="time" name="time">
+                        <input asp-for="Booking.DateTime" id="Time" disabled="disabled" class="timepicker form-control" required="required" type="time" name="time">
                         </div>
 
                     <h1 style="font: normal 100 normal 30px/1.79em Playfair Display, serif; margin-top: 20px;">Tell us a bit about yourself</h1>
                     <hr class="divider-w pt-20">
                     <div class="form-group">
-                        <input asp-for="Booking.Name" placeholder="Name*" required class="form-control">
+                        <input asp-for="Booking.FirstName" placeholder="Name*" required class="form-control">
                     </div>
                     <div class="form-group">
                         <input asp-for="Booking.Email" type="email" placeholder="Email*" required class="form-control"/>
@@ -41,9 +41,9 @@
                 </div>
                 <div class="col">
                     <div id="floatingRectangle">
-                        <span style="font: normal bold normal 20px/1.79em Playfair Display, serif">@Model.ServiceType.Title</span>
+                        <span style="font: normal bold normal 20px/1.79em Playfair Display, serif">@Model.Service.Title</span>
                         <div>
-                            <span>@Model.ServiceType.Duration min | $@Model.ServiceType.Price</span>
+                            <span>@Model.Service.Duration min | $@Model.Service.Price</span>
                         </div>
                         <hr class="divider-w pt-20" style="color: black">
                         <div class="form-group">

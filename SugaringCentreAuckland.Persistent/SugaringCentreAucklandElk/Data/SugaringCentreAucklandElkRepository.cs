@@ -17,36 +17,21 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public SugaringCentreAucklandElkRepository(SugaringCentreAucklandElkContext ElkContext) =>
             _DbContext = ElkContext;
 
+        #region Category
+
+        public async Task<IEnumerable<Category>> GetListOfCategories()
+        {
+            return await _DbContext.Categories.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Category>> SearchCategoryByTitle(string searchedTitle)
+        {
+            return await (searchedTitle == null
+                ? _DbContext.Categories.ToListAsync()
+                : _DbContext.Categories.Where(x => x.Name.Contains(searchedTitle))
+                    .ToListAsync());
+        }
         
-        public async Task<List<Category>> GetShopCategories()
-        {
-            return await _DbContext.Categories/*.Include(c => c.Products)*/.ToListAsync();
-        }
-        
-        public async Task<List<Category>> GetShopCategoriesForAc(string searchName)
-        {
-            return await (searchName == null ? _DbContext.Categories.ToListAsync() : _DbContext.Categories.Where(x => x.Name.Contains(searchName)).ToListAsync());
-        }
-
-        public async Task<List<Product>> GetProducts()
-        {
-            return await _DbContext.Products.ToListAsync(); //.Include(t => t.NavigationCategoryId).ToListAsync();
-        }
-
-        public async Task<List<Product>> GetproductsForCategory(int? categoryId = -1, int? sorting = 1)
-        {
-            //return await _DbContext.Product.ToListAsync();
-            var notSorted = categoryId == -1
-                ? await _DbContext.Products.Include(x => x.ProductImage).ToListAsync()
-                : await _DbContext.ProductCategory.Include(x => x.ProductNavigation).ThenInclude(x => x.ProductImage).Where(i => i.CategoryId == categoryId).Select(x => x.ProductNavigation).Include(x => x.ProductImage).ToListAsync();
-
-            switch (sorting)
-            {
-                case 3: return notSorted.OrderByDescending(x => x.Price).ToList();
-                case 4: return notSorted.OrderBy(x => x.Price).ToList();
-                default: return  notSorted;
-            }
-        }
         public async Task DeleteCategory(int categoryId)
         {
             var category = _DbContext.Categories.Single(c => c.CategoryId == categoryId);
@@ -60,8 +45,35 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             _DbContext.Categories.Add(new Category {Name = categoryName});
             await _DbContext.SaveChangesAsync();
         }
+        #endregion
 
-        public async Task CreateProduct(Product product, string projectWebRootPath)
+        #region Product
+
+        public async Task<List<Product>> GetListOfProducts()
+        {
+            return await _DbContext.Products.ToListAsync();
+        }
+
+        public async Task<List<Product>> GetProductsForCategoryAndSort(int? categoryId = -1, int? sorting = 1)
+        {
+            var notSorted = categoryId == -1
+                ? await _DbContext.Products.Include(x => x.ProductImage).ToListAsync()
+                : await _DbContext.ProductCategory.Include(x => x.ProductNavigation)
+                    .ThenInclude(x => x.ProductImage)
+                    .Where(i => i.CategoryId == categoryId)
+                    .Select(x => x.ProductNavigation)
+                    .Include(x => x.ProductImage)
+                    .ToListAsync();
+
+            switch (sorting)
+            {
+                case 3: return notSorted.OrderByDescending(x => x.Price).ToList();
+                case 4: return notSorted.OrderBy(x => x.Price).ToList();
+                default: return  notSorted;
+            }
+        }
+        
+        public async Task CreateProduct(Product product)
         {
             _DbContext.Products.Add(product);
 
@@ -107,7 +119,13 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
             await _DbContext.SaveChangesAsync();
         }
-
+        
+        public async Task UpdateProduct(Product product)
+        {
+            _DbContext.Products.Update(product);
+            await _DbContext.SaveChangesAsync();
+        }
+        
         public async Task DeleteProduct(int? productId)
         {
             var productCategories = await _DbContext.ProductCategory.Where(x => x.ProductId == productId).ToListAsync();
@@ -119,14 +137,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
             await _DbContext.SaveChangesAsync();
         }
-
-        public async Task UpdateProduct(Product product)
-        {
-            _DbContext.Products.Update(product);
-            await _DbContext.SaveChangesAsync();
-        }
-
-        public async Task<Product> GetProduct(int? productId)
+        
+        public async Task<Product> GetProductById(int? productId)
         {
             var product = await _DbContext.Products.Include(i => i.ProductImage).FirstOrDefaultAsync(p => p.ProductId == productId);
 
@@ -139,13 +151,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 return product;
             }
         }
-
-        public async Task SubscribeForNews(string email)
-        {
-            _DbContext.Subscription.Add(new Subscription {Email = email});
-            await _DbContext.SaveChangesAsync();
-        }
-
+        #endregion
+        
         #region Staff
 
         public async Task<IEnumerable<Staff>> GetStaffList()
@@ -155,7 +162,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         
         public async Task<List<Staff>> GetStaff(string searchName)
         {
-            return await (searchName == null ? _DbContext.Staff.ToListAsync() : _DbContext.Staff.Where(x => (x.FirstName + ' ' + x.LastName).Contains(searchName)).ToListAsync());
+            return await (searchName == null
+                ? _DbContext.Staff.ToListAsync()
+                : _DbContext.Staff.Where(x => (x.FirstName + ' ' + x.LastName).Contains(searchName))
+                    .ToListAsync());
         }
 
         public async Task<Staff> GetStaff(int staffId)
@@ -212,109 +222,113 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         #endregion
 
-        #region Services
+        #region ServicesCategory
 
-        public async Task<string> GetServiceNameById(int serviceId)
+        public async Task<string> GetServiceCategoryTitleById(int serviceCategoryId)
         {
-            return (await _DbContext.Service.SingleAsync(s => s.ServiceId == serviceId)).Name;
+            return (await _DbContext.ServiceCategory.SingleAsync(s => s.ServiceCategoryId == serviceCategoryId)).Title;
         }
 
-        public async Task<IEnumerable<Service>> GetServices()
+        public async Task<IEnumerable<ServiceCategory>> GetServiceCategories()
         {
-            return await _DbContext.Service.ToListAsync();
+            return await _DbContext.ServiceCategory.ToListAsync();
         }
 
-        public async Task DeleteService(int serviceId)
+        public async Task DeleteServiceCategory(int serviceCategoryId)
         {
-            var service = _DbContext.Service.Single(x => x.ServiceId == serviceId);
-            _DbContext.Service.Remove(service);
+            var serviceCategory = _DbContext.ServiceCategory.Single(x => x.ServiceCategoryId == serviceCategoryId);
+            _DbContext.ServiceCategory.Remove(serviceCategory);
             
             await _DbContext.SaveChangesAsync();
         }
 
-        public async Task<Service> GetService(int serviceId)
+        public async Task<ServiceCategory> GetServiceCategoryById(int serviceCategoryId)
         {
-            return await _DbContext.Service.SingleOrDefaultAsync(x => x.ServiceId == serviceId);
+            return await _DbContext.ServiceCategory
+                .SingleOrDefaultAsync(x => x.ServiceCategoryId == serviceCategoryId);
         }
         
+        public async Task UpdateServiceCategory(ServiceCategory serviceCategory)
+        {
+            _DbContext.ServiceCategory.Update(serviceCategory);
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task CreateServiceCategory(ServiceCategory serviceCategory)
+        {
+            _DbContext.ServiceCategory.Add(serviceCategory);
+
+            await _DbContext.SaveChangesAsync();
+        }
+
+        #endregion
+
+        #region Service
+
+        public async Task<IEnumerable<Service>> GetServices()
+        {
+            return await _DbContext.Services.ToListAsync();
+        }
+        
+        public async Task<List<Service>> GetServiceBySearchTitle(string searchTitle)
+        {
+            return await (searchTitle == null
+                ? _DbContext.Services.ToListAsync()
+                : _DbContext.Services.Where(x => x.Title.Contains(searchTitle))
+                    .ToListAsync());
+        }
+
+        public async Task DeleteService(int serviceId)
+        {
+            var service = _DbContext.Services.Single(x => x.ServiceId == serviceId);
+            _DbContext.Services.Remove(service);
+            
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task<Service> GetServiceById(int serviceId)
+        {
+            return await _DbContext.Services.SingleOrDefaultAsync(x => x.ServiceId == serviceId);
+        }
+        
+        public async Task<IEnumerable<Service>> GetServiceForCategory(int serviceCategoryId)
+        {
+            return await _DbContext.Services.Where(x => x.ServiceCategoryId == serviceCategoryId).ToListAsync();
+        }
+
         public async Task UpdateService(Service service)
         {
-            _DbContext.Service.Update(service);
+            _DbContext.Services.Update(service);
             await _DbContext.SaveChangesAsync();
         }
 
         public async Task CreateService(Service service)
         {
-            _DbContext.Service.Add(service);
-
-            await _DbContext.SaveChangesAsync();
-        }
-
-        #endregion
-
-        #region ServiceTypes
-
-        public async Task<IEnumerable<ServiceType>> GetServiceTypes()
-        {
-            return await _DbContext.ServiceType.ToListAsync();
-        }
-        
-        public async Task<IEnumerable<ServiceType>> GetServiceTypesForService(int serviceId)
-        {
-            return await _DbContext.ServiceType.Where(x => x.ServiceId == serviceId).ToListAsync();
-        }
-        
-        public async Task<List<Service>> GetServiceTypes(string searchName)
-        {
-            return await (searchName == null ? _DbContext.Service.ToListAsync() : _DbContext.Service.Where(x => x.Name.Contains(searchName)).ToListAsync());
-        }
-
-        public async Task DeleteServiceType(int serviceTypeId)
-        {
-            var serviceType = _DbContext.ServiceType.Single(x => x.ServiceTypeId == serviceTypeId);
-            _DbContext.ServiceType.Remove(serviceType);
+            _DbContext.Services.Add(service);
             
-            await _DbContext.SaveChangesAsync();
-        }
-
-        public async Task<ServiceType> GetServiceType(int serviceTypeId)
-        {
-            return await _DbContext.ServiceType.SingleOrDefaultAsync(x => x.ServiceTypeId == serviceTypeId);
-        }
-
-        public async Task UpdateServiceType(ServiceType serviceType)
-        {
-            _DbContext.ServiceType.Update(serviceType);
-            await _DbContext.SaveChangesAsync();
-        }
-
-        public async Task CreateServiceType(ServiceType serviceType)
-        {
-            _DbContext.ServiceType.Add(serviceType);
-            
-            if (serviceType.SelectedStaff != null)
+            if (service.SelectedStaff != null)
             {
-                var splitedStaff = serviceType.SelectedStaff.Split(',', StringSplitOptions.RemoveEmptyEntries);
-                var serviceTypeStaff = new List<ServiceTypeStaff>();
+                var splitedStaff = service.SelectedStaff.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                var serviceStaff = new List<ServiceStaff>();
                 
                 foreach (var staff in splitedStaff)
                 {
-                    serviceTypeStaff.Add(new ServiceTypeStaff
+                    serviceStaff.Add(new ServiceStaff()
                     {
-                        Staff = Int32.Parse(staff),
-                        ServiceType = serviceType.ServiceTypeId
+                        StaffId = Int32.Parse(staff),
+                        ServiceId = service.ServiceId
                     });
                 }
 
-                _DbContext.ServiceTypeStaff.AddRange(serviceTypeStaff);
+                _DbContext.ServiceStaff.AddRange(serviceStaff);
             }
             
-            if (serviceType.ImagesToUpload.Length > 0)
+            if (service.ImagesToUpload.Length > 0)
             {
                 using (var stream = new MemoryStream())
                 {
-                    await serviceType.ImagesToUpload.CopyToAsync(stream);
-                    serviceType.Tmbnail = stream.ToArray();
+                    await service.ImagesToUpload.CopyToAsync(stream);
+                    service.Image = stream.ToArray();
                 }
             }
 
@@ -322,5 +336,11 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         }
         
         #endregion
+        
+        public async Task SubscribeForNews(string email)
+        {
+            _DbContext.Subscription.Add(new Subscription {Email = email});
+            await _DbContext.SaveChangesAsync();
+        }
     }
 }

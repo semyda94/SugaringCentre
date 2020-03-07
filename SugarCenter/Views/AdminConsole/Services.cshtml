@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Service>
+﻿@model IEnumerable<SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ServiceCategory>
 @{
     Layout = null;
 }
@@ -79,12 +79,12 @@
                         @foreach (var s in Model)
                         {
                             <tr>
-                                <td class="hidden-xs"><a href="#" class="product-title font-alt">@s.Name</a></td>
+                                <td class="hidden-xs"><a href="#" class="product-title font-alt">@s.Title</a></td>
                                 <td class="hidden-xs">
-                                    <h5 class="product-title font-alt">@s.Desc</h5>
+                                    <h5 class="product-title font-alt">@s.Description</h5>
                                 </td>
-                                <td class="pr-remove"><div data-label="Action" style="text-align: center"> <button class="btn btn-success btn-circle" style="margin: auto" type="button" onclick='window.location = "@Url.Action("ServiceConfiguration", "AdminConsole", new { serviceId = s.ServiceId})";'>Edit</button> </div></td>
-                                <td class="pr-remove"><div data-label="Action"> <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteService", "AdminConsole", new { serviceId = s.ServiceId })";'>Delete</button> </div> </td>
+                                <td class="pr-remove"><div data-label="Action" style="text-align: center"> <button class="btn btn-success btn-circle" style="margin: auto" type="button" onclick='window.location = "@Url.Action("ServiceCategoryConfiguration", "AdminConsole", new { serviceCategoryId = s.ServiceCategoryId})";'>Edit</button> </div></td>
+                                <td class="pr-remove"><div data-label="Action"> <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteServiceCategory", "AdminConsole", new { serviceCateoryId = s.ServiceCategoryId })";'>Delete</button> </div> </td>
                             </tr>
                         }
                         </tbody>
@@ -94,7 +94,7 @@
         }
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3" style="margin: auto;">
-                            <div data-label="Action" style="text-align: center"> <button class="btn btn-success btn-circle" style="margin: auto" type="button" onclick='window.location = "@Url.Action("ServiceConfiguration", "AdminConsole")";'>Add Service</button> </div>
+                            <div data-label="Action" style="text-align: center"> <button class="btn btn-success btn-circle" style="margin: auto" type="button" onclick='window.location = "@Url.Action("ServiceCategoryConfiguration", "AdminConsole")";'>Add Service</button> </div>
                         </div>
                     </div>
                     <hr class="divider-w pt-20">

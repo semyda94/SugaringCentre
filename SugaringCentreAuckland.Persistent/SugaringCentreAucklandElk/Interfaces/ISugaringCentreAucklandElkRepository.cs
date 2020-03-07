@@ -7,18 +7,25 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
 {
     public interface ISugaringCentreAucklandElkRepository
     {
-        Task<List<Category>> GetShopCategories();
-        Task<List<Category>> GetShopCategoriesForAc(string searchName);
-        Task<List<Product>> GetProducts();
-        Task<List<Product>> GetproductsForCategory(int? categoryId = -1, int? sorting = 1);
+        #region Category
+
+        Task<IEnumerable<Category>> GetListOfCategories();
+        Task<IEnumerable<Category>> SearchCategoryByTitle(string searchedTitle);
         Task DeleteCategory(int categoryId);
         Task CreatCategory(string categoryName);
-        Task CreateProduct(Product product, string projectWebRootPath);
+        
+        #endregion
+
+        #region Product
+
+        Task<List<Product>> GetListOfProducts();
+        Task<List<Product>> GetProductsForCategoryAndSort(int? categoryId = -1, int? sorting = 1);
+        Task CreateProduct(Product product);
         Task UpdateProduct(Product product);
         Task DeleteProduct(int? productId);
-        Task<Product> GetProduct(int? productId);
-        Task SubscribeForNews(string email);
-
+        Task<Product> GetProductById(int? productId);
+        #endregion
+        
         #region Staff
 
         Task<IEnumerable<Staff>> GetStaffList();
@@ -30,27 +37,27 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
 
         #endregion
 
+        #region ServiceCategory
+
+        Task<string> GetServiceCategoryTitleById(int serviceCategoryId);
+        Task<IEnumerable<ServiceCategory>> GetServiceCategories();
+        Task DeleteServiceCategory(int serviceCategoryId);
+        Task<ServiceCategory> GetServiceCategoryById(int serviceCategoryId);
+        Task CreateServiceCategory(ServiceCategory serviceCategory);
+        Task UpdateServiceCategory(ServiceCategory serviceCategory);
+        #endregion
+
         #region Service
 
-        Task<string> GetServiceNameById(int serviceId);
         Task<IEnumerable<Service>> GetServices();
+        Task<List<Service>> GetServiceBySearchTitle(string searchTitle);
         Task DeleteService(int serviceId);
-        Task<Service> GetService(int serviceId);
-        Task CreateService(Service service);
+        Task<Service> GetServiceById(int serviceId);
+        Task<IEnumerable<Service>> GetServiceForCategory(int serviceCategoryId);
         Task UpdateService(Service service);
-        #endregion
-
-        #region ServiceType
-
-        Task<IEnumerable<ServiceType>> GetServiceTypes();
-        Task<List<Service>> GetServiceTypes(string searchName);
-
-        Task DeleteServiceType(int serviceTypeId);
-        Task<ServiceType> GetServiceType(int serviceTypeId);
-        Task<IEnumerable<ServiceType>> GetServiceTypesForService(int serviceId);
-        Task CreateServiceType(ServiceType serviceType);
-        Task UpdateServiceType(ServiceType serviceType);
+        Task CreateService(Service service);
         #endregion
         
+        Task SubscribeForNews(string email);
     }
 }

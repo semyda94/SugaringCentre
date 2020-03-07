@@ -23,22 +23,22 @@ namespace SugarCenter.Controllers
         {
             var bookingViewModel = new BookingViewModel();
             
+            bookingViewModel.Categories = (await _elkRepository.GetServiceCategories()).ToList();
             bookingViewModel.Services = (await _elkRepository.GetServices()).ToList();
-            bookingViewModel.ServiceTypes = (await _elkRepository.GetServiceTypes()).ToList();
             
             return View(bookingViewModel);
         }
         
-        public async Task<IActionResult> ShowServiceTypesForService(int serviceId)
-        {
-            var bookingViewModel = new BookingViewModel();
-
-            bookingViewModel.MoveToServiceId = serviceId;
-            bookingViewModel.Services = (await _elkRepository.GetServices()).ToList();
-            bookingViewModel.ServiceTypes = (await _elkRepository.GetServiceTypes()).ToList();
-            
-            return View(bookingViewModel);
-        }
+//        public async Task<IActionResult> ShowServiceTypesForService(int serviceId)
+//        {
+//            var bookingViewModel = new BookingViewModel();
+//
+//            bookingViewModel.MoveToServiceId = serviceId;
+//            bookingViewModel.Categories = (await _elkRepository.GetServiceCategories()).ToList();
+//            bookingViewModel.Services = (await _elkRepository.GetServices()).ToList();
+//            
+//            return View(bookingViewModel);
+//        }
         
         public async Task<IActionResult> Service(int? serviceId, int? serviceTypeId)
         {
@@ -48,15 +48,15 @@ namespace SugarCenter.Controllers
                 RedirectToAction("Index");
             }
 
-            serviceTypeWithRecommended.ServiceName = await _elkRepository.GetServiceNameById(serviceId.Value);
+            serviceTypeWithRecommended.ServiceName = await _elkRepository.GetServiceCategoryTitleById(serviceId.Value);
             
-            var servicesList = await _elkRepository.GetServiceTypesForService(serviceId.Value);
+            var servicesList = await _elkRepository.GetServiceForCategory(serviceId.Value);
 
-            serviceTypeWithRecommended.ServiceTypeToDisplay =
-                servicesList.Single(x => x.ServiceTypeId == serviceTypeId.Value);
+            serviceTypeWithRecommended.ServicesToDisplay =
+                servicesList.Single(x => x.ServiceId == serviceTypeId.Value);
 
             serviceTypeWithRecommended.RecommendedList =
-                servicesList.Where(x => x.ServiceTypeId != serviceTypeId.Value).Take(3).ToList();
+                servicesList.Where(x => x.ServiceId != serviceTypeId.Value).Take(3).ToList();
             
             return View(serviceTypeWithRecommended);
         }
@@ -70,7 +70,7 @@ namespace SugarCenter.Controllers
 
             var viewModel = new BookingServiceViewModel();
             
-            viewModel.ServiceType = await _elkRepository.GetServiceType(serviceTypeId.Value);
+            viewModel.Service = await _elkRepository.GetServiceById(serviceTypeId.Value);
             
             return View(viewModel);
         }

@@ -6,7 +6,7 @@ namespace SugarCenter.ViewModel
     public class BookingViewModel
     {
         public int MoveToServiceId { get; set; }
+        public List<ServiceCategory> Categories;
         public List<Service> Services;
-        public List<ServiceType> ServiceTypes;
     }
 }

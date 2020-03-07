@@ -1,4 +1,4 @@
-﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Service
+﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Service;
 
 @{
     Layout = "ProductLayout";
@@ -23,6 +23,7 @@
     </environment>
     <link href="@Url.Content("~/css/SingleItem.css")" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="~/css/AdminConsole/Typography.css"/>
+    <link href="~/css/select2/select2.min.css" rel="stylesheet"/>
 
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
@@ -68,20 +69,24 @@
                             <div class="product-image">
                                 <img class="active" src="https://source.unsplash.com/W1yjvf5idqA">
                             </div>
-                            <ul class="image-list">
-                                <li class="image-item"><img src="https://source.unsplash.com/W1yjvf5idqA"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/W1yjvf5idqA"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/VgbUxvW3gS4"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/5WbYFH0kf_8"></li>
-                            </ul>
                         </div>
+                        <input type="file" id="files" asp-for="ImagesToUpload"/>
                     </div>
                     <div class="column-xs-12 column-md-5">
-                        <input asp-for="Name"placeholder="Enter Service Name" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
+                        <input asp-for="Title" placeholder="Enter Title" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
+                        <input type="number" step="any" asp-for="Price" placeholder="Enter price" class="form-control input-lg" style="border: 0px; font-size: 26px; font-weight: bold; padding: 0px;"/>
+                        <input type="number" asp-for="Duration" placeholder="Enter duration" class="form-control input-lg" style="border: 0px; font-size: 26px; font-weight: bold; padding: 0px;"/>
+                        
+                        <input type="hidden" id="services" asp-for="ServiceId"/>
+                        <select class="serviceCategoryRelated" name="serviceCategorys[]" style="width: 100%; padding-top: 32px;"></select>
+                        
+                        <input type="hidden" id="staff" asp-for="SelectedStaff"/>
+                        <select class="staffRelated" name="staff[]" multiple="multiple" style="width: 100%; padding-top: 32px;"></select>
+                        
                         <div class="description">
-                            <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Enter general service description" style="border: 0px;"></textarea>
+                            <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Enter product description" style="border: 0px;"></textarea>
                         </div>
-                        <button class="add-to-cart" type="submit">Save Product</button>
+                        <button class="add-to-cart" type="submit">Save Service</button>
                     </div>
                 </div>
                 </form>
@@ -90,6 +95,78 @@
         <hr class="divider-w">
     </div>
 </main>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.serviceCategoryRelated').select2({
+    placeholder: "Select serviceCategory",
+    allowClear: true,
+    theme: "classic",
+    ajax : {
+       url : "/AdminConsole/GetServiceBySearchTitlesCategoryByIdCategories",
+       dataType : "json",
+       delay : 250,
+       data : function(params) {
+         return {
+             searchServiceName : params.term
+             }
+       },
+       processResults : function(data, params) {
+         return {
+             results : data
+         };
+       }
+    }
+  });
+});
+
+$(".serviceCategoryRelated").on("change", function() {
+  var serviceCategoryCategoryId = $(this).val();
+  $("#serviceCategorys").val(serviceCategoryCategoryId);
+  
+  var textBoxValueData = $("#serviceCategorys").val();
+  $.ajax({
+          url : '/AdminConsole/SaveCategorySelection?categoryIds=' +  textBoxValueData,
+          dataType : 'json',
+          type: 'post'
+  });
+});
+
+$(document).ready(function() {
+  $('.staffRelated').select2({
+    placeholder: "Select staff",
+    allowClear: true,
+    theme: "classic",
+    ajax : {
+       url : "/AdminConsole/GetStaff",
+       dataType : "json",
+       delay : 250,
+       data : function(params) {
+         return {
+             searchStaffName : params.term
+             }
+       },
+       processResults : function(data, params) {
+         return {
+             results : data
+         };
+       }
+    }
+  });
+});
+
+$(".staffRelated").on("change", function() {
+  var staffId = $(this).val();
+  $("#staff").val(staffId);
+  
+  var textBoxValueData = $("#staff").val();
+   $.ajax({
+        url : '/AdminConsole/SaveCategorySelection?categoryIds=' +  textBoxValueData,
+        dataType : 'json',
+        type: 'post'
+    });
+});
+</script>
 
 </body>
 </html>

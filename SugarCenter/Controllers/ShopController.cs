@@ -42,8 +42,8 @@ namespace SugarCenter.Controllers
                 shopViewModel.Sorting = sorting ?? -1;
                 shopViewModel.CategorySorting = categorySorting ?? 1;
                 
-                var shopCategoriesTask = _elkRepository.GetShopCategories();
-                var shopItemsTask = _elkRepository.GetproductsForCategory(categorySorting, sorting);
+                var shopCategoriesTask = _elkRepository.GetListOfCategories();
+                var shopItemsTask = _elkRepository.GetProductsForCategoryAndSort(categorySorting, sorting);
                 
                 Task.WaitAll(shopCategoriesTask, shopItemsTask);
                 
@@ -57,8 +57,8 @@ namespace SugarCenter.Controllers
 
             if (shopViewModel.CategorySorting != categorySorting || shopViewModel.Sorting != sorting)
             {
-                var shopCategoriesTask = _elkRepository.GetShopCategories();
-                var shopItemsTask = _elkRepository.GetproductsForCategory(categorySorting, sorting);
+                var shopCategoriesTask = _elkRepository.GetListOfCategories();
+                var shopItemsTask = _elkRepository.GetProductsForCategoryAndSort(categorySorting, sorting);
                 
                 Task.WaitAll(shopCategoriesTask, shopItemsTask);
                 
@@ -93,7 +93,7 @@ namespace SugarCenter.Controllers
             SingleItemViewModel singleItemViewModel = new SingleItemViewModel();
             
 //            if (shopViewModel == null || !shopViewModel.Products.Exists(si => si.ProductId == productId))
-//                return View(await _elkRepository.GetProduct(productId));
+//                return View(await _elkRepository.GetProductById(productId));
 
             singleItemViewModel.Product = shopViewModel.Products.Single(p => p.ProductId == productId);
             singleItemViewModel.RelatiedProducts = shopViewModel.Products.Where(x => x.ProductId != productId).Take(3).ToList();
@@ -119,7 +119,7 @@ namespace SugarCenter.Controllers
 
             if (product == null || shopViewModel == null)
             {
-                productToAdd = await _elkRepository.GetProduct(product.ProductId);
+                productToAdd = await _elkRepository.GetProductById(product.ProductId);
             }
 
             for (var i = 0; i < product.Qty; ++i)

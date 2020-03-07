@@ -10,7 +10,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         public Staff()
         {
             StaffImage = new HashSet<StaffImage>();
-            ServiceTypeStaff = new HashSet<ServiceTypeStaff>();
+            ServiceStaff = new HashSet<ServiceStaff>();
         }
         
         [Column("Staff")]
@@ -22,7 +22,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         [NotMapped]
         public List<IFormFile> ImagesToUpload { get; set; }
         
+        public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<StaffImage> StaffImage { get; set; }
-        public virtual ICollection<ServiceTypeStaff> ServiceTypeStaff { get; set; }
+        public virtual ICollection<ServiceStaff> ServiceStaff { get; set; }
     }
 }

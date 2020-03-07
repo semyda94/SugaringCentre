@@ -2,7 +2,7 @@
 
 @{
     Layout = "ProductLayout";
-    string name = Model.Name == null ? "Name" : Model.Name ?? "";
+    string name = Model.Title == null ? "Name" : Model.Title ?? "";
     var price = Model == null ? 0 : Model.Price;
     var desc = Model.Desc == null ? "Desc" : Model.Desc ?? "";
 }
@@ -72,7 +72,7 @@
                                 <li class="breadcrumb-item">
                                     <a asp-area="" asp-controller="AdminConsole" asp-action="Products">Product list</a>
                                 </li>
-                                <li class="breadcrumb-item active">@Model.Name</li>
+                                <li class="breadcrumb-item active">@Model.Title</li>
                             </ol>
                         </nav>
                     </div>
@@ -94,7 +94,7 @@
                         <input type="file" id="files" multiple="multiple" asp-for="ImagesToUpload"/>
                     </div>
                     <div class="column-xs-12 column-md-5">
-                        <input asp-for="Name" placeholder="Enter product name" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
+                        <input asp-for="Title" placeholder="Enter product name" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
                         <input type="number" step="any" asp-for="Price" placeholder="Enter product price" class="form-control input-lg" style="border: 0px; font-size: 26px; font-weight: bold; padding: 0px;"/>
                         <input type="hidden" id="categories" asp-for="CategorySelected"/>
                                                     

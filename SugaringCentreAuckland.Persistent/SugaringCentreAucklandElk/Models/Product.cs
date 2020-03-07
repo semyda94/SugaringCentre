@@ -15,17 +15,17 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         {
             ProductCategory = new HashSet<ProductCategory>();
             ProductImage = new HashSet<ProductImage>();
+            ProductOrders = new HashSet<ProductOrder>();
         }
         
         [Key]
         [Column("Product")]
         public int ProductId { get; set; }
-        [MaxLength(255)]
-        public string Name { get; set; }
+        public string Title { get; set; }
         [Column("Description")]
         public string Desc { get; set; }
         [RegularExpression(@"^\d+\.\d{0,2}$")]
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
         [NotMapped] 
         public string CategorySelected { get; set; }
         [NotMapped]
@@ -35,5 +35,6 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 
         public virtual ICollection<ProductCategory> ProductCategory { get; set; }
         public virtual ICollection<ProductImage> ProductImage { get; set; }
+        public virtual ICollection<ProductOrder> ProductOrders { get; set; }
     }
 }
