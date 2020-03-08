@@ -10,7 +10,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         [Column("Product")]
         public int ProductId { get; set; }
         public byte[] Image { get; set; }
-        
+        [JsonIgnore]
         public virtual Product ProductNavigation { get; set; }
     }
 }

@@ -62,7 +62,7 @@
                     <div style="margin-top: auto; margin-bottom: auto; height: auto;">
                         <div class="typeTitle"><a href="@Url.Action("Service", "Booking", new {serviceId = service.ServiceCategoryId, serviceTypeId = service.ServiceId})">@service.Title</a></div>
                         <div class="priceAndDuration"> @service.Duration min | $@service.Price</div>
-                        <a href="@Url.Action("Service", "Booking", new {serviceId = service.ServiceCategoryId, serviceTypeId = service.ServiceId})" class="bookItButton">Book It</a>
+                        <a href="@Url.Action("BookService", "Booking", new {serviceTypeId = service.ServiceId})" class="bookItButton">Book It</a>
                     </div>
                 </div>
             </div>

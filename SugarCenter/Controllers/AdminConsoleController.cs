@@ -101,7 +101,7 @@ namespace SugarCenter.Controllers
         
         public JsonResult SaveCategorySelection(string categoryIds)
         {
-            return Json(0, new JsonSerializerSettings());
+            return Json(categoryIds, new JsonSerializerSettings());
         }
         
         [Microsoft.AspNetCore.Mvc.HttpPost]

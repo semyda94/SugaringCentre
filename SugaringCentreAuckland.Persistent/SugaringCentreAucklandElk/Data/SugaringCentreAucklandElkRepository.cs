@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
 
@@ -342,5 +343,23 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             _DbContext.Subscription.Add(new Subscription {Email = email});
             await _DbContext.SaveChangesAsync();
         }
+
+        #region Booking
+
+        public async Task CreateBooking(Booking booking)
+        {
+            booking.ServiceNavigation = null;
+            booking.StaffNavigation = null;
+            _DbContext.Bookings.Add(booking);
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Booking>> GetBookingsForDate(int staffId, string dateToCheck)
+        {
+            //return _DbContext.Bookings.Where(x => string.Format("d MMMM, yyyy", x.Date).Equals(dateToCheck)).Include(x => x.ServiceNavigation);
+            return await _DbContext.Bookings.Where(x => x.StaffId == staffId).Include(x => x.ServiceNavigation).ToListAsync();
+        }
+
+        #endregion
     }
 }

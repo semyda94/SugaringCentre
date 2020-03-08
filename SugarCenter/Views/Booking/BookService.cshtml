@@ -12,22 +12,26 @@
                     <h1 style="font: normal 100 normal 30px/1.79em Playfair Display, serif;">Schedule Online</h1>
                     <hr class="divider-w pt-20">
 
+                    <input hidden="hidden" asp-for="Booking.ServiceId" value="@Model.Service.ServiceId"/>
                     <select class="js-example-basic-single" required="required" name="staff" style="width: 100%; padding-top: 32px;"/>
                     <input type="hidden" id="staff" asp-for="Booking.StaffId"/>
                     
                     <label  class="w3-text-teal" for="Date"><b>Date</b></label>
-                    <input id="Date" disabled="disabled" asp-for="Booking.DateTime" class="datepicker form-control w3-input w3-border w3-light-grey" name="date" required="required" type="date">
+                    <input id="Date" class="datepicker form-control w3-input w3-border w3-light-grey" name="date" required="required" type="date">
                     
                     <label  class="w3-text-teal" for="Time"><b>Time</b></label>
                     <div class="form-group">
-                        <input asp-for="Booking.DateTime" id="Time" disabled="disabled" class="timepicker form-control" required="required" type="time" name="time">
+                        <input id="Time" disabled="disabled" class="timepicker form-control" required="required" type="time" name="time">
                         </div>
 
                     <h1 style="font: normal 100 normal 30px/1.79em Playfair Display, serif; margin-top: 20px;">Tell us a bit about yourself</h1>
                     <hr class="divider-w pt-20">
                     <div class="form-group">
-                        <input asp-for="Booking.FirstName" placeholder="Name*" required class="form-control">
+                        <input asp-for="Booking.FirstName" placeholder="First Name*" required class="form-control">
                     </div>
+                    <div class="form-group">
+                        <input asp-for="Booking.LastName" placeholder="Last Name*" required class="form-control">
+                        </div>
                     <div class="form-group">
                         <input asp-for="Booking.Email" type="email" placeholder="Email*" required class="form-control"/>
                     </div>
@@ -39,7 +43,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col" style="margin: auto; display: block; text-align: center;">
                     <div id="floatingRectangle">
                         <span style="font: normal bold normal 20px/1.79em Playfair Display, serif">@Model.Service.Title</span>
                         <div>
@@ -47,14 +51,14 @@
                         </div>
                         <hr class="divider-w pt-20" style="color: black">
                         <div class="form-group">
-                            <input id="masterContainer" placeholder="Master is not selected" class="form-control"/>
+                            <input id="masterContainer" disabled placeholder="Master is not selected" class="form-control"/>
                         </div>
                         
                         <div class="form-group">
-                            <input id="dateContainer" disabled="disabled" placeholder="Date is not selected" class="form-control"/>
+                            <input id="dateContainer" asp-for="Booking.DateString" disabled placeholder="Date is not selected" class="form-control"/>
                         </div>
                         <div class="form-group">
-                            <input id="timeContainer" placeholder="Time is not selected" class="form-control"/>
+                            <input id="timeContainer" asp-for="Booking.TimeString" disabled placeholder="Time is not selected" class="form-control"/>
                         </div>
                         
                         <div>
@@ -82,7 +86,8 @@
          var timpicker = $('.timepicker').pickatime({
            min: [10,0],
            max: [17,30],
-           disable: [12]
+           disable: [12],
+           interval: @Model.Service.Duration
          });
          
          timpicker.change(function(){
@@ -90,7 +95,27 @@
                           });
          
          datepicker.change(function(){
-                                     $('#dateContainer').val($('.datepicker').val());
+             var dateValue = $('.datepicker').val();
+             var picker = timpicker.pickatime('picker');
+             var staffIdValue = $('#staff').val();
+             
+                                     $('#dateContainer').val(dateValue);
+                                     
+                                     if (dateValue != null || dateValue !== "") {
+                                           $("#Time").prop('disabled', false);
+                                           
+                                           $.ajax(
+                                           {
+                                               url: '/Booking/GetNotAvailableTime',
+                                               data : { 'staffId': staffIdValue,'dateString' : dateValue },
+                                               contentType: "application/json; charset=utf-8", 
+                                               dataType: 'json',
+                                               async: false,
+                                               success: function (data) {
+                                                   picker.set('disable', data);
+                                               }
+                                           });
+                                       }
                                    });
     </script>
     
@@ -131,6 +156,9 @@ $(document).ready(function() {
              }
        },
        processResults : function(data, params) {
+           $("#Date").val('');
+           $("#Time").val('');
+           $("#Time").prop('disabled', true);
          return {
              results : data
          };
@@ -159,6 +187,7 @@ $("#Date").on("change", function() {
   var dateValue = $(this).val();
   if (dateValue != null || dateValue !== "") {
       $("#Time").prop('disabled', false);
+      
   } else {
       $("#Time").val('');
       $("#Time").prop('disabled', true);

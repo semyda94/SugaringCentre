@@ -9,7 +9,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         {
             Services = new HashSet<Service>();
         }
-        [Column("SerrviceCategory")]
+        [Column("ServiceCategory")]
         public int ServiceCategoryId { get; set; }
 
         public string Title { get; set; }

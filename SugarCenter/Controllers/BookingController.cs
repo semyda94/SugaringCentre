@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.WebPages;
 using Microsoft.AspNetCore.Mvc;
@@ -94,9 +97,33 @@ namespace SugarCenter.Controllers
                 return Json(modifiedData, new JsonSerializerSettings());
             }
         }
+        
+        public async Task<JsonResult> GetNotAvailableTime (int staffId, string dateString)
+        {
+            var dateToCheck = DateTime.ParseExact(dateString, "d MMMM, yyyy", CultureInfo.InvariantCulture);
+            
+            var bookings = await _elkRepository.GetBookingsForDate(staffId, dateString);
+
+            var result = new List<int[]>();
+            foreach (var booking in bookings)
+            {
+                result.Add(GetTimeInArray(booking.Time));
+            }
+
+            return Json(result, new JsonSerializerSettings());
+        }
+
+        private int[] GetTimeInArray(DateTime time)
+        {
+            return new []{time.Hour, time.Minute};
+        }
 
         public async Task<IActionResult> SaveBooking(BookingServiceViewModel bookingService)
         {
+            bookingService.Booking.Date = DateTime.ParseExact(bookingService.Booking.DateString, "d MMMM, yyyy", CultureInfo.InvariantCulture);
+            bookingService.Booking.Time = DateTime.ParseExact(bookingService.Booking.TimeString, "h:mm tt", CultureInfo.InvariantCulture);
+
+            await _elkRepository.CreateBooking(bookingService.Booking);
             return RedirectToAction("Index", "Home");
         }
     }

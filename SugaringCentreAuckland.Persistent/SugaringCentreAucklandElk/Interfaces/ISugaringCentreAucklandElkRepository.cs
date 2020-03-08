@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
@@ -59,5 +60,12 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         #endregion
         
         Task SubscribeForNews(string email);
+
+        #region Booking
+
+        Task CreateBooking(Booking booking);
+        Task<IEnumerable<Booking>> GetBookingsForDate(int staffId, string dateToCheck);
+        
+        #endregion
     }
 }

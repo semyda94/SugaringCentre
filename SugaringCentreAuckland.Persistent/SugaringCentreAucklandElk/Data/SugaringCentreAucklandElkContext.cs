@@ -200,7 +200,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             
             modelBuilder.Entity<Service>(entity =>
             {
-                entity.Property(e => e.ServiceId);
+                entity.HasKey(e => e.ServiceId);
                 
                 entity.Property(e => e.ServiceId).ValueGeneratedOnAdd();
 

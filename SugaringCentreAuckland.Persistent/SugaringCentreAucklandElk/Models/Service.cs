@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 {
+    [Table("Service")]
     public partial class Service
     {
         public Service()
@@ -11,7 +12,9 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
             Bookings = new HashSet<Booking>();
             ServiceStaff = new HashSet<ServiceStaff>();
         }
+        
         [Column("Service")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ServiceId { get; set; }
         [Column("ServiceCategory")]
         public int ServiceCategoryId { get; set; }
