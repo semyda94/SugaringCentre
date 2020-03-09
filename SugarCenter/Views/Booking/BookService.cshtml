@@ -55,10 +55,10 @@
                         </div>
                         
                         <div class="form-group">
-                            <input id="dateContainer" asp-for="Booking.DateString" disabled placeholder="Date is not selected" class="form-control"/>
+                            <input id="dateContainer" asp-for="Booking.DateString" placeholder="Date is not selected" class="form-control"/>
                         </div>
                         <div class="form-group">
-                            <input id="timeContainer" asp-for="Booking.TimeString" disabled placeholder="Time is not selected" class="form-control"/>
+                            <input id="timeContainer" asp-for="Booking.TimeString" placeholder="Time is not selected" class="form-control"/>
                         </div>
                         
                         <div>
@@ -123,23 +123,6 @@
 <script type="text/javascript">
 var staffName;
 var staffId;
-
-$(".nextButton").click(function(){
-    $.ajax ({
-           url : "/Booking/GetStaffForBooking",
-           dataType : "json",
-           delay : 250,
-           data : function() {
-             return {
-                 searchStaffName : "params.term"
-                 }
-           },
-           processResults : function(data, params) {
-            alert("The paragraph was clicked.");
-           }
-        });
-  
-});
 
 $(document).ready(function() {
   $('.js-example-basic-single').select2({

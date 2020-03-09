@@ -118,12 +118,12 @@ namespace SugarCenter.Controllers
             return new []{time.Hour, time.Minute};
         }
 
-        public async Task<IActionResult> SaveBooking(BookingServiceViewModel bookingService)
+        public async Task<IActionResult> SaveBooking(Booking booking)
         {
-            bookingService.Booking.Date = DateTime.ParseExact(bookingService.Booking.DateString, "d MMMM, yyyy", CultureInfo.InvariantCulture);
-            bookingService.Booking.Time = DateTime.ParseExact(bookingService.Booking.TimeString, "h:mm tt", CultureInfo.InvariantCulture);
+            booking.Date = DateTime.ParseExact(booking.DateString, "d MMMM, yyyy", CultureInfo.InvariantCulture);
+            booking.Time = DateTime.ParseExact(booking.TimeString, "h:mm tt", CultureInfo.InvariantCulture);
 
-            await _elkRepository.CreateBooking(bookingService.Booking);
+            await _elkRepository.CreateBooking(booking);
             return RedirectToAction("Index", "Home");
         }
     }

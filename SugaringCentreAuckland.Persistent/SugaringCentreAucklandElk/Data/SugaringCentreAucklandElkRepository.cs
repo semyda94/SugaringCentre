@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -356,8 +357,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task<IEnumerable<Booking>> GetBookingsForDate(int staffId, string dateToCheck)
         {
-            //return _DbContext.Bookings.Where(x => string.Format("d MMMM, yyyy", x.Date).Equals(dateToCheck)).Include(x => x.ServiceNavigation);
-            return await _DbContext.Bookings.Where(x => x.StaffId == staffId).Include(x => x.ServiceNavigation).ToListAsync();
+            var date = DateTime.ParseExact(dateToCheck, "d MMMM, yyyy", CultureInfo.InvariantCulture);
+            return await _DbContext.Bookings.Where(x => x.StaffId == staffId && x.Date.Date == date.Date)
+                .Include(x => x.ServiceNavigation)
+                .ToListAsync();
         }
 
         #endregion
