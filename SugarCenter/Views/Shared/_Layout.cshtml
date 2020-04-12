@@ -4,17 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SugarCenter</title>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
-    </environment>
+    
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    
+    
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="~/lib/pickdate/picker.js"></script>
     <script type="text/javascript" src="~/lib/pickdate/picker.date.js"></script>
@@ -45,11 +38,6 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
             <div class="container" style="margin-right: 60px;">
-                @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SugarCenter</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>*@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
                     <ul class="navbar-nav flex-grow-1" style="display: contents;">
                         <li class="nav-item">
@@ -82,12 +70,12 @@
             </div>
         </nav>
     </header>
-    <div class="full_size">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
     
+    <main role="main" class="full_size">
+        @RenderBody()
+    </main>
+
+
 <section class="paralax-mf footer-paralax bg-image" @*style="background-image: url('../wwwroot/imgs/Products.jpg')"*@>
     <div class="overlay-mf"></div>
     <div class="container">
@@ -191,17 +179,7 @@
     </footer>
 </section>
 
-    <environment include="Development">
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    </environment>
-<environment exclude="Development">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-            crossorigin="anonymous"
-            integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
-        </script>
-</environment>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
 
 <script src="~/js/site.js" asp-append-version="true"></script>
 
