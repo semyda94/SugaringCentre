@@ -23,7 +23,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task<IEnumerable<Category>> GetListOfCategories()
         {
-            return await _DbContext.Categories.ToListAsync();
+            return await _DbContext.Categories.Include(x => x.ProductCategory).ToListAsync();
         }
 
         public async Task<IEnumerable<Category>> SearchCategoryByTitle(string searchedTitle)
@@ -36,7 +36,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         
         public async Task DeleteCategory(int categoryId)
         {
+            var productCategories = _DbContext.ProductCategory.Where(x => x.CategoryId == categoryId);
             var category = _DbContext.Categories.Single(c => c.CategoryId == categoryId);
+
+            _DbContext.ProductCategory.RemoveRange(productCategories);
             _DbContext.Categories.Remove(category);
 
             await _DbContext.SaveChangesAsync();

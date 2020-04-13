@@ -52,9 +52,9 @@ namespace SugarCenter.Controllers
         }
 
         [Microsoft.AspNetCore.Mvc.HttpPost]
-        public IActionResult AddCategory(string newCategoryText)
+        public IActionResult AddCategory(string newCategory)
         {
-            _elkRepository.CreatCategory(newCategoryText).GetAwaiter().GetResult();
+            _elkRepository.CreatCategory(newCategory).GetAwaiter().GetResult();
             return RedirectToAction("Category");
         }
 

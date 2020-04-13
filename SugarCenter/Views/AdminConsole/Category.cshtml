@@ -1,154 +1,119 @@
 ﻿@model IEnumerable<SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Category>
 
 @{
-    Layout = null;
+    Layout = "_AdminConsole";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SugarCenter</title>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
-    </environment>
-    <link rel="stylesheet" href="~/css/AdminConsole/Category.css"/>
-    <link rel="stylesheet" href="~/css/AdminConsole/Typography.css"/>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300" />
-</head>
-<body>
-
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
-        <div class="container" style="margin-right: 60px;">
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
-                <ul class="navbar-nav flex-grow-1" style="display: contents;">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="AdminConsole" asp-action="Home">AdminConsole</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
-
-<div class="main">
-    <section class="module">
-        <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3" style="margin: auto;">
-                <h1 class="module-title font-alt">Categories</h1>
-            </div>
-        </div>
-        <hr class="divider-w pt-20">
-        @if (Model.Any())
-        {
+<script>
+                                    // Example starter JavaScript for disabling form submissions if there are invalid fields
+                                    (function() {
+                                        'use strict';
+                                        window.addEventListener('load', function() {
+                                            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                                            var forms = document.getElementsByClassName('needs-validation');
+                                            // Loop over them and prevent submission
+                                            var validation = Array.prototype.filter.call(forms, function(form) {
+                                                form.addEventListener('submit', function(event) {
+                                                    if (form.checkValidity() === false) {
+                                                        event.preventDefault();
+                                                        event.stopPropagation();
+                                                    }
+                                                    form.classList.add('was-validated');
+                                                }, false);
+                                            });
+                                        }, false);
+                                    })();
+                                </script>
+                                
+<div class="app-main__outer">
+    <div class="app-main__inner">
+    
+        @if (Model.Any()) {
             <div class="row">
-                <div class="col-sm-12">
-                    <table class="table table-striped table-border checkout-table">
-                        <tbody>
-                        <tr>
-                            <th>Category Name</th>
-                            <th>Edit</th>
-                            <th>Remove</th>
-                        </tr>
-                        @foreach (var c in Model)
-                        {
-                            <tr>
-                                <td>
-                                    <h5 class="product-title font-alt">@c.Name</h5>
-                                </td>
-                                <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>
-                                <td class="pr-remove"><div data-label="Action">
-                                    @if (c.CategoryId != 1)
-                                    {
-                                        <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteCategory", "AdminConsole", new {id = c.CategoryId})";'>Delete</button>
-                                    }
-                                </div></td>
-                            </tr>
-                        }
-                        </tbody>
-                    </table>
+                <div class="col-md-12">
+                    <div class="main-card mb-3 card">
+                        <div class="card-header">Active Product Categories</div>
+                        <div class="table-responsive">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>Name</th>
+                                    <th class="text-center">Product Count</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach(var category in Model) {
+                                    <tr>
+                                        <td class="text-center text-muted">#@category.CategoryId</td>
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading">@category.Name</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">@category.ProductCategory?.Count</td>
+                                        <td class="text-center">
+                                            @if (@category.ProductCategory?.Count > 0)
+                                            {
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target=".delete-category-modal" onclick="markCategoryToDelete(@category.CategoryId)">Delete</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger btn-sm" onclick='window.location = "@Url.Action("DeleteCategory", "AdminConsole", new {id = category.CategoryId})";'>Delete</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         }
-            
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3" style="margin: auto;">
-                <h5 class="module-title font-alt">Add Categories</h5>
+        @*********************************************************************************@
+        
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                <h5 class="card-title">Add New Category</h5>
+                <form class="needs-validation" novalidate asp-controller="AdminConsole" asp-action="AddCategory">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="newCategory">Category</label>
+                            <input type="text" class="form-control" id="newCategory" name="newCategory" placeholder="Category" required>
+                            <div class="invalid-tooltip">
+                                Please provide a valid category name.
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit form</button>
+                </form>
             </div>
         </div>
-        <hr class="divider-w pt-20">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    @using (Html.BeginForm("AddCategory", "AdminConsole"))
-                    {
-                        <table class="table table-striped table-border checkout-table">
-                            <tbody>
-                            <tr>
-                                <th>Category Name</th>
-                                <th>Add</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input class="form-control" id="newCategoryText" name="newCategoryText" type="text" placeholder="Default input">
-                                </td>
-                                <td class="pr-remove"><button class="btn btn-success btn-circle" type="submit">Add Category</button></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    }
-                </div>
-            </div>
-        </div>c
-
-        </div>
-    </section>
-    
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-        <script src="~/js/side-nav.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-            </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
-            </script>
-    </environment>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    </div>
 </div>
-</body>
-</html>
+
+<script>
+    function markCategoryToDelete(id) {
+        idCategoryToDelete = id;
+    }
+    
+    function clearCategoryToDeleteId() {
+        idCategoryToDelete = -1;
+    }
+    
+    function deleteCategory() {
+        $.ajax({
+            url: '/AdminConsole/DeleteCategory',
+            data : { 'id': idCategoryToDelete},
+            contentType: "application/json; charset=utf-8", 
+            dataType: 'json',
+        });
+        
+    }
+</script>
