@@ -175,18 +175,18 @@ namespace SugarCenter.Controllers
 
         #region Service
 
-        public async Task<IActionResult> Services()
+        public async Task<IActionResult> ServiceCategories()
         {
-            var services = await _elkRepository.GetServiceCategories();
+            var services = await _elkRepository.GetServiceCategoriesWithRelatedServices();
             return View(services);
         }
 
-        public async Task<IActionResult> DeleteServiceCategory(int? serviceId)
+        public async Task<IActionResult> DeleteServiceCategory(int? serviceCategoryId)
         {
-            if (serviceId != null)
-                await _elkRepository.DeleteServiceCategory(serviceId.Value);
+            if (serviceCategoryId != null)
+                await _elkRepository.DeleteServiceCategory(serviceCategoryId.Value);
                 
-            return RedirectToAction("Services");
+            return RedirectToAction("ServiceCategories");
         }
 
         public async Task<IActionResult> ServiceCategoryConfiguration(int? serviceCategoryId)
@@ -210,7 +210,7 @@ namespace SugarCenter.Controllers
                 await _elkRepository.UpdateServiceCategory(serviceCategory);
             }
             
-            return RedirectToAction("Services");
+            return RedirectToAction("ServiceCategories");
         }
 
         #endregion

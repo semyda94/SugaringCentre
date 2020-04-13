@@ -261,14 +261,17 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             return (await _DbContext.ServiceCategory.SingleAsync(s => s.ServiceCategoryId == serviceCategoryId)).Title;
         }
 
-        public async Task<IEnumerable<ServiceCategory>> GetServiceCategories()
+        public async Task<IEnumerable<ServiceCategory>> GetServiceCategoriesWithRelatedServices()
         {
-            return await _DbContext.ServiceCategory.ToListAsync();
+            return await _DbContext.ServiceCategory.Include(x => x.Services).ToListAsync();
         }
 
         public async Task DeleteServiceCategory(int serviceCategoryId)
         {
             var serviceCategory = _DbContext.ServiceCategory.Single(x => x.ServiceCategoryId == serviceCategoryId);
+
+            var services = _DbContext.Services.Where(x => x.ServiceCategoryId == serviceCategoryId);
+            
             _DbContext.ServiceCategory.Remove(serviceCategory);
             
             await _DbContext.SaveChangesAsync();
@@ -288,6 +291,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task CreateServiceCategory(ServiceCategory serviceCategory)
         {
+            serviceCategory.ServiceCategoryId = 0;
             _DbContext.ServiceCategory.Add(serviceCategory);
 
             await _DbContext.SaveChangesAsync();

@@ -26,7 +26,7 @@ namespace SugarCenter.Controllers
         {
             var bookingViewModel = new BookingViewModel();
             
-            bookingViewModel.Categories = (await _elkRepository.GetServiceCategories()).ToList();
+            bookingViewModel.Categories = (await _elkRepository.GetServiceCategoriesWithRelatedServices()).ToList();
             bookingViewModel.Services = (await _elkRepository.GetServices()).ToList();
             
             return View(bookingViewModel);
@@ -37,7 +37,7 @@ namespace SugarCenter.Controllers
 //            var bookingViewModel = new BookingViewModel();
 //
 //            bookingViewModel.MoveToServiceId = serviceId;
-//            bookingViewModel.Categories = (await _elkRepository.GetServiceCategories()).ToList();
+//            bookingViewModel.Categories = (await _elkRepository.GetServiceCategoriesWithRelatedServices()).ToList();
 //            bookingViewModel.Services = (await _elkRepository.GetServices()).ToList();
 //            
 //            return View(bookingViewModel);

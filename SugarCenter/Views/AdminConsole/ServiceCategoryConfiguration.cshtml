@@ -1,95 +1,51 @@
 ﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.ServiceCategory
 
 @{
-    Layout = "ProductLayout";
+    Layout = "_AdminConsole";
 }
 
-<!DOCTYPE html>
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                @if (Model.ServiceCategoryId <= 0)
+                {
+                    <h5 class="card-title">New Service Category</h5>
+                }
+                else
+                {
+                    <h5 class="card-title">@Model.Title</h5>
+                }
+                <form class="needs-validation" novalidate asp-action="SaveServiceCategory" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="ServiceCategoryId"/>
 
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>SugarCenter</title>
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
-    </environment>
-    <link href="@Url.Content("~/css/SingleItem.css")" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="~/css/AdminConsole/Typography.css"/>
-
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
-
-    <script src="~/js/select2.min.js"></script>
-   </head>
-<body>
-
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
-        <div class="container" style="margin-right: 60px;">
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
-                <ul class="navbar-nav flex-grow-1" style="display: contents;">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="AdminConsole" asp-action="Home">AdminConsole</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
-
-<main>
-    <div class="main">
-        <section class="module">
-            <div class="container">
-                <form asp-action="SaveServiceCategory" method="post" enctype="multipart/form-data">
-                <div class="grid product">
-                    <div class="column-xs-12 column-md-7">
-                        <div class="product-gallery">
-                            <div class="product-image">
-                                <img class="active" src="https://source.unsplash.com/W1yjvf5idqA">
+                    <div class="position-relative row form-group">
+                        <label for="title" class="col-sm-2 col-form-label">Title</label>
+                        <div class="col-sm-10">
+                            <input asp-for="Title" name="title" id="title" placeholder="Enter title" class="form-control" required="">
+                            <div class="invalid-tooltip">
+                                Please provide a valid Category Title.
                             </div>
-                            <ul class="image-list">
-                                <li class="image-item"><img src="https://source.unsplash.com/W1yjvf5idqA"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/W1yjvf5idqA"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/VgbUxvW3gS4"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/5WbYFH0kf_8"></li>
-                            </ul>
                         </div>
                     </div>
-                    <div class="column-xs-12 column-md-5">
-                        <input asp-for="Title"placeholder="Enter Service Name" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
-                        <div class="description">
-                            <textarea asp-for="Description" class="form-control" rows="7" placeholder="Enter general serviceCategory description" style="border: 0px;"></textarea>
+
+                    <div class="position-relative row form-group">
+                        <label for="descInput" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="Description" id="descInput" class="form-control" required=""></textarea>
+                            <div class="invalid-tooltip">
+                                Please provide a valid Description.
+                            </div>
                         </div>
-                        <button class="add-to-cart" type="submit">Save Product</button>
                     </div>
-                </div>
+
+                    <div class="position-relative row form-check">
+                        <div class="col-sm-10 offset-sm-2">
+                            <button class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
                 </form>
             </div>
-        </section>
-        <hr class="divider-w">
+        </div>
     </div>
-</main>
-
-</body>
-</html>
+</div>

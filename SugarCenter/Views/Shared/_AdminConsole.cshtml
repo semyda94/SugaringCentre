@@ -228,7 +228,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="elements-icons.html">
+                        <a>
                             <i class="metismenu-icon">
                             </i>Specials
                         </a>
@@ -243,7 +243,7 @@
                 </a>
                 <ul>
                     <li>
-                        <a href="components-tabs.html">
+                        <a asp-controller="AdminConsole" asp-action="ServiceCategories">
                             <i class="metismenu-icon">
                             </i>Categories
                         </a>
@@ -288,7 +288,7 @@
             </li>
             
             <li>
-                <a href="charts-chartjs.html">
+                <a asp-controller="Home" asp-action="Index">
                     <i class="metismenu-icon pe-7s-home">
                     </i>
                     Back To Site
@@ -321,6 +321,26 @@
             </div>
             <div class="modal-body">
                 <p>Under this category more than 1 product. Please confirm that you want to delete selected category</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearCategoryToDeleteId()">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteCategory()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal delete-service-category-modal" tabindex="2" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearCategoryToDeleteId()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Under this category more than 1 service. Please confirm that you want to delete selected category</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearCategoryToDeleteId()">Close</button>
