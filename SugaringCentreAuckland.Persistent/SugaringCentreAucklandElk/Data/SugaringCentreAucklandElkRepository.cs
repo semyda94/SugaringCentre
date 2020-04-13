@@ -39,7 +39,9 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             var productCategories = _DbContext.ProductCategory.Where(x => x.CategoryId == categoryId);
             var category = _DbContext.Categories.Single(c => c.CategoryId == categoryId);
 
-            _DbContext.ProductCategory.RemoveRange(productCategories);
+            if (productCategories.Any())
+                _DbContext.ProductCategory.RemoveRange(productCategories);
+            
             _DbContext.Categories.Remove(category);
 
             await _DbContext.SaveChangesAsync();
@@ -80,8 +82,11 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         
         public async Task CreateProduct(Product product)
         {
+            product.ProductId = 0;
             _DbContext.Products.Add(product);
 
+            await _DbContext.SaveChangesAsync();
+            
             if (product.CategorySelected != null)
             {
                 var splitedCategories = product.CategorySelected.Split(',', StringSplitOptions.RemoveEmptyEntries);
@@ -99,7 +104,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 _DbContext.AddRange(productCategories);
             }
 
-            if (product.ImagesToUpload.Any())
+            if (product.ImagesToUpload != null && product.ImagesToUpload.Any())
             {
                 var productImagesToSave = new List<ProductImage>();
                 foreach (var image in product.ImagesToUpload)
@@ -127,17 +132,29 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         
         public async Task UpdateProduct(Product product)
         {
-            _DbContext.Products.Update(product);
+            var productToUpdate = _DbContext.Products.Single(x => x.ProductId == product.ProductId);
+
+            productToUpdate.Title = product.Title;
+            productToUpdate.Desc = product.Desc;
+            productToUpdate.Price = productToUpdate.Price;
+         
+            _DbContext.Products.Update(productToUpdate);
+            
             await _DbContext.SaveChangesAsync();
         }
         
         public async Task DeleteProduct(int? productId)
         {
             var productCategories = await _DbContext.ProductCategory.Where(x => x.ProductId == productId).ToListAsync();
+            var productImages = await _DbContext.ProductImage.Where(x => x.ProductId == productId).ToListAsync();
             var product = _DbContext.Products.Single(p => p.ProductId == productId);
             
             if (productCategories.Any())
                 _DbContext.ProductCategory.RemoveRange(productCategories);
+            
+            if (productImages.Any())
+                _DbContext.ProductImage.RemoveRange(productImages);
+            
             _DbContext.Products.Remove(product);
 
             await _DbContext.SaveChangesAsync();
@@ -145,7 +162,17 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         
         public async Task<Product> GetProductById(int? productId)
         {
-            var product = await _DbContext.Products.Include(i => i.ProductImage).FirstOrDefaultAsync(p => p.ProductId == productId);
+            var product = await _DbContext.Products.Include(i => i.ProductImage)
+                .Include(x => x.ProductCategory)
+                .FirstOrDefaultAsync(p => p.ProductId == productId);
+
+            // if (product.ProductCategory.Any())
+            // {
+            //     foreach (var category in product.ProductCategory)
+            //     {
+            //         product.CategorySelected.
+            //     }
+            // }
 
             if (product == null)
             {

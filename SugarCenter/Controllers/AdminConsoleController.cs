@@ -84,11 +84,11 @@ namespace SugarCenter.Controllers
             return View(viewMovel);
         }
         
-        public IActionResult DeleteProduct(int? productId)
+        public async Task<IActionResult> DeleteProduct(int? productId)
         {
             if (productId != null)
             {
-                _elkRepository.DeleteProduct(productId).GetAwaiter().GetResult();
+                await _elkRepository.DeleteProduct(productId);
             }
 
             return RedirectToAction("Products");

@@ -1,132 +1,83 @@
 ﻿@model SugarCenter.ViewModel.ShopViewModel
 
 @{
-    Layout = null;
+    Layout = "_AdminConsole";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SugarCenter</title>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
-    </environment>
-    <link rel="stylesheet" href="~/css/AdminConsole/Typography.css"/>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300" />
-</head>
-<body>
-
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
-        <div class="container" style="margin-right: 60px;">
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
-                <ul class="navbar-nav flex-grow-1" style="display: contents;">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="AdminConsole" asp-action="Home">AdminConsole</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
-
-
-<div class="main">
-    <section class="module">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3" style="margin: auto;">
-                    <h1 class="module-title font-alt">Products</h1>
-                </div>
-            </div>
-            <hr class="divider-w pt-20">
-            
-        @if (Model.Products.Any())
-        {
-            <div class="row">
-                <div class="col-sm-12">
-                    <table class="table table-striped table-border checkout-table">
-                        <tbody>
-                        <tr>
-                            <th class="hidden-xs">Name</th>
-                            <th>Description</th>
-                            <th class="hidden-xs">Price</th>
-                            <th>Edit</th>
-                            <th>Remove</th>
-                        </tr>
-                        @foreach (var p in Model.Products)
-                        {
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 card">
+                    <div class="card-header">Active Product</div>
+                    <div class="table-responsive">
+                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                            <thead>
                             <tr>
-                                <td class="hidden-xs"><a href="#" class="product-title font-alt">@p.Title</a></td>
-                                <td>
-                                    <h5>@p.Desc</h5>
-                                </td>
-                                <td class="hidden-xs">
-                                    <h5 class="product-title font-alt">$@p.Price.ToString()</h5>
-                                </td>
-                                <td class="pr-remove"><div data-label="Action" style="text-align: center"> <button class="btn btn-success btn-circle" style="margin: auto" type="button" onclick='window.location = "@Url.Action("ProductConfiguration", "AdminConsole", new { productId = p.ProductId})";'>Edit</button> </div></td>
-                                <td class="pr-remove"><div data-label="Action"> <button class="btn btn-danger btn-circle" type="button" onclick='window.location = "@Url.Action("DeleteProduct", "AdminConsole", new { productId = p.ProductId })";'>Delete</button> </div> </td>
+                                <th class="text-center">#</th>
+                                <th >Name</th>
+                                <th class="text-center">Description</th>
+                                <th>Price NZD</th>
+                                <th class="text-center">Actions</th>
                             </tr>
-                        }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @foreach (var product in Model.Products)
+                            {
+                                <tr>
+                                    <td class="text-center text-muted">#@product.ProductId</td>
+                                    <td>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left flex2">
+                                                    <div class="widget-heading">@product.Title</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">@product.Desc</td>
+                                    <td>@product.Price</td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-warning btn-sm" onclick="EditProduct(@product.ProductId)">Edit</button>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="DeleteProduct(@product.ProductId)">Delete</button>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-block text-center card-footer">
+                        <button class="btn-wide btn btn-success" onclick='window.location = "@Url.Action("ProductConfiguration", "AdminConsole")";'>New Product</button>
+                    </div>
                 </div>
             </div>
-        }
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3" style="margin: auto;">
-                            <div data-label="Action" style="text-align: center"> <button class="btn btn-success btn-circle" style="margin: auto" type="button" onclick='window.location = "@Url.Action("ProductConfiguration", "AdminConsole")";'>Add product</button> </div>
-                        </div>
-                    </div>
-                    <hr class="divider-w pt-20">
         </div>
-    </section>
-    
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-        <script src="~/js/side-nav.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-            </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
-            </script>
-    </environment>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    </div>
 </div>
 
-</body>
-</html>
+<script>
+
+function DeleteProduct(productId) {
+  $.ajax({
+    url: '/AdminConsole/DeleteProduct',
+    data : { 'productId': productId},
+    contentType: "application/json; charset=utf-8", 
+    dataType: 'json',
+    async: false,
+    success: function (data) {
+        location.reload();
+    }
+  });
+}
+
+function EditProduct(productId) {
+  $.ajax({
+      url: '/AdminConsole/ProductConfiguration',
+      data : { 'productId': productId},
+      contentType: "application/json; charset=utf-8", 
+      dataType: 'json'
+    });
+}
+        
+</script>
