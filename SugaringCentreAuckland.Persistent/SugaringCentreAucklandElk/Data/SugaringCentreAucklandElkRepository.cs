@@ -285,7 +285,12 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         
         public async Task UpdateServiceCategory(ServiceCategory serviceCategory)
         {
-            _DbContext.ServiceCategory.Update(serviceCategory);
+            var serviceCategoryToUpdate = _DbContext.ServiceCategory.Single(x => x.ServiceCategoryId == serviceCategory.ServiceCategoryId);
+
+            serviceCategoryToUpdate.Title = serviceCategory.Title;
+            serviceCategoryToUpdate.Description = serviceCategory.Description;
+            
+            _DbContext.ServiceCategory.Update(serviceCategoryToUpdate);
             await _DbContext.SaveChangesAsync();
         }
 

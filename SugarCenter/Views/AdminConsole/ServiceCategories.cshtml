@@ -37,14 +37,15 @@
                                     <td class="text-center">@category.Description</td>
                                     <td class="text-center">@category.Services?.Count()</td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-warning btn-sm" onclick="EditProduct(@category)">Edit</button>
+                                        <button type="button" class="btn btn-warning btn-sm" 
+                                                onclick='window.location = "@Url.Action("ServiceCategoryConfiguration", "AdminConsole", new {serviceCategoryId = category.ServiceCategoryId})";'>Edit</button>
                                         @if (category.Services.Any())
                                         {
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target=".delete-service-category-modal" onclick="markCategoryToDelete(@category.ServiceCategoryId)">Delete</button>
                                         }
                                         else
                                         {
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(@category.ServiceCategoryId)">Delete</button>
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategoryPrep(@category.ServiceCategoryId)">Delete</button>
                                         }
                                     </td>
                                 </tr>
@@ -71,12 +72,21 @@
         idCategoryToDelete = -1;
     }
     
+    function deleteCategoryPrep(categoryId) {
+      idCategoryToDelete = categoryId;
+      
+      deleteCategory()
+    }
+    
     function deleteCategory() {
         $.ajax({
             url: '/AdminConsole/DeleteServiceCategory',
             data : { 'serviceCategoryId': idCategoryToDelete},
             contentType: "application/json; charset=utf-8", 
-            dataType: 'json'
+            dataType: 'json',
+            success: function() {
+                window.location.reload();
+            }
         });
         
         idCategoryToDelete = -1;
