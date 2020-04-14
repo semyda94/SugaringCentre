@@ -2,126 +2,67 @@
 
 
 @{
-    Layout = "ProductLayout";
-    string title = Model.Title == null ? "Title" : Model.Title ?? "";
-    string firstName = Model.FirstName == null ? "First Name" : Model.FirstName ?? "";
-    string lastName = Model.LastName == null ? "Last Name" : Model.LastName ?? "";
+    Layout = "_AdminConsole";
 }
 
-<!DOCTYPE html>
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                @if (@Model.StaffId <= 0)
+                {
+                    <h5 class="card-title">New Staff Member</h5>
+                }
+                else
+                {
+                    <h5 class="card-title">@Model.Title</h5>
+                }
+                <form asp-action="SaveStaff" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="StaffId"/>
 
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>SugarCenter</title>
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
-    </environment>
-    <link href="@Url.Content("~/css/SingleItem.css")" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="~/css/AdminConsole/Typography.css"/>
+                    <div class="position-relative row form-group">
+                        <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                        <div class="col-sm-10">
+                            <input asp-for="FirstName" name="firstName" id="firstName" placeholder="Enter First Name" class="form-control">
+                        </div>
+                    </div>
 
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
+                    <div class="position-relative row form-group">
+                        <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+                        <div class="col-sm-10">
+                            <input asp-for="LastName" name="lastName" id="lastName" placeholder="Enter Last Name" class="form-control" reguired>
+                        </div>
+                    </div>
 
-    <script src="~/js/select2.min.js"></script>
-   </head>
-<body>
+                    <div class="position-relative row form-group">
+                        <label for="title" class="col-sm-2 col-form-label">Title</label>
+                        <div class="col-sm-10">
+                            <input asp-for="Title" name="title" id="title" placeholder="Enter job title" class="form-control">
+                        </div>
+                    </div>
 
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
-        <div class="container" style="margin-right: 60px;">
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
-                <ul class="navbar-nav flex-grow-1" style="display: contents;">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="AdminConsole" asp-action="Home">AdminConsole</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Blog">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                </ul>
+                    <div class="position-relative row form-group">
+                        <label for="dob" class="col-sm-2 col-form-label">Title</label>
+                        <div class="col-sm-10">
+                            <input type="date" asp-for="Dob" name="Dob" id="dob" placeholder="Enter Date of Birth" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="imageInput" class="col-sm-2 col-form-label">Images</label>
+                        <div class="col-sm-10">
+                            <input asp-for="ImagesToUpload" id="imageInput" type="file" class="form-control-file">
+                            <small class="form-text text-muted">Please select profile photo</small>
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-check">
+                        <div class="col-sm-10 offset-sm-2">
+                            <button class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </nav>
-</header>
-
-<main>
-    <div class="main">
-        <section class="module">
-            <div class="container">
-                <form asp-action="SaveStaff" method="post" enctype="multipart/form-data">
-                <div class="grid product">
-                    <div class="column-xs-12 column-md-7">
-                        <div class="product-gallery">
-                            <div class="product-image">
-                                <img class="active" src="https://source.unsplash.com/W1yjvf5idqA">
-                            </div>
-                            <ul class="image-list">
-                                <li class="image-item"><img src="https://source.unsplash.com/W1yjvf5idqA"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/W1yjvf5idqA"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/VgbUxvW3gS4"></li>
-                                <li class="image-item"><img src="https://source.unsplash.com/5WbYFH0kf_8"></li>
-                            </ul>
-                        </div>
-                        <input type="file" id="files" multiple="multiple" asp-for="ImagesToUpload"/>
-                    </div>
-                    <div class="column-xs-12 column-md-5">
-                        <input asp-for="FirstName" placeholder="Enter First Name" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
-                        <input asp-for="LastName" placeholder="Enter Last Name" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
-                        <input asp-for="Title" placeholder="Enter Job Title" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
-                        <input type="date" asp-for="Dob" placeholder="Enter DOB" class="form-control input-lg" style="border: 0px; font-size: 26px; font-weight: bold; padding: 0px;"/>
-
-                        @*<select class="js-example-basic-single" name="categories[]" multiple="multiple" style="width: 100%; padding-top: 32px;">
-                            @foreach (var c in Model.ProductCategory)
-                            {
-                                <option selected="selected" value="@c.CategoryId">@c.CategoryId</option>
-                            }
-                        </select>
-                        <div class="description">
-                            <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Enter product description" style="border: 0px;"></textarea>
-                        </div>*@
-                        <button class="add-to-cart" type="submit">Save Product</button>
-                    </div>
-                </div>
-                </form>
-                @*<div class="grid related-products">
-                    <div class="column-xs-12">
-                        <h3>You may also like</h3>
-                    </div>
-                    @for (int i = 0; i < 3; i++)
-                    {
-                        Random rnd = new Random();
-    //                    Product tmp = Model.NavigationCategoryId.Products.ElementAt(rnd.Next(Model.NavigationCategoryId.Products.Count));
-                        //var thumbImg = Convert.ToBase64String(tmp.ProductImg);
-                        
-    $1$                     <div class="column-xs-12 column-md-4"> #1#
-    $1$                         $2$ <img src="data:image/jpeg;base64,@thumbImg"> #2# #1#
-    $1$                         <h4>@tmp.Name</h4> #1#
-    $1$                         <p class="price">$@tmp.Price</p> #1#
-    $1$                     </div> #1#
-                    }
-                </div>*@
-            </div>
-        </section>
-        <hr class="divider-w">
     </div>
-</main>
-
-</body>
-</html>
+</div>

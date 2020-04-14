@@ -160,7 +160,6 @@ namespace SugarCenter.Controllers
         {
             if (staff.StaffId <= 0 )
             {
-                var projectWebRootPath = _hostingEnvironment.WebRootPath;
                 await _elkRepository.CreateStaff(staff);
             }
             else

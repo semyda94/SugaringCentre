@@ -226,15 +226,23 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         
         public async Task UpdateStaff(Staff staff)
         {
-            _DbContext.Staff.Update(staff);
+            var staffToUpdate = _DbContext.Staff.Single(x => x.StaffId == staff.StaffId);
+
+            staffToUpdate.FirstName = staff.FirstName;
+            staffToUpdate.LastName = staff.LastName;
+            staffToUpdate.Title = staff.Title;
+            staffToUpdate.Dob = staff.Dob;
+            
+            _DbContext.Staff.Update(staffToUpdate);
             await _DbContext.SaveChangesAsync();
         }
         
         public async Task CreateStaff(Staff staff)
         {
+            staff.StaffId = 0;
             _DbContext.Staff.Add(staff);
 
-            if (staff.ImagesToUpload.Any())
+            if (staff.ImagesToUpload != null && staff.ImagesToUpload.Any())
             {
                 var imageToSafe = new List<StaffImage>();
                 foreach (var image in staff.ImagesToUpload)
