@@ -34,6 +34,14 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .ToListAsync());
         }
         
+        public async Task<IEnumerable<ServiceCategory>> SearchServiceCategoryByTitle(string searchedTitle)
+        {
+            return await (searchedTitle == null
+                ? _DbContext.ServiceCategory.ToListAsync()
+                : _DbContext.ServiceCategory.Where(x => x.Title.Contains(searchedTitle))
+                    .ToListAsync());
+        }
+        
         public async Task DeleteCategory(int categoryId)
         {
             var productCategories = _DbContext.ProductCategory.Where(x => x.CategoryId == categoryId);
@@ -322,6 +330,10 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public async Task DeleteService(int serviceId)
         {
             var service = _DbContext.Services.Single(x => x.ServiceId == serviceId);
+
+            var serviceStaff = _DbContext.ServiceStaff.Where(x => x.ServiceId == serviceId);
+
+            _DbContext.ServiceStaff.RemoveRange(serviceStaff);
             _DbContext.Services.Remove(service);
             
             await _DbContext.SaveChangesAsync();
@@ -339,13 +351,24 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task UpdateService(Service service)
         {
-            _DbContext.Services.Update(service);
+            var serviceToUpdate = _DbContext.Services.Single(x => x.ServiceId == service.ServiceId);
+
+            serviceToUpdate.Title = service.Title;
+            serviceToUpdate.Desc = service.Desc;
+            serviceToUpdate.Price = service.Price;
+            serviceToUpdate.Duration = service.Duration;
+            serviceToUpdate.ServiceCategoryId = service.ServiceCategoryId;
+            
+            _DbContext.Services.Update(serviceToUpdate);
             await _DbContext.SaveChangesAsync();
         }
 
         public async Task CreateService(Service service)
         {
+            service.ServiceId = 0;
             _DbContext.Services.Add(service);
+
+            await _DbContext.SaveChangesAsync();
             
             if (service.SelectedStaff != null)
             {

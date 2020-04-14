@@ -89,38 +89,6 @@
         </span>
     </div>
     <div class="app-header__content">
-        @* <div class="app-header-left"> *@
-        @*     <div class="search-wrapper"> *@
-        @*         <div class="input-holder"> *@
-        @*             <input type="text" class="search-input" placeholder="Type to search"> *@
-        @*             <button class="search-icon"> *@
-        @*                 <span></span> *@
-        @*             </button> *@
-        @*         </div> *@
-        @*         <button class="close"></button> *@
-        @*     </div> *@
-        @*     <ul class="header-menu nav"> *@
-        @*         <li class="nav-item"> *@
-        @*             <a href="javascript:void(0);" class="nav-link"> *@
-        @*                 <i class="nav-link-icon fa fa-database"> </i> *@
-        @*                 Statistics *@
-        @*             </a> *@
-        @*         </li> *@
-        @*         <li class="btn-group nav-item"> *@
-        @*             <a href="javascript:void(0);" class="nav-link"> *@
-        @*                 <i class="nav-link-icon fa fa-edit"></i> *@
-        @*                 Projects *@
-        @*             </a> *@
-        @*         </li> *@
-        @*         <li class="dropdown nav-item"> *@
-        @*             <a href="javascript:void(0);" class="nav-link"> *@
-        @*                 <i class="nav-link-icon fa fa-cog"></i> *@
-        @*                 Settings *@
-        @*             </a> *@
-        @*         </li> *@
-        @*     </ul> *@
-        @* </div> *@
-        
         <div class="app-header-right">
             <div class="header-btn-lg pr-0">
                 <div class="widget-content p-0">
@@ -131,14 +99,6 @@
                                     <img width="42" class="rounded-circle" src="~/Dashboard/images/avatars/1.jpg" alt="">
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
-                                @* <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right"> *@
-                                @*     <button type="button" tabindex="0" class="dropdown-item">User Account</button> *@
-                                @*     <button type="button" tabindex="0" class="dropdown-item">Settings</button> *@
-                                @*     <h6 tabindex="-1" class="dropdown-header">Header</h6> *@
-                                @*     <button type="button" tabindex="0" class="dropdown-item">Actions</button> *@
-                                @*     <div tabindex="-1" class="dropdown-divider"></div> *@
-                                @*     <button type="button" tabindex="0" class="dropdown-item">Dividers</button> *@
-                                @* </div> *@
                             </div>
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
@@ -238,7 +198,7 @@
             <li>
                 <a href="#">
                     <i class="metismenu-icon pe-7s-car"></i>
-                    Services
+                    Servicess
                     <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                 </a>
                 <ul>
@@ -249,9 +209,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="components-accordions.html">
+                        <a asp-controller="AdminConsole" asp-action="Services">
                             <i class="metismenu-icon">
-                            </i>Service List
+                            </i>Services List
                         </a>
                     </li>
                     <li>
@@ -282,15 +242,14 @@
             <li class="app-sidebar__heading">Other</li>
             <li>
                 <a href="charts-chartjs.html">
-                    <i class="metismenu-icon pe-7s-mail-open">
-                    </i>Correcpondency
+                    <i class="metismenu-icon pe-7s-mail-open"></i>
+                    Correcpondency
                 </a>
             </li>
             
             <li>
                 <a asp-controller="Home" asp-action="Index">
-                    <i class="metismenu-icon pe-7s-home">
-                    </i>
+                    <i class="metismenu-icon pe-7s-home"></i>
                     Back To Site
                 </a>
                 </li>

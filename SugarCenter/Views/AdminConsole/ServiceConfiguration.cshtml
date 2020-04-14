@@ -1,100 +1,86 @@
 ﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Service;
 
 @{
-    Layout = "ProductLayout";
+    Layout = "_AdminConsole";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>SugarCenter</title>
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
-    </environment>
-    <link href="@Url.Content("~/css/SingleItem.css")" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="~/css/AdminConsole/Typography.css"/>
-    <link href="~/css/select2/select2.min.css" rel="stylesheet"/>
-
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
-
-    <script src="~/js/select2.min.js"></script>
-   </head>
-<body>
-
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;">
-        <div class="container" style="margin-right: 60px;">
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
-                <ul class="navbar-nav flex-grow-1" style="display: contents;">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="AdminConsole" asp-action="Home">AdminConsole</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Blog" asp-action="Index">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
-
-<main>
-    <div class="main">
-        <section class="module">
-            <div class="container">
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                @if (@Model.ServiceId <= 0)
+                {
+                    <h5 class="card-title">New Service</h5>
+                }
+                else
+                {
+                    <h5 class="card-title">@Model.Title</h5>
+                }
                 <form asp-action="SaveService" method="post" enctype="multipart/form-data">
-                <div class="grid product">
-                    <div class="column-xs-12 column-md-7">
-                        <div class="product-gallery">
-                            <div class="product-image">
-                                <img class="active" src="https://source.unsplash.com/W1yjvf5idqA">
-                            </div>
+                    <input type="hidden" asp-for="ServiceId"/>
+
+                    <div class="position-relative row form-group">
+                        <label for="title" class="col-sm-2 col-form-label">Title</label>
+                        <div class="col-sm-10">
+                            <input asp-for="Title" name="title" id="title" placeholder="Enter title" class="form-control">
                         </div>
-                        <input type="file" id="files" asp-for="ImagesToUpload"/>
                     </div>
-                    <div class="column-xs-12 column-md-5">
-                        <input asp-for="Title" placeholder="Enter Title" class="form-control input-lg" style="border: 0px; font-size: 30px; font-weight: bold; padding: 0px; margin-bottom: 16px; margin-top: 16px;"/>
-                        <input type="number" step="any" asp-for="Price" placeholder="Enter price" class="form-control input-lg" style="border: 0px; font-size: 26px; font-weight: bold; padding: 0px;"/>
-                        <input type="number" asp-for="Duration" placeholder="Enter duration" class="form-control input-lg" style="border: 0px; font-size: 26px; font-weight: bold; padding: 0px;"/>
-                        
-                        <input type="hidden" id="services" asp-for="ServiceCategoryId"/>
-                        <select class="serviceCategoryRelated" name="serviceCategorys[]" style="width: 100%; padding-top: 32px;"></select>
-                        
-                        <input type="hidden" id="staff" asp-for="SelectedStaff"/>
-                        <select class="staffRelated" name="staff[]" multiple="multiple" style="width: 100%; padding-top: 32px;"></select>
-                        
-                        <div class="description">
-                            <textarea asp-for="Desc" class="form-control" rows="7" placeholder="Enter product description" style="border: 0px;"></textarea>
+
+                    <div class="position-relative row form-group">
+                        <label for="priceNzd" class="col-sm-2 col-form-label">Price NZD</label>
+                        <div class="col-sm-10">
+                            <input asp-for="Price" type="number" step="any" name="price" id="priceNzd" placeholder="Enter price of service in NZD" class="form-control">
                         </div>
-                        <button class="add-to-cart" type="submit">Save Service</button>
                     </div>
-                </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="duration" class="col-sm-2 col-form-label">Duration Min</label>
+                        <div class="col-sm-10">
+                            <input asp-for="Duration" type="number" step="any" name="duration" id="duration" placeholder="Enter duration of service in minutes" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="categories" class="col-sm-2 col-form-label">Select Categories</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" id="services" asp-for="ServiceCategoryId"/>
+                            <select class="serviceCategoryRelated" name="serviceCategorys[]" style="width: 100%; padding-top: 32px;"></select>
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="categories" class="col-sm-2 col-form-label">Select Staff</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" id="staff" asp-for="SelectedStaff"/>
+                            <select class="staffRelated" name="staff[]" multiple="multiple" style="width: 100%; padding-top: 32px;"></select>
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="descInput" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea asp-for="Desc" id="descInput" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="imageInput" class="col-sm-2 col-form-label">Images</label>
+                        <div class="col-sm-10">
+                            <input asp-for="ImagesToUpload" multiple="multiple" id="imageInput" type="file" class="form-control-file">
+                            <small class="form-text text-muted">First choosen image will be preview for service</small>
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-check">
+                        <div class="col-sm-10 offset-sm-2">
+                            <button class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
                 </form>
             </div>
-        </section>
-        <hr class="divider-w">
+        </div>
     </div>
-</main>
+</div>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -103,12 +89,12 @@ $(document).ready(function() {
     allowClear: true,
     theme: "classic",
     ajax : {
-       url : "/AdminConsole/GetCategory",
+       url : "/AdminConsole/GetServiceCategory",
        dataType : "json",
        delay : 250,
        data : function(params) {
          return {
-             searchServiceName : params.term
+             searchServicesName : params.term
              }
        },
        processResults : function(data, params) {
@@ -167,6 +153,3 @@ $(".staffRelated").on("change", function() {
     });
 });
 </script>
-
-</body>
-</html>

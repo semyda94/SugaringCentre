@@ -40,6 +40,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
 
         #region ServiceCategory
 
+        Task<IEnumerable<ServiceCategory>> SearchServiceCategoryByTitle(string searchedTitle);
         Task<string> GetServiceCategoryTitleById(int serviceCategoryId);
         Task<IEnumerable<ServiceCategory>> GetServiceCategoriesWithRelatedServices();
         Task DeleteServiceCategory(int serviceCategoryId);

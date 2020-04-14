@@ -112,4 +112,9 @@
     <_ContentIncludedByDefault Remove="wwwroot\lib\hello-week-master\__tests__\getToday.ts" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Content Remove="Views\Booking\Service.cshtml" />
+  </ItemGroup>
+
 </Project>
