@@ -29,9 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
-
-    <script src="~/js/select2.min.js"></script>
-   </head>
+</head>
 <body>
 
 <header>
@@ -84,16 +82,12 @@
                 </div>
             </div>
             <div class="grid product">
-                <div class="column-xs-12 column-md-7">
-                    <div class="product-gallery">
-                        
-                        <div class="product-image">
-                            @{ var activeImage = Convert.ToBase64String(Model.ServicesToDisplay.Image);}
-                            <img class="active" src="data:image/jpeg;base64,@activeImage">
-                        </div>
-                    </div>
+                <div class="column-xs-12 column-sm-7">
+                                           
+                        @{ var activeImage = Convert.ToBase64String(Model.ServicesToDisplay.Image);}
+                            <img class="active img-fluid" src="data:image/jpeg;base64,@activeImage">
                 </div>
-                <div class="column-xs-12 column-md-5">
+                <div class="column-xs-12 column-sm-5">
                     <h1>@Model.ServicesToDisplay.Title</h1>
                     <h2>$@Model.ServicesToDisplay.Price  |  @Model.ServicesToDisplay.Duration min</h2>
                     <div class="description">
