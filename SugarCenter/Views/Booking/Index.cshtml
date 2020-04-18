@@ -1,71 +1,78 @@
-﻿@using Microsoft.AspNetCore.Rewrite.Internal
+﻿@using Microsoft.EntityFrameworkCore.Internal
 @model SugarCenter.ViewModel.BookingViewModel
 @{
-    var slidemenuWidth = (Model.Services.Count() * 150).ToString() + "px";
-    var elementWdth = (100 / Model.Services.Count()).ToString();
+    var slidemenuWidth = (Model.Categories.Count(x => Model.Services.Any(s => s.ServiceCategoryId == x.ServiceCategoryId)) * 150).ToString() + "px";
+    var elementWdth = (100 / Model.Categories.Count(x => Model.Services.Any(s => s.ServiceCategoryId == x.ServiceCategoryId))).ToString();
     var displayValue = "flex";
-    var defaultServiceId = 0;
+    var defaultCategoryId = 0;
 }
 
 
 <div class="slidemenu" style="max-width: @slidemenuWidth;">
-    
-    @foreach(var service in Model.Services)
+
+    @foreach (var category in Model.Categories.Where(x => Model.Services.Any(s => s.ServiceCategoryId == x.ServiceCategoryId)))
     {
-        var index = Model.Services.IndexOf(service);
+        var index = Model.Categories.IndexOf(category);
         <!-- Item i -->
         @if (index == 0)
         {
-            defaultServiceId = service.ServiceId;
-            <input type="radio" name="slideItem" id="slide-item-@index" class="slide-toggle" rel="@service.ServiceId" checked onclick="changeCategory(@index)"/>
+            defaultCategoryId = category.ServiceCategoryId;
+            <input type="radio" name="slideItem" id="slide-item-@index" class="slide-toggle" rel="@category.ServiceCategoryId" checked onclick="changeCategory(@index)"/>
         }
         else
         {
-            <input type="radio" name="slideItem" id="slide-item-@index" class="slide-toggle" rel="@service.ServiceId" onclick="changeCategory(@index)"/>
+            <input type="radio" name="slideItem" id="slide-item-@index" class="slide-toggle" rel="@category.ServiceCategoryId" onclick="changeCategory(@index)"/>
         }
-        <label for="slide-item-@index" style="width:@elementWdth%"><span>@service.Title</span></label>
+        <label for="slide-item-@index" style="width:@elementWdth%">
+            <span>@category.Title</span>
+        </label>
     }
 
     <div class="clear"></div>
-  
+
     <!-- Bar -->
     <div class="slider">
         <div class="bar" style="width: @elementWdth%"></div>
     </div>
-  
+
 </div>
 
 <section class="typeList">
     @foreach (var service in Model.Services)
     {
-        @if (service.ServiceId != defaultServiceId)
-            {
-                displayValue = "none";
-            }
-            else
-            {
-                displayValue = "flex";
-            }
-        <div class="row serviceCategory-@service.ServiceId" style="display: @displayValue">
+        @if (service.ServiceCategoryId != defaultCategoryId)
+        {
+            displayValue = "none";
+        }
+        else
+        {
+            displayValue = "flex";
+        }
+        <div class="container-fluid">
+            <div class="row serviceCategory-@service.ServiceCategoryId" style="display: @displayValue">
+
+                <div class="col-xs-12 col-sm" style="display: flex;">
+                    @{ var activeImage = Convert.ToBase64String(service.Image); }
+                    <a href="@Url.Action("Service", "Booking", new {serviceId = service.ServiceCategoryId, serviceTypeId = service.ServiceId})" class="imageLink">
+                        <div class="circleThumbnail" style="background-image: url(data:image/jpeg;base64,@activeImage)">
+                            @*<img style="max-height: 100%; max-width: 100%; object-fit: contain" src="data:image/jpeg;base64,@activeImage"/>*@
+                        </div>
+                    </a>
+                </div>
                 
-                <div class="col" style="display: flex;">
-                @{ var activeImage = Convert.ToBase64String(service.Image);}
-                <a href="@Url.Action("Service", "Booking", new {serviceId = service.ServiceCategoryId, serviceTypeId = service.ServiceId})" class="imageLink">
-                <div class="circleThumbnail" style="background-image: url(data:image/jpeg;base64,@activeImage)">
-                    @*<img style="max-height: 100%; max-width: 100%; object-fit: contain" src="data:image/jpeg;base64,@activeImage"/>*@
-                </div>
-                </a>
-                </div>
-                <div class="divider-h">
-                </div>
-                <div class="col" style="text-align: center; display: inline-grid;">
+                <span class="serviceDivider">
+                                    </span>
+                <div class="col-xs-12 col-sm" style="text-align: center; display: inline-grid;">
                     <div style="margin-top: auto; margin-bottom: auto; height: auto;">
-                        <div class="typeTitle"><a href="@Url.Action("Service", "Booking", new {serviceId = service.ServiceCategoryId, serviceTypeId = service.ServiceId})">@service.Title</a></div>
+                        <div class="typeTitle">
+                            <a href="@Url.Action("Service", "Booking", new {serviceId = service.ServiceCategoryId, serviceTypeId = service.ServiceId})">@service.Title</a>
+                        </div>
                         <div class="priceAndDuration"> @service.Duration min | $@service.Price</div>
                         <a href="@Url.Action("BookService", "Booking", new {serviceTypeId = service.ServiceId})" class="bookItButton">Book It</a>
                     </div>
                 </div>
             </div>
+        </div>
     }
 </section>
 
@@ -74,12 +81,12 @@ var changeCategory = function (index) {
     var margin = (index * @elementWdth) + '%';
     $('.bar').css('margin-left', margin);
     
-    $('.typeList > .row').hide();
+    $('.typeList .row').hide();
     $('.slidemenu').find('input:checked').each(function () {
-                            $('.typeList > .serviceCategory-' + $(this).attr('rel')).show();
+                            $('.typeList .serviceCategory-' + $(this).attr('rel')).show();
                         });
                         if(!$('.slidemenu').find('input:checked').length){
-                            $('.typeList > .row').show();
+                            $('.typeList  .row').show();
                         }
 }
 </script>
