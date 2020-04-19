@@ -10,7 +10,7 @@
                     <h1 style="font: normal 100 normal 30px/1.79em Playfair Display, serif;">Schedule Online</h1>
                     <hr class="divider-w pt-20">
 
-                    <input hidden="hidden" asp-for="Booking.ServiceId" value="@Model.Service.ServiceId"/>
+                    <input hidden="hidden" id="serviceId" asp-for="Booking.ServiceId" value="@Model.Service.ServiceId"/>
                     <select class="js-example-basic-single" required="required" name="staff" style="width: 100%; padding-top: 32px;"/>
                     <input type="hidden" id="staff" asp-for="Booking.StaffId"/>
                     
@@ -121,6 +121,7 @@
 <script type="text/javascript">
 var staffName;
 var staffId;
+var serviceId = $('#serviceId').val();
 
 $(document).ready(function() {
   $('.js-example-basic-single').select2({
@@ -133,6 +134,7 @@ $(document).ready(function() {
        delay : 250,
        data : function(params) {
          return {
+             serviceId : serviceId,
              searchStaffName : params.term
              }
        },
@@ -140,6 +142,7 @@ $(document).ready(function() {
            $("#Date").val('');
            $("#Time").val('');
            $("#Time").prop('disabled', true);
+           $(".js-example-basic-single").text('');
          return {
              results : data
          };
@@ -161,7 +164,6 @@ $(".js-example-basic-single").on("change", function() {
      
      staffName = $(this).text().trim();
      $("#masterContainer").val(staffName);
-     
    });
 
 $("#Date").on("change", function() {

@@ -78,23 +78,32 @@ namespace SugarCenter.Controllers
             return View(viewModel);
         }
         
-        public async Task<JsonResult> GetStaffForBooking (/*int serviceTypeId,*/ string searchStaffName)
+        public async Task<JsonResult> GetStaffForBooking (int serviceId, string searchStaffName)
         {
-            if (searchStaffName == string.Empty)
+            var staffForService = await _elkRepository.GetStaffForService(serviceId);
+
+            if (string.IsNullOrEmpty(searchStaffName))
             {
-                return Json(null, new JsonSerializerSettings());
+                var result = staffForService.Select(x => new
+                {
+                    id = x.StaffId,
+                    text = (x.FirstName + ' ' + x.LastName)
+                });
+                return Json(result, new JsonSerializerSettings());
             }
             else
             {
-                var services = await _elkRepository.GetStaff(searchStaffName);
+                var staffSortedByName =
+                    staffForService.Where(x => (x.FirstName + ' ' + x.LastName).ToLowerInvariant()
+                        .Contains(searchStaffName.ToLowerInvariant()));
 
-                var modifiedData = services.Select(x => new
+                var result = staffSortedByName.Select(x => new
                 {
                     id = x.StaffId,
                     text = (x.FirstName + ' ' + x.LastName)
                 });
 
-                return Json(modifiedData, new JsonSerializerSettings());
+                return Json(result, new JsonSerializerSettings());
             }
         }
         
