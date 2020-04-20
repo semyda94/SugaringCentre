@@ -277,7 +277,16 @@ namespace SugarCenter.Controllers
         }
 
         #endregion
-        
+
+
+        #region Booking
+
+        public IActionResult Bookings()
+        {
+            return View("Bookings");
+        }
+
+        #endregion
         
     }
 }

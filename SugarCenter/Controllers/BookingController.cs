@@ -122,6 +122,15 @@ namespace SugarCenter.Controllers
             return Json(result, new JsonSerializerSettings());
         }
 
+        public async Task<JsonResult> GetNotAvailableDays(int staffId)
+        {
+            var staff = await _elkRepository.GetStaff(staffId);
+
+            var result = staff.GetWorkingDaysIds();
+            
+            return Json(result, new JsonSerializerSettings());
+        }
+
         private int[] GetTimeInArray(DateTime time)
         {
             return new []{time.Hour, time.Minute};

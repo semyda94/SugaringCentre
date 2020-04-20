@@ -2,121 +2,157 @@
     Layout = "_AdminConsole";
 }
 
-@* <body> *@
-@* *@
-@* <header> *@
-@*     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white" style="padding: 0; height: 120px;"> *@
-@*         <div class="container" style="margin-right: 60px;"> *@
-@*             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;"> *@
-@*                 <ul class="navbar-nav flex-grow-1" style="display: contents;"> *@
-@*                     <li class="nav-item"> *@
-@*                         <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="AdminConsole" asp-action="Home">AdminConsole</a> *@
-@*                     </li> *@
-@*                     <li class="nav-item"> *@
-@*                         <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Blog" asp-action="Index">Blog</a> *@
-@*                     </li> *@
-@*                     <li class="nav-item"> *@
-@*                         <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a> *@
-@*                     </li> *@
-@*                     <li class="nav-item"> *@
-@*                         <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Booking" asp-action="Index">Book Online</a> *@
-@*                     </li> *@
-@*                     <li class="nav-item"> *@
-@*                         <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Home" asp-action="Index">Home</a> *@
-@*                     </li> *@
-@*                 </ul> *@
-@*             </div> *@
-@*         </div> *@
-@*     </nav> *@
-@* </header> *@
-@* *@
-@* <main> *@
-@*     <div class="main"> *@
-@*         <section class="module"> *@
-@*             <div class="container"> *@
-@*                 <div class="row multi-columns-row post-columns"> *@
-@*                     <div class="col-sm-6 col-md-4 col-lg-4"> *@
-@*                         <div class="post"> *@
-@*                             <div class="post-thumbnail"><a asp-area="" asp-controller="AdminConsole" asp-action="Category"><img src="~/imgs/AdminConsole/Category.png" alt="Categories Thumbnail" style="width: 100%; height: auto" /></a></div> *@
-@*                             <div class="post-header font-alt"> *@
-@*                                 <h2 class="post-title"></h2> *@
-@*                             </div> *@
-@*                             <div class="post-entry"> *@
-@*                                 <p>Manage your categories, create, delete or ..... actually thats all at this moment</p> *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                     <div class="col-sm-6 col-md-4 col-lg-4"> *@
-@*                         <div class="post"> *@
-@*                             <div class="post-thumbnail"><a asp-area="" asp-controller="AdminConsole" asp-action="Products"><img src="~/imgs/AdminConsole/Products.jpg" alt="Products Thumbnail" style="width: 100%; height: auto" /></a></div> *@
-@*                             <div class="post-header font-alt"> *@
-@*                                 <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Products">Products</a></h2> *@
-@*                             </div> *@
-@*                             <div class="post-entry"> *@
-@*                                 <p>Edit your products, add new one, enable specials and discounts</p> *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                     <div class="col-sm-6 col-md-4 col-lg-4"> *@
-@*                         <div class="post"> *@
-@*                             <div class="post-thumbnail"><a asp-area="" asp-controller="AdminConsole" asp-action="Servicess"><img src="~/imgs/AdminConsole/Products.jpg" alt="Products Thumbnail" style="width: 100%; height: auto" /></a></div> *@
-@*                             <div class="post-header font-alt"> *@
-@*                                 <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Servicess">Servicess</a></h2> *@
-@*                             </div> *@
-@*                             <div class="post-entry"> *@
-@*                                 <p>Add or edit your serviceCategorys</p> *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                     <div class="col-sm-6 col-md-4 col-lg-4"> *@
-@*                         <div class="post"> *@
-@*                             <div class="post-thumbnail"><a asp-area="" asp-controller="AdminConsole" asp-action="Services"><img src="~/imgs/AdminConsole/Products.jpg" alt="Products Thumbnail" style="width: 100%; height: auto" /></a></div> *@
-@*                             <div class="post-header font-alt"> *@
-@*                                 <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Services">Types</a></h2> *@
-@*                             </div> *@
-@*                             <div class="post-entry"> *@
-@*                                 <p>Add or edit your type of serviceCategory</p> *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                     <div class="col-sm-6 col-md-4 col-lg-4"> *@
-@*                         <div class="post"> *@
-@*                             <div class="post-thumbnail"><a  asp-area="" asp-controller="AdminConsole" asp-action="Staff"><img src="~/imgs/AdminConsole/Staff.jpg" alt="Staff Thumbnail" style="width: 100%; height: auto" /></a></div> *@
-@*                             <div class="post-header font-alt"> *@
-@*                                 <h2 class="post-title"><a  asp-area="" asp-controller="AdminConsole" asp-action="Staff">Staff</a></h2> *@
-@*                             </div> *@
-@*                             <div class="post-entry"> *@
-@*                                 <p>Manage your personal, edit staff info, hire new people or FIRE them ;) </p> *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                     <div class="col-sm-6 col-md-4 col-lg-4"> *@
-@*                     <div class="post"> *@
-@*                         <div class="post-thumbnail"><a  ><img src="~/imgs/AdminConsole/Staff.jpg" alt="Correspondence Thumbnail" style="width: 100%; height: auto" /></a></div> *@
-@*                         <div class="post-header font-alt"> *@
-@*                             <h2 class="post-title"><a >Correspondence</a></h2> *@
-@*                         </div> *@
-@*                         <div class="post-entry"> *@
-@*                             <p>Send the news, specials or memes to people who subscribed to newsletter</p> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </section> *@
-@*     </div> *@
-@* </main> *@
-@* *@
-@* </body> *@
-
-
-
 @**********************************************************************@
 @*                        Main Page Content                           *@
 @**********************************************************************@
 <div class="app-main__outer">
     <div class="app-main__inner">
+        <div class="row">
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-3 widget-content bg-premium-dark">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Orders</div>
+                            <div class="widget-subheading">Last year expenses</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-warning">
+                                <span>1896</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-3 widget-content bg-midnight-bloom">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Clients</div>
+                            <div class="widget-subheading">Total Clients Profit</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span>$ 568</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-3 widget-content bg-grow-early">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Followers</div>
+                            <div class="widget-subheading">People Interested</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span>46%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-md-6">
+                <div class="main-card mb-3 card">
+                    <div class="card-body">
+                        <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                            <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                            </div>
+                        </div>
+                        <h5 class="card-title">Number Bookings per Master</h5>
+                        <canvas id="chart-area" width="468" height="234" class="chartjs-render-monitor" style="display: block; width: 468px; height: 234px;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="main-card mb-3 card">
+                    <div class="card-body">
+                        <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                            <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                            </div>
+                        </div>
+                        <h5 class="card-title">Number Bookings per Service</h5>
+                        <canvas id="polar-chart" width="468" height="234" class="chartjs-render-monitor" style="display: block; width: 468px; height: 234px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+<script>
+
+window.onload = function () {
+        if (document.getElementById("canvas")) {
+            var e = document.getElementById("canvas").getContext("2d");
+            window.myBar = new r.a(e, {
+                type: "bar",
+                data: l,
+                options: {responsive: !0, legend: {position: "top"}, title: {display: !1, text: "Chart.js Bar Chart"}}
+            })
+        }
+        if (document.getElementById("chart-area")) {
+            var t = document.getElementById("chart-area").getContext("2d");
+            window.myPie = new r.a(t, s)
+        }
+        if (document.getElementById("doughnut-chart")) {
+            var n = document.getElementById("doughnut-chart").getContext("2d");
+            window.myDoughnut = new r.a(n, u)
+        }
+        if (document.getElementById("doughnut-chart-2")) {
+            var i = document.getElementById("doughnut-chart-2").getContext("2d");
+            window.myDoughnut = new r.a(i, c)
+        }
+        if (document.getElementById("doughnut-chart-3")) {
+            var a = document.getElementById("doughnut-chart-3").getContext("2d");
+            window.myDoughnut = new r.a(a, c)
+        }
+        if (document.getElementById("radar-chart") && (window.myRadar = new r.a(document.getElementById("radar-chart"), d)), document.getElementById("polar-chart")) {
+            var o = document.getElementById("polar-chart");
+            window.myPolarArea = r.a.PolarArea(o, h)
+        }
+        if (document.getElementById("line-chart")) {
+            var m = document.getElementById("line-chart").getContext("2d");
+            window.myLine = new r.a(m, p)
+        }
+        if (document.getElementById("chart-horiz-bar")) {
+            var g = document.getElementById("chart-horiz-bar").getContext("2d");
+            window.myHorizontalBar = new r.a(g, {
+                type: "horizontalBar",
+                data: f,
+                options: {
+                    elements: {rectangle: {borderWidth: 2}},
+                    responsive: !0,
+                    legend: {position: "right"},
+                    title: {display: !1, text: "Chart.js Horizontal Bar Chart"}
+                }
+            })
+        }
+        if (document.getElementById("stacked-bars-chart")) {
+            var _ = document.getElementById("stacked-bars-chart").getContext("2d");
+            window.myBar = new r.a(_, {
+                type: "bar",
+                data: l,
+                options: {
+                    title: {display: !0, text: "Chart.js Bar Chart - Stacked"},
+                    tooltips: {mode: "index", intersect: !1},
+                    responsive: !0,
+                    scales: {xAxes: [{stacked: !0}], yAxes: [{stacked: !0}]}
+                }
+            })
+        }
+    }
+
+</script>

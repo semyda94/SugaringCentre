@@ -78,7 +78,7 @@
                   clear: 'Clear selection',
                   close: 'Cancel',
                   min: new Date(),
-                  disable: [1]
+                  disable: [true]
                 });
         
          var timpicker = $('.timepicker').pickatime({
@@ -115,10 +115,9 @@
                                            });
                                        }
                                    });
-    </script>
     
     
-<script type="text/javascript">
+  
 var staffName;
 var staffId;
 var serviceId = $('#serviceId').val();
@@ -161,6 +160,20 @@ $(".js-example-basic-single").on("change", function() {
      }
      
      $("#staff").val(staffId);
+     
+     $.ajax({
+            url: '/Booking/GetNotAvailableDays',
+            data : { 'staffId': staffId },
+            contentType: "application/json; charset=utf-8", 
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                var dp = datepicker.pickadate('picker');
+                dp.clear();
+                dp.set('disable', true);
+                dp.set('disable', data);
+            }
+        });
      
      staffName = $(this).text().trim();
      $("#masterContainer").val(staffName);

@@ -216,10 +216,12 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public async Task DeleteStaff(int staffId)
         {
             var staff = _DbContext.Staff.SingleOrDefault(x => x.StaffId == staffId);
+            var staffImageToDelete = _DbContext.StaffImage.Where(x => x.StaffId == staffId);
 
             if (staff != null)
             {
                 _DbContext.Staff.Remove(staff);
+                _DbContext.StaffImage.RemoveRange(staffImageToDelete);
                 await _DbContext.SaveChangesAsync();
             }
         }
@@ -268,6 +270,14 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             await _DbContext.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Staff>> GetStaffForService(int serviceId)
+        {
+            return await _DbContext.ServiceStaff.Where(ss => ss.ServiceId == serviceId)
+                .Include(ss => ss.StaffNavigation)
+                .Select(ss => ss.StaffNavigation)
+                .ToListAsync(); 
+        }
+        
         #endregion
 
         #region ServicesCategory

@@ -42,9 +42,25 @@
                     </div>
 
                     <div class="position-relative row form-group">
-                        <label for="dob" class="col-sm-2 col-form-label">Title</label>
+                        <label for="dob" class="col-sm-2 col-form-label">DOB</label>
                         <div class="col-sm-10">
                             <input type="date" asp-for="Dob" name="Dob" id="dob" placeholder="Enter Date of Birth" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="dayOfWeek" class="col-sm-2 col-form-label">Working Days</label>
+                        <div class="col-sm-10">
+                            <input asp-for="WorkingDayOfWeek" type="hidden" id="workingDayOfWeek"/>
+                            <select class="select2-working-day-of-week" multiple required="required" id="dayOfWeek" name="dayOfWeek" style="width: 100%; padding-top: 32px;">
+                                <option value="1">Sunday</option>
+                                <option value="2">Monday</option>
+                                <option value="3">Tuesday</option>
+                                <option value="4">Wednesday</option>
+                                <option value="5">Thursday</option>
+                                <option value="6">Friday</option>
+                                <option value="7">Saturday</option>
+                            </select>
                         </div>
                     </div>
 
@@ -66,3 +82,24 @@
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function() {
+  $('.select2-working-day-of-week').select2({
+    placeholder: "Select working days",
+    allowClear: true
+  });
+});
+
+$(".select2-working-day-of-week").on("change", function() {
+     var daysId = $(this).val();
+     $("#workingDayOfWeek").val(daysId);
+       
+     var textBoxValueData = $("#workingDayOfWeek").val();
+     $.ajax({
+        url : '/AdminConsole/SaveCategorySelection?categoryIds=' +  textBoxValueData,
+        dataType : 'json',
+        type: 'post'
+     });
+});
+</script>

@@ -160,7 +160,7 @@
         <ul class="vertical-nav-menu">
             <li class="app-sidebar__heading">Dashboards</li>
             <li>
-                <a href="index.html" class="mm-active">
+                <a asp-controller="AdminConsole" asp-action="Home" class="mm-active">
                     <i class="metismenu-icon pe-7s-rocket"></i>
                     Statistic
                 </a>
@@ -232,9 +232,9 @@
             @* Booking *@
             <li class="app-sidebar__heading">Booking</li>
             <li>
-                <a href="dashboard-boxes.html">
+                <a asp-controller="AdminConsole" asp-action="Bookings">
                     <i class="metismenu-icon pe-7s-wristwatch"></i>
-                    Dashboard Boxes
+                    Bookings
                 </a>
             </li>
             
