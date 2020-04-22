@@ -153,7 +153,7 @@ namespace SugarCenter.Controllers
         
         public async Task<IActionResult> StaffConfiguration(int? staffId)
         {
-            return View(staffId == null ? new Staff{StaffId = -1} : await _elkRepository.GetStaff(staffId.Value));
+            return View(staffId == null ? new Staff{StaffId = -1} : await _elkRepository.GetStaffWithLeaves(staffId.Value));
         }
 
         public async Task<IActionResult> SaveStaff(Staff staff)
@@ -170,6 +170,21 @@ namespace SugarCenter.Controllers
             return RedirectToAction("Staff");
         }
 
+        #endregion
+
+        #region Leave
+
+        public async Task<IActionResult> DeleteLeave(int staffId, int leaveId)
+        {
+            await _elkRepository.DeleteLeave(leaveId);
+            return RedirectToAction("StaffConfiguration", new {staffId = staffId});
+        }
+
+        public async Task<IActionResult> CreateLeave(int staffId, DateTime leaveDate, string leaveReason)
+        {
+            await _elkRepository.CreateLeave(staffId, leaveDate, leaveReason);
+            return RedirectToAction("StaffConfiguration", new {staffId = staffId});
+        }
         #endregion
 
         #region ServiceCategories
@@ -277,8 +292,7 @@ namespace SugarCenter.Controllers
         }
 
         #endregion
-
-
+        
         #region Booking
 
         public IActionResult Bookings()

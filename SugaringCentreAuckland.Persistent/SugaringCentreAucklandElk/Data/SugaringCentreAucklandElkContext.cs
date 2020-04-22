@@ -27,6 +27,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<ServiceCategory> ServiceCategory { get; set; }
         public virtual DbSet<ServiceStaff> ServiceStaff { get; set; }
+        public virtual DbSet<Leave> Leave { get; set; }
 
         public virtual DbSet<Subscription> Subscription { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -187,6 +188,17 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 entity.Property(e => e.Title)
                     .HasMaxLength(255)
                     .IsUnicode(false);
+            });
+            
+            modelBuilder.Entity<Leave>(entity =>
+            {
+                entity.HasKey(e => e.LeaveId);
+
+                entity.Property(e => e.LeaveId).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.StaffNavigation)
+                    .WithMany(p => p.Leaves)
+                    .HasForeignKey(d => d.StaffId);
             });
             
             modelBuilder.Entity<StaffImage>(entity =>

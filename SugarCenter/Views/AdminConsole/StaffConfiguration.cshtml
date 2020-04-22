@@ -7,83 +7,187 @@
 
 <div class="app-main__outer">
     <div class="app-main__inner">
-        <div class="main-card mb-3 card">
-            <div class="card-body">
-                @if (@Model.StaffId <= 0)
-                {
-                    <h5 class="card-title">New Staff Member</h5>
-                }
-                else
-                {
-                    <h5 class="card-title">@Model.Title</h5>
-                }
-                <form asp-action="SaveStaff" method="post" enctype="multipart/form-data">
-                    <input type="hidden" asp-for="StaffId"/>
+        <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+            <li class="nav-item">
+                <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                    <span>User Info</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#tab-content-1">
+                    <span>Leave Managment</span>
+                </a>
+            </li>
+        </ul>
 
-                    <div class="position-relative row form-group">
-                        <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
-                        <div class="col-sm-10">
-                            <input asp-for="FirstName" name="firstName" id="firstName" placeholder="Enter First Name" class="form-control">
+        <div class="tab-content">
+            <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+                <div class="main-card mb-3 card">
+                    <div class="card-body">
+                        @if (@Model.StaffId <= 0)
+                        {
+                            <h5 class="card-title">New Staff Member</h5>
+                        }
+                        else
+                        {
+                            <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
+                        }
+                        <form asp-action="SaveStaff" method="post" enctype="multipart/form-data">
+                            <input id="staffId" type="hidden" asp-for="StaffId"/>
+
+                            <div class="position-relative row form-group">
+                                <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                                <div class="col-sm-10">
+                                    <input asp-for="FirstName" name="firstName" id="firstName" placeholder="Enter First Name" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="position-relative row form-group">
+                                <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+                                <div class="col-sm-10">
+                                    <input asp-for="LastName" name="lastName" id="lastName" placeholder="Enter Last Name" class="form-control" reguired>
+                                </div>
+                            </div>
+
+                            <div class="position-relative row form-group">
+                                <label for="title" class="col-sm-2 col-form-label">Title</label>
+                                <div class="col-sm-10">
+                                    <input asp-for="Title" name="title" id="title" placeholder="Enter job title" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="position-relative row form-group">
+                                <label for="dob" class="col-sm-2 col-form-label">DOB</label>
+                                <div class="col-sm-10">
+                                    <input type="date" asp-for="Dob" name="Dob" id="dob" placeholder="Enter Date of Birth" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="position-relative row form-group">
+                                <label for="dayOfWeek" class="col-sm-2 col-form-label">Working Days</label>
+                                <div class="col-sm-10">
+                                    <input asp-for="WorkingDayOfWeek" type="hidden" id="workingDayOfWeek"/>
+                                    <select class="select2-working-day-of-week" multiple required="required" id="dayOfWeek" name="dayOfWeek" style="width: 100%; padding-top: 32px;">
+                                        <option value="1">Sunday</option>
+                                        <option value="2">Monday</option>
+                                        <option value="3">Tuesday</option>
+                                        <option value="4">Wednesday</option>
+                                        <option value="5">Thursday</option>
+                                        <option value="6">Friday</option>
+                                        <option value="7">Saturday</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="position-relative row form-group">
+                                <label for="imageInput" class="col-sm-2 col-form-label">Images</label>
+                                <div class="col-sm-10">
+                                    <input asp-for="ImagesToUpload" id="imageInput" type="file" class="form-control-file">
+                                    <small class="form-text text-muted">Please select profile photo</small>
+                                </div>
+                            </div>
+
+                            <div class="position-relative row form-check">
+                                <div class="col-sm-10 offset-sm-2">
+                                    <button class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-pane tabs-animation fade" id="tab-content-1" role="tabpanel">
+                <div class="main-card mb-3 card">
+                    <div class="card-body">
+                        <h5 class="card-title">Leave Managment</h5>
+                        <div class="mb-3 text-center">
+                            <div role="group" class="btn-group-sm nav btn-group">
+                                <a data-toggle="tab" href="#tab-new-leave" class="btn-shadow active btn btn-primary">New Leave</a>
+                                <a data-toggle="tab" href="#tab-leave-list" class="btn-shadow  btn btn-primary">Leave List</a>
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab-new-leave" role="tabpanel">
+
+                                <div class="card-body">
+                                    <h5 class="card-title">Create new leave</h5>
+                                    <form >
+                                        <div class="position-relative form-group">
+                                            <label for="leaveDate" class="">Date</label>
+                                            <input name="leaveDate" type="date" id="leaveDate" placeholder="with a placeholder" type="email" class="form-control">
+                                        </div>
+                                        <div class="position-relative form-group">
+                                            <label for="leaveReason" class="">Reason</label>
+                                            <textarea name="leaveReason" id="leaveReason" class="form-control"></textarea>
+                                        </div>
+                                        <button class="mt-1 btn btn-primary" onclick="createLeave()">Submit</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane" id="tab-leave-list" role="tabpanel">
+                                <p>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">#</th>
+                                                @* <th class="text-center">Description</th> *@
+                                                <th class="text-center">Date</th>
+                                                <th class="text-center">Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach (var leave in Model.Leaves)
+                                            {
+                                                <tr>
+                                                    <td class="text-center text-muted">#@leave.LeaveId</td>
+                                                    <td>
+                                                        <div class="widget-content p-0">
+                                                            <div class="widget-content-wrapper">
+                                                                <div class="widget-content-left flex2">
+                                                                    <div class="widget-heading text-center">@leave.Date.ToShortDateString()</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-danger btn-sm" onclick='window.location = "@Url.Action("DeleteLeave", "AdminConsole", new {staffId = leave.StaffId, leaveId = leave.LeaveId})";'>Delete</button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </p>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="position-relative row form-group">
-                        <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
-                        <div class="col-sm-10">
-                            <input asp-for="LastName" name="lastName" id="lastName" placeholder="Enter Last Name" class="form-control" reguired>
-                        </div>
-                    </div>
-
-                    <div class="position-relative row form-group">
-                        <label for="title" class="col-sm-2 col-form-label">Title</label>
-                        <div class="col-sm-10">
-                            <input asp-for="Title" name="title" id="title" placeholder="Enter job title" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="position-relative row form-group">
-                        <label for="dob" class="col-sm-2 col-form-label">DOB</label>
-                        <div class="col-sm-10">
-                            <input type="date" asp-for="Dob" name="Dob" id="dob" placeholder="Enter Date of Birth" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="position-relative row form-group">
-                        <label for="dayOfWeek" class="col-sm-2 col-form-label">Working Days</label>
-                        <div class="col-sm-10">
-                            <input asp-for="WorkingDayOfWeek" type="hidden" id="workingDayOfWeek"/>
-                            <select class="select2-working-day-of-week" multiple required="required" id="dayOfWeek" name="dayOfWeek" style="width: 100%; padding-top: 32px;">
-                                <option value="1">Sunday</option>
-                                <option value="2">Monday</option>
-                                <option value="3">Tuesday</option>
-                                <option value="4">Wednesday</option>
-                                <option value="5">Thursday</option>
-                                <option value="6">Friday</option>
-                                <option value="7">Saturday</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="position-relative row form-group">
-                        <label for="imageInput" class="col-sm-2 col-form-label">Images</label>
-                        <div class="col-sm-10">
-                            <input asp-for="ImagesToUpload" id="imageInput" type="file" class="form-control-file">
-                            <small class="form-text text-muted">Please select profile photo</small>
-                        </div>
-                    </div>
-
-                    <div class="position-relative row form-check">
-                        <div class="col-sm-10 offset-sm-2">
-                            <button class="btn btn-success">Submit</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
 
 <script>
+
+
+function createLeave () {
+    let staffId = $('#staffId').val();
+    let leaveDate = $('#leaveDate').val();
+    let leaveReason = $('#leaveReason').val();
+    
+    $.ajax({
+        url : '/AdminConsole/CreateLeave',
+        dataType : 'json',
+        data : {staffId : staffId, leaveDate : leaveDate, leaveReason : leaveReason},
+        type : 'post'
+    })
+}
+
 $(document).ready(function() {
   $('.select2-working-day-of-week').select2({
     placeholder: "Select working days",

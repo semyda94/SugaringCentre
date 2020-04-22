@@ -124,10 +124,28 @@ namespace SugarCenter.Controllers
 
         public async Task<JsonResult> GetNotAvailableDays(int staffId)
         {
+            var daysOfWeek = new List<int>(new []{1,2,3,4,5,6,7});
+            
             var staff = await _elkRepository.GetStaff(staffId);
 
-            var result = staff.GetWorkingDaysIds();
+            var workingDays = staff.GetWorkingDaysIds();
+
+            var workingDaysToExclude = daysOfWeek.Where(x => !workingDays.Contains(x));
             
+            return Json(workingDaysToExclude, new JsonSerializerSettings());
+        }
+        
+        public async Task<JsonResult> GetLeaveDays(int staffId)
+        {
+            var leaves = await _elkRepository.GetLeavesForStaff(staffId);
+
+            var result = leaves.Where(x => x.Date >= DateTime.Today).Select(x => new int []
+            {
+                x.Date.Year,
+                x.Date.Month - 1,
+                x.Date.Day
+            });
+
             return Json(result, new JsonSerializerSettings());
         }
 

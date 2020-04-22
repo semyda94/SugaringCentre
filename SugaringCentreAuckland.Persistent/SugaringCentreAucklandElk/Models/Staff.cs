@@ -12,6 +12,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         {
             StaffImage = new HashSet<StaffImage>();
             ServiceStaff = new HashSet<ServiceStaff>();
+            Leaves = new HashSet<Leave>();
         }
         
         [Column("Staff")]
@@ -27,6 +28,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<StaffImage> StaffImage { get; set; }
         public virtual ICollection<ServiceStaff> ServiceStaff { get; set; }
+        public virtual ICollection<Leave> Leaves { get; set; }
 
         public IEnumerable<int> GetWorkingDaysIds()
         {

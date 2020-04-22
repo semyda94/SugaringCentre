@@ -32,10 +32,12 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task<IEnumerable<Staff>> GetStaffList();
         Task<List<Staff>> GetStaff(string searchName);
         Task<Staff> GetStaff(int staffId);
+        Task<Staff> GetStaffWithLeaves(int staffId);
         Task DeleteStaff(int staffId);
         Task UpdateStaff(Staff staff);
         Task CreateStaff(Staff staff);
         Task<IEnumerable<Staff>> GetStaffForService(int serviceId);
+        Task<IEnumerable<Leave>> GetLeavesForStaff(int staffId);
 
         #endregion
 
@@ -69,5 +71,13 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task<IEnumerable<Booking>> GetBookingsForDate(int staffId, string dateToCheck);
         
         #endregion
+
+        #region Leave
+
+        Task DeleteLeave(int leaveId);
+        Task CreateLeave(int staffId, DateTime date, string reason);
+
+        #endregion
+
     }
 }

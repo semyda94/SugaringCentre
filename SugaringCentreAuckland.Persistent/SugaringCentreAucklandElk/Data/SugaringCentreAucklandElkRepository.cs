@@ -212,6 +212,13 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         {
             return await _DbContext.Staff.Where(x => x.StaffId == staffId).SingleOrDefaultAsync();
         }
+        
+        public async Task<Staff> GetStaffWithLeaves(int staffId)
+        {
+            return await _DbContext.Staff.Where(x => x.StaffId == staffId)
+                .Include(x => x.Leaves)
+                .SingleOrDefaultAsync();
+        }
 
         public async Task DeleteStaff(int staffId)
         {
@@ -277,7 +284,11 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 .Select(ss => ss.StaffNavigation)
                 .ToListAsync(); 
         }
-        
+
+        public async Task<IEnumerable<Leave>> GetLeavesForStaff(int staffId)
+        {
+            return await _DbContext.Leave.Where(x => x.StaffId == staffId).ToListAsync();;
+        }
         #endregion
 
         #region ServicesCategory
@@ -441,6 +452,28 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             return await _DbContext.Bookings.Where(x => x.StaffId == staffId && x.Date.Date == date.Date)
                 .Include(x => x.ServiceNavigation)
                 .ToListAsync();
+        }
+        
+        #endregion
+
+        #region Leave
+
+        public async Task DeleteLeave(int leaveId)
+        {
+            var leaveToDelete = _DbContext.Leave.Where(x => x.LeaveId == leaveId).SingleOrDefault();
+            _DbContext.Leave.Remove(leaveToDelete);
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task CreateLeave(int staffId, DateTime date, string reason)
+        {
+            _DbContext.Leave.Add(new Leave
+            {
+                StaffId = staffId,
+                Date = date
+            });
+
+            await _DbContext.SaveChangesAsync();
         }
 
         #endregion

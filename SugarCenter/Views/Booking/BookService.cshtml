@@ -170,10 +170,22 @@ $(".js-example-basic-single").on("change", function() {
             success: function (data) {
                 var dp = datepicker.pickadate('picker');
                 dp.clear();
-                dp.set('disable', true);
+                dp.set('enable', true);
                 dp.set('disable', data);
             }
         });
+     
+     $.ajax({
+                 url: '/Booking/GetLeaveDays',
+                 data : { 'staffId': staffId },
+                 contentType: "application/json; charset=utf-8", 
+                 dataType: 'json',
+                 async: false,
+                 success: function (data) {
+                     var dp = datepicker.pickadate('picker');
+                     dp.set('disable', data);
+                 }
+             });
      
      staffName = $(this).text().trim();
      $("#masterContainer").val(staffName);
