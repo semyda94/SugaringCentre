@@ -295,9 +295,30 @@ namespace SugarCenter.Controllers
         
         #region Booking
 
-        public IActionResult Bookings()
+        public async Task<IActionResult> Bookings()
         {
-            return View("Bookings");
+            var staff = await _elkRepository.GetStaffList();
+            return View(staff);
+        }
+
+        public IActionResult BookingConfiguration(int bookingId)
+        {
+            var booking = _elkRepository.GetBooking(bookingId);
+            return View(booking);
+        }
+        
+        public JsonResult BookingsGetDataForStaff(int staffId)
+        {
+            var bookings = _elkRepository.GetBookingsForStaff(staffId).GetAwaiter().GetResult();
+
+            var result = bookings.Select(x => new
+            {
+                title = $"{x.ServiceNavigation.Title}\n{x.FirstName} {x.LastName}", 
+                start = new DateTime(x.Date.Year, x.Date.Month, x.Date.Day, x.Time.Hour, x.Time.Minute, 0),
+                url = Url.Action("BookingConfiguration", new {bookingId = x.BookingId})
+            });
+            
+            return Json(result, new JsonSerializerSettings());
         }
 
         #endregion

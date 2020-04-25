@@ -453,6 +453,20 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 .Include(x => x.ServiceNavigation)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Booking>> GetBookingsForStaff(int staffId)
+        {
+            return await _DbContext.Bookings.Where(x => x.StaffId == staffId)
+                .Include(x => x.ServiceNavigation)
+                .ToListAsync();
+        }
+
+        public Booking GetBooking(int bookingId)
+        {
+            return _DbContext.Bookings.Where(x => x.BookingId == bookingId)
+                .Include(x => x.ServiceNavigation)
+                .SingleOrDefault();
+        }
         
         #endregion
 
