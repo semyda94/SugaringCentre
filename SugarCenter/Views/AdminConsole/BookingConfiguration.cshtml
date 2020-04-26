@@ -1,6 +1,8 @@
 ﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Booking
 @{
     Layout = "_AdminConsole";
+    var serviceName = Model.ServiceNavigation?.Title;
+    var staffName = Model.StaffNavigation?.FirstName + ' ' + Model.StaffNavigation?.LastName;
 }
 
 <div class="app-main__outer">
@@ -20,16 +22,20 @@
                     <div class="form-row">
                         <div class="col-md-6">
                             <div class="position-relative form-group">
-                                <label for="master" class="">Master</label>
-                                <input hidden id="masterId" asp-for="StaffId"/>
-                                <input id="master" asp-for="StaffId" placeholder="Client First Name" class="form-control">
+                                <label for="service" class="">Service</label>
+                                <input hidden id="serviceId" asp-for="ServiceId"/>
+                                <input hidden id="serviceName" value="@serviceName"/>
+                                <select id="service" class="service-select form-control" required></select>
+                                @* <input id="service" asp-for="StaffId" placeholder="Client First Name" class="form-control"> *@
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="position-relative form-group">
                                 <label for="master" class="">Master</label>
-                                <input hidden id="masterId" asp-for="StaffId"/>
-                                <input id="master" asp-for="StaffId" placeholder="Client First Name" class="form-control">
+                                <input hidden id="staffId" asp-for="StaffId"/>
+                                <input hidden id="staffName" value="@staffName"/>
+                                <select id="master" class="staff-select form-control" required></select>
                             </div>
                         </div>
                     </div>
@@ -64,7 +70,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-row">
                         <div class="col-md-6">
                             <div class="position-relative form-group">
@@ -96,3 +101,73 @@
         </div>
     </div>
 </div>
+
+<script>
+
+var serviceId = 0;
+var staffId = 0;
+
+$(document).ready(function() {
+    $('.service-select').select2({
+        placeholder : "Select a service",
+        allowClear : true,
+        theme : "classic",
+        ajax : {
+            url : "/AdminConsole/GetServices",
+            dataType : "json",
+            data : function(params) {
+                return {
+                    searchServiceName : params.term
+                }
+            },
+            processResults : function(data, params) {
+                return {
+                    results : data
+                };
+            }
+        }
+    });
+        
+    $('.staff-select').select2({
+            placeholder : "Select a staff",
+            allowClear : true,
+            theme : "classic",
+            ajax : {
+                url : "/AdminConsole/GetStaffForService",
+                dataType : "json",
+                data : function(params) {
+                    return {
+                        serviceId : serviceId,
+                        searchServiceName : params.term
+                    }
+                },
+                processResults : function(data, params) {
+                    return {
+                        results : data
+                    };
+                }
+            }
+        });
+    
+    serviceId = $('#serviceId').val();
+    var serviceName = $('#serviceName').val();
+    $('.service-select').append(new Option(serviceName, serviceId, true,true));
+    
+    staffId = $('#staffId').val();
+    var staffName = $('#staffName').val();
+    $('.staff-select').append(new Option(staffName, staffId, true,true));
+});
+
+$(".service-select").on("change", function() {
+     serviceId = $(this).val();
+          
+     $("#serviceId").val(serviceId);
+});
+
+$(".staff-select").on("change", function() {
+     staffId = $(this).val();
+          
+     $("#staffId").val(staffId);
+});
+
+</script>

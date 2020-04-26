@@ -21,7 +21,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
         public string LastName { get; set; }
         public string Title { get; set; }
         public DateTime? Dob { get; set; }
-        public string WorkingDayOfWeek { get; set; }
+        public string WorkingDaysOfWeek { get; set; }
         [NotMapped]
         public List<IFormFile> ImagesToUpload { get; set; }
         
@@ -32,7 +32,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 
         public IEnumerable<int> GetWorkingDaysIds()
         {
-            return this.WorkingDayOfWeek.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
+            return this.WorkingDaysOfWeek.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
         }
     }
 }

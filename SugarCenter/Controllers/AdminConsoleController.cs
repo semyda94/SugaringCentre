@@ -140,6 +140,19 @@ namespace SugarCenter.Controllers
             });
             return Json(modifiedData, new JsonSerializerSettings());
         }
+        
+        public async Task<JsonResult> GetStaffForService (int serviceId, string searchStaffName)
+        {
+            var services = await _elkRepository.GetStaff(searchStaffName);
+            
+            
+            var modifiedData = services.Select(x => new
+            {
+                id = x.StaffId,
+                text = (x.FirstName + ' ' +  x.LastName)
+            });
+            return Json(modifiedData, new JsonSerializerSettings());
+        }
 
         public async Task<IActionResult> DeleteStaff(int? staffId)
         {
@@ -153,7 +166,7 @@ namespace SugarCenter.Controllers
         
         public async Task<IActionResult> StaffConfiguration(int? staffId)
         {
-            return View(staffId == null ? new Staff{StaffId = -1} : await _elkRepository.GetStaffWithLeaves(staffId.Value));
+            return View(staffId == null ? new Staff() : await _elkRepository.GetStaffWithLeaves(staffId.Value));
         }
 
         public async Task<IActionResult> SaveStaff(Staff staff)

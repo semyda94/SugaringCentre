@@ -217,6 +217,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         {
             return await _DbContext.Staff.Where(x => x.StaffId == staffId)
                 .Include(x => x.Leaves)
+                .Include(x => x.StaffImage)
                 .SingleOrDefaultAsync();
         }
 
@@ -241,6 +242,33 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             staffToUpdate.LastName = staff.LastName;
             staffToUpdate.Title = staff.Title;
             staffToUpdate.Dob = staff.Dob;
+            staffToUpdate.WorkingDaysOfWeek = staff.WorkingDaysOfWeek; 
+            
+            if (staff.ImagesToUpload != null && staff.ImagesToUpload.Any())
+            {
+                var staffImagesToDelete = _DbContext.StaffImage.Where(x => x.StaffId == staff.StaffId).ToList();
+                _DbContext.StaffImage.RemoveRange(staffImagesToDelete);
+                
+                var imageToSafe = new List<StaffImage>();
+                foreach (var image in staff.ImagesToUpload)
+                {
+                    if (image.Length > 0)
+                    {
+                       
+                        using (var stream = new MemoryStream())
+                        {
+                            await image.CopyToAsync(stream);
+                            imageToSafe.Add(new StaffImage
+                            {
+                                StaffId = staff.StaffId,
+                                Image = stream.ToArray()
+                            });
+                        }
+                    }
+                }
+                
+                _DbContext.StaffImage.AddRange(imageToSafe);
+            }
             
             _DbContext.Staff.Update(staffToUpdate);
             await _DbContext.SaveChangesAsync();
@@ -248,7 +276,6 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         
         public async Task CreateStaff(Staff staff)
         {
-            staff.StaffId = 0;
             _DbContext.Staff.Add(staff);
 
             if (staff.ImagesToUpload != null && staff.ImagesToUpload.Any())
@@ -465,6 +492,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         {
             return _DbContext.Bookings.Where(x => x.BookingId == bookingId)
                 .Include(x => x.ServiceNavigation)
+                .Include(x => x.StaffNavigation)
                 .SingleOrDefault();
         }
         

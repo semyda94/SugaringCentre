@@ -32,64 +32,88 @@
                         {
                             <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
                         }
-                        <form asp-action="SaveStaff" method="post" enctype="multipart/form-data">
+                        <form asp-action="SaveStaff" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
                             <input id="staffId" type="hidden" asp-for="StaffId"/>
 
                             <div class="position-relative row form-group">
-                                <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
-                                <div class="col-sm-10">
-                                    <input asp-for="FirstName" name="firstName" id="firstName" placeholder="Enter First Name" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="position-relative row form-group">
-                                <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
-                                <div class="col-sm-10">
-                                    <input asp-for="LastName" name="lastName" id="lastName" placeholder="Enter Last Name" class="form-control" reguired>
-                                </div>
-                            </div>
-
-                            <div class="position-relative row form-group">
-                                <label for="title" class="col-sm-2 col-form-label">Title</label>
-                                <div class="col-sm-10">
-                                    <input asp-for="Title" name="title" id="title" placeholder="Enter job title" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="position-relative row form-group">
-                                <label for="dob" class="col-sm-2 col-form-label">DOB</label>
-                                <div class="col-sm-10">
-                                    <input type="date" asp-for="Dob" name="Dob" id="dob" placeholder="Enter Date of Birth" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="position-relative row form-group">
-                                <label for="dayOfWeek" class="col-sm-2 col-form-label">Working Days</label>
-                                <div class="col-sm-10">
-                                    <input asp-for="WorkingDayOfWeek" type="hidden" id="workingDayOfWeek"/>
-                                    <select class="select2-working-day-of-week" multiple required="required" id="dayOfWeek" name="dayOfWeek" style="width: 100%; padding-top: 32px;">
-                                        <option value="1">Sunday</option>
-                                        <option value="2">Monday</option>
-                                        <option value="3">Tuesday</option>
-                                        <option value="4">Wednesday</option>
-                                        <option value="5">Thursday</option>
-                                        <option value="6">Friday</option>
-                                        <option value="7">Saturday</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="position-relative row form-group">
-                                <label for="imageInput" class="col-sm-2 col-form-label">Images</label>
-                                <div class="col-sm-10">
-                                    <input asp-for="ImagesToUpload" id="imageInput" type="file" class="form-control-file">
+                                <div class="col-sm-4" style="text-align: center">
+                                    @if (Model.StaffImage == null)
+                                    {
+                                        <img class="staff-profile-img" id="profileThumbnail" src="~/imgs/AdminConsole/noProfilePicture.jpg" alt="your image"/>
+                                    }
+                                    else
+                                    {
+                                        var thumbImg = Convert.ToBase64String(Model.StaffImage.First()?.Image);
+                                        <img class="img-fluid staff-profile-img" id="profileThumbnail" src="data:image/jpeg;base64,@thumbImg" alt="your image"/>
+                                    }
+                                    <input asp-for="ImagesToUpload" onchange="readURL(this);" id="imageInput" type="file" class="form-control-file">
+                                    <div class="invalid-feedback">
+                                        Please select profile photo.
+                                    </div>
                                     <small class="form-text text-muted">Please select profile photo</small>
                                 </div>
-                            </div>
+                                <div class="col-sm-8">
+                                    <div class="position-relative row form-group">
+                                        <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="FirstName" name="firstName" id="firstName" placeholder="Enter First Name" class="form-control" required>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter valid a First Name.
+                                        </div>
+                                    </div>
 
-                            <div class="position-relative row form-check">
-                                <div class="col-sm-10 offset-sm-2">
-                                    <button class="btn btn-success">Submit</button>
+                                    <div class="position-relative row form-group">
+                                        <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="LastName" name="lastName" id="lastName" placeholder="Enter Last Name" class="form-control" reguired>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter valid a Last Name.
+                                        </div>
+                                    </div>
+
+                                    <div class="position-relative row form-group">
+                                        <label for="title" class="col-sm-2 col-form-label">Title</label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Title" name="title" id="title" placeholder="Enter job title" class="form-control" required>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter valid a Title.
+                                        </div>
+                                    </div>
+
+                                    <div class="position-relative row form-group">
+                                        <label for="dob" class="col-sm-2 col-form-label">DOB</label>
+                                        <div class="col-sm-10">
+                                            <input type="date" asp-for="Dob" name="Dob" id="dob" placeholder="Enter Date of Birth" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="position-relative row form-group">
+                                        <label for="dayOfWeek" class="col-sm-2 col-form-label">Working Days</label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="WorkingDaysOfWeek" type="hidden" id="workingDayOfWeek" required/>
+                                            <select class="select2-working-day-of-week" multiple id="dayOfWeek" name="dayOfWeek" style="width: 100%; padding-top: 32px;">
+                                                <option value="1">Sunday</option>
+                                                <option value="2">Monday</option>
+                                                <option value="3">Tuesday</option>
+                                                <option value="4">Wednesday</option>
+                                                <option value="5">Thursday</option>
+                                                <option value="6">Friday</option>
+                                                <option value="7">Saturday</option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please select at least on working day.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="position-relative row form-check">
+                                        <div class="col-sm-12" style="text-align: right">
+                                            <button class="btn btn-success" style="margin-right: auto">Submit</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -174,6 +198,19 @@
 
 <script>
 
+function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#profileThumbnail')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
 
 function createLeave () {
     let staffId = $('#staffId').val();
@@ -189,10 +226,44 @@ function createLeave () {
 }
 
 $(document).ready(function() {
-  $('.select2-working-day-of-week').select2({
-    placeholder: "Select working days",
-    allowClear: true
-  });
+    $('.select2-working-day-of-week').select2({
+        placeholder: "Select working days",
+        allowClear: true
+    });
+  
+    var selectedDays = $('#workingDayOfWeek').val().split(',');
+  
+    for (i = 0; i < selectedDays.length; ++i) {
+          var dayName;
+          switch (selectedDays[i]) {
+              case '1': 
+                  dayName = "Sunday";
+                  break;
+              case '2':
+                  dayName = "Monday";
+                  break;
+              case '3':
+                  dayName = "Tuesday";
+                  break;
+              case '4':
+                  dayName = "Wednesday";
+                  break;
+              case '5':
+                  dayName = "Thursday";
+                  break;
+              case '6':
+                  dayName = "Friday";
+                  break
+              case '7':
+                  dayName = "Saturday";
+                  break;
+              default:
+                  dayName = "no Day";
+                  break
+        }
+        $('.select2-working-day-of-week').append(new Option(dayName, selectedDays[i], true, true));
+    }   
+  
 });
 
 $(".select2-working-day-of-week").on("change", function() {
