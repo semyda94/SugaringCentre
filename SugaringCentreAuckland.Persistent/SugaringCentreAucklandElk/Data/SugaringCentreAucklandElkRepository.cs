@@ -397,7 +397,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task<Service> GetServiceById(int serviceId)
         {
-            return await _DbContext.Services.SingleOrDefaultAsync(x => x.ServiceId == serviceId);
+            return await _DbContext.Services.Include(x => x.ServiceCategoryNavigation)
+                .SingleOrDefaultAsync(x => x.ServiceId == serviceId);
         }
         
         public async Task<IEnumerable<Service>> GetServiceForCategory(int serviceCategoryId)
@@ -407,7 +408,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task UpdateService(Service service)
         {
-            var serviceToUpdate = _DbContext.Services.Single(x => x.ServiceId == service.ServiceId);
+            var serviceToUpdate = _DbContext.Services.Include(x => x.ServiceStaff)
+                .Single(x => x.ServiceId == service.ServiceId);
 
             serviceToUpdate.Title = service.Title;
             serviceToUpdate.Desc = service.Desc;
@@ -415,13 +417,57 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             serviceToUpdate.Duration = service.Duration;
             serviceToUpdate.ServiceCategoryId = service.ServiceCategoryId;
             
+            if (service.ImagesToUpload != null && service.ImagesToUpload.Length > 0)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    await service.ImagesToUpload.CopyToAsync(stream);
+                    serviceToUpdate.Image = stream.ToArray();
+                }
+            }
+            
+            if (service.SelectedStaff != null)
+            {
+                var existedStaff = serviceToUpdate.ServiceStaff.Select(x => x.StaffId);
+                var splitedStaff = service.SelectedStaff.Split(',',
+                        StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => Int32.Parse(x));
+
+                var serviceStaffIdsToAdd = splitedStaff.Where(x => !existedStaff.Contains(x));
+                var serviceStaffIdsToDelete = existedStaff.Where(x => !splitedStaff.Contains(x));
+
+                if (serviceStaffIdsToAdd.Any())
+                {
+                    var serviceStaffToAdd = new List<ServiceStaff>();
+                    
+                    foreach (var staff in serviceStaffIdsToAdd)
+                    {
+                        serviceStaffToAdd.Add(new ServiceStaff()
+                        {
+                            StaffId = staff,
+                            ServiceId = service.ServiceId
+                        });
+                    }
+
+                    _DbContext.ServiceStaff.AddRange(serviceStaffToAdd);
+                }
+                
+                if (serviceStaffIdsToDelete.Any())
+                {
+                    var serviceStaffToDelete =
+                        serviceToUpdate.ServiceStaff.Where(x => serviceStaffIdsToDelete.Contains(x.StaffId));
+                    
+                    _DbContext.ServiceStaff.RemoveRange(serviceStaffToDelete);
+                }
+                
+            }
+            
             _DbContext.Services.Update(serviceToUpdate);
             await _DbContext.SaveChangesAsync();
         }
 
         public async Task CreateService(Service service)
         {
-            service.ServiceId = 0;
             _DbContext.Services.Add(service);
 
             await _DbContext.SaveChangesAsync();

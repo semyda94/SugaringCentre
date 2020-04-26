@@ -37,7 +37,7 @@
 
                             <div class="position-relative row form-group">
                                 <div class="col-sm-4" style="text-align: center">
-                                    @if (Model.StaffImage == null)
+                                    @if (Model.StaffImage == null || !Model.StaffImage.Any())
                                     {
                                         <img class="staff-profile-img" id="profileThumbnail" src="~/imgs/AdminConsole/noProfilePicture.jpg" alt="your image"/>
                                     }
@@ -233,36 +233,38 @@ $(document).ready(function() {
   
     var selectedDays = $('#workingDayOfWeek').val().split(',');
   
-    for (i = 0; i < selectedDays.length; ++i) {
-          var dayName;
-          switch (selectedDays[i]) {
-              case '1': 
-                  dayName = "Sunday";
-                  break;
-              case '2':
-                  dayName = "Monday";
-                  break;
-              case '3':
-                  dayName = "Tuesday";
-                  break;
-              case '4':
-                  dayName = "Wednesday";
-                  break;
-              case '5':
-                  dayName = "Thursday";
-                  break;
-              case '6':
-                  dayName = "Friday";
-                  break
-              case '7':
-                  dayName = "Saturday";
-                  break;
-              default:
-                  dayName = "no Day";
-                  break
-        }
-        $('.select2-working-day-of-week').append(new Option(dayName, selectedDays[i], true, true));
-    }   
+    if (selectedDays.length > 0) {
+        for (i = 0; i < selectedDays.length; ++i) {
+              var dayName;
+              switch (selectedDays[i]) {
+                  case '1': 
+                      dayName = "Sunday";
+                      break;
+                  case '2':
+                      dayName = "Monday";
+                      break;
+                  case '3':
+                      dayName = "Tuesday";
+                      break;
+                  case '4':
+                      dayName = "Wednesday";
+                      break;
+                  case '5':
+                      dayName = "Thursday";
+                      break;
+                  case '6':
+                      dayName = "Friday";
+                      break
+                  case '7':
+                      dayName = "Saturday";
+                      break;
+                  default:
+                      dayName = "no Day";
+                      break
+            }
+            $('.select2-working-day-of-week').append(new Option(dayName, selectedDays[i], true, true));
+        } 
+    }
   
 });
 

@@ -2,6 +2,7 @@
 
 @{
     Layout = "_AdminConsole";
+    var staffId = Model.ServiceCategoryNavigation?.Title;
 }
 
 <div class="app-main__outer">
@@ -16,64 +17,89 @@
                 {
                     <h5 class="card-title">@Model.Title</h5>
                 }
-                <form asp-action="SaveService" method="post" enctype="multipart/form-data">
-                    <input type="hidden" asp-for="ServiceId"/>
+                <form asp-action="SaveService" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    <input id="serviceId" type="hidden" asp-for="ServiceId"/>
 
                     <div class="position-relative row form-group">
-                        <label for="title" class="col-sm-2 col-form-label">Title</label>
-                        <div class="col-sm-10">
-                            <input asp-for="Title" name="title" id="title" placeholder="Enter title" class="form-control">
+                        <div class="col-sm-4" style="text-align: center">
+                            @if (Model.Image == null || !Model.Image.Any())
+                            {
+                                <img class="staff-profile-img" id="profileThumbnail" src="~/imgs/AdminConsole/noImage.jpg" alt="your image"/>
+                            }
+                            else
+                            {
+                                var thumbImg = Convert.ToBase64String(Model.Image);
+                                <img class="img-fluid staff-profile-img" id="profileThumbnail" src="data:image/jpeg;base64,@thumbImg" alt="your image"/>
+                            }
+                            <input asp-for="ImagesToUpload" onchange="readURL(this);" id="imageInput" type="file" class="form-control-file">
+                            <div class="invalid-feedback">
+                                Please select profile photo.
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="position-relative row form-group">
-                        <label for="priceNzd" class="col-sm-2 col-form-label">Price NZD</label>
-                        <div class="col-sm-10">
-                            <input asp-for="Price" type="number" step="any" name="price" id="priceNzd" placeholder="Enter price of service in NZD" class="form-control">
-                        </div>
-                    </div>
+                        <div class="col-sm-8">
+                            <div class="position-relative row form-group">
+                                <label for="title" class="col-sm-2 col-form-label">Title</label>
+                                <div class="col-sm-10">
+                                    <input asp-for="Title" name="title" id="title" placeholder="Enter title" class="form-control" required>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter valid a service title.
+                                </div>
+                            </div>
 
-                    <div class="position-relative row form-group">
-                        <label for="duration" class="col-sm-2 col-form-label">Duration Min</label>
-                        <div class="col-sm-10">
-                            <input asp-for="Duration" type="number" step="any" name="duration" id="duration" placeholder="Enter duration of service in minutes" class="form-control">
-                        </div>
-                    </div>
+                            <div class="position-relative row form-group">
+                                <label for="priceNzd" class="col-sm-2 col-form-label">Price NZD</label>
+                                <div class="col-sm-10">
+                                    <input asp-for="Price" type="number" step="any" name="price" id="priceNzd" placeholder="Enter price of service in NZD" class="form-control" required>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter valid a service price.
+                                </div>
+                            </div>
 
-                    <div class="position-relative row form-group">
-                        <label for="categories" class="col-sm-2 col-form-label">Select Categories</label>
-                        <div class="col-sm-10">
-                            <input type="hidden" id="services" asp-for="ServiceCategoryId"/>
-                            <select class="serviceCategoryRelated" name="serviceCategorys[]" style="width: 100%; padding-top: 32px;"></select>
-                        </div>
-                    </div>
+                            <div class="position-relative row form-group">
+                                <label for="duration" class="col-sm-2 col-form-label">Duration Min</label>
+                                <div class="col-sm-10">
+                                    <input asp-for="Duration" type="number" step="any" name="duration" id="duration" placeholder="Enter duration of service in minutes" class="form-control" required>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter valid a service duration.
+                                </div>
+                            </div>
 
-                    <div class="position-relative row form-group">
-                        <label for="categories" class="col-sm-2 col-form-label">Select Staff</label>
-                        <div class="col-sm-10">
-                            <input type="hidden" id="staff" asp-for="SelectedStaff"/>
-                            <select class="staffRelated" name="staff[]" multiple="multiple" style="width: 100%; padding-top: 32px;"></select>
-                        </div>
-                    </div>
+                            <div class="position-relative row form-group">
+                                <label for="categories" class="col-sm-2 col-form-label">Select Categories</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" id="category" asp-for="ServiceCategoryId"/>
+                                    <input type="hidden" id="categoryName" asp-for="ServiceCategoryNavigation.Title"/>
+                                    <select class="serviceCategoryRelated" name="serviceCategorys[]" style="width: 100%; padding-top: 32px;"></select>
+                                </div>
+                            </div>
 
-                    <div class="position-relative row form-group">
-                        <label for="descInput" class="col-sm-2 col-form-label">Description</label>
-                        <div class="col-sm-10">
-                            <textarea asp-for="Desc" id="descInput" class="form-control"></textarea>
-                        </div>
-                    </div>
+                            <div class="position-relative row form-group">
+                                <label for="categories" class="col-sm-2 col-form-label">Select Staff</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" id="staff" asp-for="SelectedStaff"/>
+                                    <select class="staffRelated" name="staff[]" multiple="multiple" style="width: 100%; padding-top: 32px;"></select>
+                                </div>
+                            </div>
 
-                    <div class="position-relative row form-group">
-                        <label for="imageInput" class="col-sm-2 col-form-label">Images</label>
-                        <div class="col-sm-10">
-                            <input asp-for="ImagesToUpload" multiple="multiple" id="imageInput" type="file" class="form-control-file">
-                            <small class="form-text text-muted">First choosen image will be preview for service</small>
-                        </div>
-                    </div>
+                            <div class="position-relative row form-group">
+                                <label for="descInput" class="col-sm-2 col-form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea asp-for="Desc" id="descInput" class="form-control"></textarea>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter valid a description.
+                                </div>
+                            </div>
 
-                    <div class="position-relative row form-check">
-                        <div class="col-sm-10 offset-sm-2">
-                            <button class="btn btn-success">Submit</button>
+                            <div class="position-relative row form-check">
+                                <div class="col-sm-12" style="text-align: right">
+                                    <button class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -83,6 +109,20 @@
 </div>
 
 <script type="text/javascript">
+
+function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#profileThumbnail')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+}
+
 $(document).ready(function() {
   $('.serviceCategoryRelated').select2({
     placeholder: "Select Category",
@@ -104,40 +144,63 @@ $(document).ready(function() {
        }
     }
   });
+  
+  $('.staffRelated').select2({
+      placeholder: "Select staff",
+      allowClear: true,
+      theme: "classic",
+      ajax : {
+         url : "/AdminConsole/GetStaff",
+         dataType : "json",
+         delay : 250,
+         data : function(params) {
+           return {
+               searchStaffName : params.term
+               }
+         },
+         processResults : function(data, params) {
+           return {
+               results : data
+           };
+         }
+      }
+    });
+  
+  var categoryId = $('#category').val();
+  var categoryName = $('#categoryName').val();
+  
+  if (categoryId && categoryName) {
+        $('.serviceCategoryRelated').append(new Option(categoryName, categoryId, false, true))
+  }
+  
+  var serviceId = $('#serviceId').val();
+  
+  if (serviceId) {
+        var selectedStaff;
+        $.ajax( {
+              url : "/AdminConsole/GetStaffForService",
+              dataType : "json",
+              data : { serviceId : serviceId, searchStaffName : ''},
+              success : function(data) {
+                    console.log(data);
+                    
+                    data.forEach(staff => $('.staffRelated').append(new Option(staff.text, staff.id, true, true)));
+                    data.forEach(staff => $("#staff").val(staff.id));
+              }
+        })
+  }
+  
 });
 
 $(".serviceCategoryRelated").on("change", function() {
   var serviceCategoryId = $(this).val();
-  $("#services").val(serviceCategoryId);
+  $("#category").val(serviceCategoryId);
   
-  var textBoxValueData = $("#services").val();
+  var textBoxValueData = $("#category").val();
   $.ajax({
           url : '/AdminConsole/SaveCategorySelection?categoryIds=' +  textBoxValueData,
           dataType : 'json',
           type: 'post'
-  });
-});
-
-$(document).ready(function() {
-  $('.staffRelated').select2({
-    placeholder: "Select staff",
-    allowClear: true,
-    theme: "classic",
-    ajax : {
-       url : "/AdminConsole/GetStaff",
-       dataType : "json",
-       delay : 250,
-       data : function(params) {
-         return {
-             searchStaffName : params.term
-             }
-       },
-       processResults : function(data, params) {
-         return {
-             results : data
-         };
-       }
-    }
   });
 });
 

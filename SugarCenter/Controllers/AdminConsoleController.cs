@@ -143,10 +143,9 @@ namespace SugarCenter.Controllers
         
         public async Task<JsonResult> GetStaffForService (int serviceId, string searchStaffName)
         {
-            var services = await _elkRepository.GetStaff(searchStaffName);
-            
-            
-            var modifiedData = services.Select(x => new
+            var staff = await _elkRepository.GetStaffForService(serviceId);
+
+            var modifiedData = staff.Select(x => new
             {
                 id = x.StaffId,
                 text = (x.FirstName + ' ' +  x.LastName)
@@ -219,10 +218,7 @@ namespace SugarCenter.Controllers
         public async Task<IActionResult> ServiceCategoryConfiguration(int? serviceCategoryId)
         {
             return View(serviceCategoryId == null
-                ? new ServiceCategory
-                {
-                    ServiceCategoryId = -1
-                }
+                ? new ServiceCategory()
                 : await _elkRepository.GetServiceCategoryById(serviceCategoryId.Value));
         }
         
@@ -283,10 +279,7 @@ namespace SugarCenter.Controllers
         public async Task<IActionResult> ServiceConfiguration(int? serviceId)
         {
             return View(serviceId == null
-                ? new Service
-                {
-                    ServiceId = -1
-                }
+                ? new Service()
                 : await _elkRepository.GetServiceById(serviceId.Value));
         }
         
