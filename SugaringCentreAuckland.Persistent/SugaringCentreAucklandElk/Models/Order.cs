@@ -6,7 +6,6 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 {
     public partial class Order
     {
-
         public Order()
         {
             ProductOrders = new HashSet<ProductOrder>();
@@ -16,7 +15,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 
         public string Client { get; set; }
         public DateTime Date { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal Amount { get; set; }
         
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
     }

@@ -68,6 +68,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         #region Booking
 
         Task CreateBooking(Booking booking);
+        Task DeleteBooking(int bookingId);
+        Task UpdateBooking(Booking booking);
         Task<IEnumerable<Booking>> GetBookingsForDate(int staffId, string dateToCheck);
         Task<IEnumerable<Booking>> GetBookingsForStaff(int staffId);
         Booking GetBooking(int bookingId);

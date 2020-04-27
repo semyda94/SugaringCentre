@@ -468,6 +468,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         public async Task CreateService(Service service)
         {
+            service.ServiceCategoryNavigation = null;
             _DbContext.Services.Add(service);
 
             await _DbContext.SaveChangesAsync();
@@ -516,6 +517,38 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             booking.ServiceNavigation = null;
             booking.StaffNavigation = null;
             _DbContext.Bookings.Add(booking);
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteBooking(int bookingId)
+        {
+            var booking = _DbContext.Bookings.SingleOrDefault(x => x.BookingId == bookingId);
+            
+            if (booking != null)
+            {
+                _DbContext.Remove(booking);
+                await _DbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateBooking(Booking booking)
+        {
+            var bookingToUpdate = _DbContext.Bookings.SingleOrDefault(x => x.BookingId == booking.BookingId);
+
+            if (bookingToUpdate == null)
+                return;
+
+            bookingToUpdate.ServiceId = booking.ServiceId;
+            bookingToUpdate.StaffId = booking.StaffId;
+            bookingToUpdate.Date = booking.Date;
+            bookingToUpdate.Time = booking.Time;
+            bookingToUpdate.FirstName = booking.FirstName;
+            bookingToUpdate.LastName = booking.LastName;
+            bookingToUpdate.Email = booking.Email;
+            bookingToUpdate.Phone = booking.Phone;
+            bookingToUpdate.Message = booking.Message;
+
+            _DbContext.Bookings.Update(bookingToUpdate);
             await _DbContext.SaveChangesAsync();
         }
 

@@ -1,15 +1,15 @@
 ﻿@model SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models.Booking
 @{
     Layout = "_AdminConsole";
-    var serviceName = Model.ServiceNavigation?.Title;
-    var staffName = Model.StaffNavigation?.FirstName + ' ' + Model.StaffNavigation?.LastName;
+    var serviceName = Model?.ServiceNavigation?.Title;
+    var staffName = Model?.StaffNavigation?.FirstName + ' ' + Model?.StaffNavigation?.LastName;
 }
 
 <div class="app-main__outer">
     <div class="app-main__inner">
         <div class="main-card mb-3 card">
             <div class="card-body">
-                <form class="">
+                <form class="" asp-controller="AdminConsole" asp-action="SaveBooking">
                     @if (@Model.ServiceId <= 0)
                     {
                         <h5 class="card-title">New Booking</h5>
@@ -19,6 +19,7 @@
                         <h5 class="card-title">@Model.ServiceNavigation.Title for @Model.LastName</h5>
                     }
 
+                    <input hidden asp-for="BookingId"/>
                     <div class="form-row">
                         <div class="col-md-6">
                             <div class="position-relative form-group">
@@ -26,7 +27,6 @@
                                 <input hidden id="serviceId" asp-for="ServiceId"/>
                                 <input hidden id="serviceName" value="@serviceName"/>
                                 <select id="service" class="service-select form-control" required></select>
-                                @* <input id="service" asp-for="StaffId" placeholder="Client First Name" class="form-control"> *@
                             </div>
                         </div>
 
@@ -93,8 +93,8 @@
                     </div>
 
                     <div class="form-row">
-                        <button class="mt-2 btn btn-primary">Save</button>
-                        <button class="mt-2 btn btn-danger" style="margin-left: 20px">Cancel</button>
+                        <button type="submit" class="mt-2 btn btn-primary">Save</button>
+                        <button type="button" class="mt-2 btn btn-danger" style="margin-left: 20px" onclick='window.location = "@Url.Action("DeleteBooking", "AdminConsole", new {bookingId = Model.BookingId})";'>Delete</button>
                     </div>
                 </form>
             </div>

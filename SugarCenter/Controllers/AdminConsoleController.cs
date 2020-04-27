@@ -307,10 +307,11 @@ namespace SugarCenter.Controllers
             return View(staff);
         }
 
-        public IActionResult BookingConfiguration(int bookingId)
+        public IActionResult BookingConfiguration(int? bookingId)
         {
-            var booking = _elkRepository.GetBooking(bookingId);
-            return View(booking);
+            return View(bookingId == null
+                ? new Booking()
+                : _elkRepository.GetBooking(bookingId.Value));
         }
         
         public JsonResult BookingsGetDataForStaff(int staffId)
@@ -325,6 +326,27 @@ namespace SugarCenter.Controllers
             });
             
             return Json(result, new JsonSerializerSettings());
+        }
+        
+        public async Task<IActionResult> SaveBooking(Booking booking)
+        {
+            if (booking.BookingId > 0)
+            {
+                await _elkRepository.UpdateBooking(booking);
+            }
+            else
+            {
+                await _elkRepository.CreateBooking(booking);
+            }
+            return RedirectToAction("Bookings");
+        }
+
+        public async Task<IActionResult> DeleteBooking(int bookingId)
+        {
+            if (bookingId > 0)
+                await _elkRepository.DeleteBooking(bookingId);
+            
+            return RedirectToAction("Bookings");
         }
 
         #endregion
