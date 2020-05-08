@@ -15,11 +15,10 @@
                     <div class="widget-content-wrapper text-white">
                         <div class="widget-content-left">
                             <div class="widget-heading">Total Orders</div>
-                            <div class="widget-subheading">Last year expenses</div>
                         </div>
                         <div class="widget-content-right">
                             <div class="widget-numbers text-warning">
-                                <span> @Model.NumberOfOrders</span>
+                                <span>&nbsp @Model.OrdersNumber</span>
                             </div>
                         </div>
                     </div>
@@ -29,12 +28,11 @@
                 <div class="card mb-3 widget-content bg-midnight-bloom">
                     <div class="widget-content-wrapper text-white">
                         <div class="widget-content-left">
-                            <div class="widget-heading">Clients</div>
-                            <div class="widget-subheading">Total Clients Profit</div>
+                            <div class="widget-heading">Order Value</div>
                         </div>
                         <div class="widget-content-right">
                             <div class="widget-numbers text-white">
-                                <span> $ 568</span>
+                                <span>&nbsp $ 568</span>
                             </div>
                         </div>
                     </div>
@@ -45,11 +43,10 @@
                     <div class="widget-content-wrapper text-white">
                         <div class="widget-content-left">
                             <div class="widget-heading">Total Bookings</div>
-                            <div class="widget-subheading">People Interested</div>
                         </div>
                         <div class="widget-content-right">
                             <div class="widget-numbers text-white">
-                                <span> @Model.NumberOfBookings</span>
+                                <span>&nbsp @Model.BookingsNumber</span>
                             </div>
                         </div>
                     </div>
@@ -70,7 +67,7 @@
                             </div>
                         </div>
                         <h5 class="card-title">Number Bookings per Master</h5>
-                        <canvas id="chart-area" width="468" height="234" class="chartjs-render-monitor" style="display: block; width: 468px; height: 234px;"></canvas>
+                        <canvas id="pie-chart-booking-master" width="468" height="234" class="chartjs-render-monitor" style="display: block; width: 468px; height: 234px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -86,7 +83,7 @@
                             </div>
                         </div>
                         <h5 class="card-title">Number Bookings per Service</h5>
-                        <canvas id="polar-chart" width="468" height="234" class="chartjs-render-monitor" style="display: block; width: 468px; height: 234px;"></canvas>
+                        <canvas id="polar-chart-booking-service" width="468" height="234" class="chartjs-render-monitor" style="display: block; width: 468px; height: 234px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -96,65 +93,92 @@
 
 <script>
 
-window.onload = function () {
-        if (document.getElementById("canvas")) {
-            var e = document.getElementById("canvas").getContext("2d");
-            window.myBar = new r.a(e, {
-                type: "bar",
-                data: l,
-                options: {responsive: !0, legend: {position: "top"}, title: {display: !1, text: "Chart.js Bar Chart"}}
-            })
-        }
-        if (document.getElementById("chart-area")) {
-            var t = document.getElementById("chart-area").getContext("2d");
-            window.myPie = new r.a(t, s)
-        }
-        if (document.getElementById("doughnut-chart")) {
-            var n = document.getElementById("doughnut-chart").getContext("2d");
-            window.myDoughnut = new r.a(n, u)
-        }
-        if (document.getElementById("doughnut-chart-2")) {
-            var i = document.getElementById("doughnut-chart-2").getContext("2d");
-            window.myDoughnut = new r.a(i, c)
-        }
-        if (document.getElementById("doughnut-chart-3")) {
-            var a = document.getElementById("doughnut-chart-3").getContext("2d");
-            window.myDoughnut = new r.a(a, c)
-        }
-        if (document.getElementById("radar-chart") && (window.myRadar = new r.a(document.getElementById("radar-chart"), d)), document.getElementById("polar-chart")) {
-            var o = document.getElementById("polar-chart");
-            window.myPolarArea = r.a.PolarArea(o, h)
-        }
-        if (document.getElementById("line-chart")) {
-            var m = document.getElementById("line-chart").getContext("2d");
-            window.myLine = new r.a(m, p)
-        }
-        if (document.getElementById("chart-horiz-bar")) {
-            var g = document.getElementById("chart-horiz-bar").getContext("2d");
-            window.myHorizontalBar = new r.a(g, {
-                type: "horizontalBar",
-                data: f,
+ window.chartColors = {
+        red: "#dc3545",
+        orange: "#fd7e14",
+        yellow: "#ffc107",
+        green: "#28a745",
+        blue: "#007bff"
+    };
+
+$(document).ready(function() {
+    
+    $.ajax({
+        url : "/AdminConsole/GetTopBookingsPerMaster",
+        dataType : "json",
+        type : "GET",
+        success : function(data) {
+            var data_tmp = [0];
+            var label_tmp = [0];
+            for (i = 0; i < data.length; ++i) {
+                data_tmp[i] = data[i].Item2;
+                label_tmp[i] = data[i].Item1;
+            }
+            
+            var config = {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: data_tmp,
+                        backgroundColor: [
+                            window.chartColors.red,
+                            window.chartColors.orange,
+                            window.chartColors.yellow,
+                            window.chartColors.green,
+                            window.chartColors.blue,
+                        ],
+                        label: 'Dataset 1'
+                    }],
+                    labels: label_tmp
+                },
                 options: {
-                    elements: {rectangle: {borderWidth: 2}},
-                    responsive: !0,
-                    legend: {position: "right"},
-                    title: {display: !1, text: "Chart.js Horizontal Bar Chart"}
+                responsive: true
                 }
-            })
+            };
+            
+            var ctx = document.getElementById('pie-chart-booking-master').getContext('2d');
+            window.myPie = new Chart(ctx, config);
         }
-        if (document.getElementById("stacked-bars-chart")) {
-            var _ = document.getElementById("stacked-bars-chart").getContext("2d");
-            window.myBar = new r.a(_, {
-                type: "bar",
-                data: l,
-                options: {
-                    title: {display: !0, text: "Chart.js Bar Chart - Stacked"},
-                    tooltips: {mode: "index", intersect: !1},
-                    responsive: !0,
-                    scales: {xAxes: [{stacked: !0}], yAxes: [{stacked: !0}]}
+    });
+    
+    $.ajax({
+            url : "/AdminConsole/GetTopBookingsPerService",
+            dataType : "json",
+            type : "GET",
+            success : function(data) {
+                var color = Chart.helpers.color;
+                
+                var data_tmp = [0];
+                var label_tmp = [0];
+                for (i = 0; i < data.length; ++i) {
+                    data_tmp[i] = data[i].Item2;
+                    label_tmp[i] = data[i].Item1;
                 }
-            })
-        }
-    }
+                
+                var config = {
+                    data: {
+                        datasets: [{
+                            data: data_tmp,
+                            backgroundColor: [
+                                color(chartColors.red).alpha(0.5).rgbString(),
+                                color(chartColors.orange).alpha(0.5).rgbString(),
+                                color(chartColors.yellow).alpha(0.5).rgbString(),
+                                color(chartColors.green).alpha(0.5).rgbString(),
+                                color(chartColors.blue).alpha(0.5).rgbString()
+                            ],
+                            label: 'Dataset 1'
+                        }],
+                        labels: label_tmp
+                    },
+                    options: {
+                    responsive: true
+                    }
+                };
+                
+                var ctx = document.getElementById('polar-chart-booking-service').getContext('2d');
+                window.myPolarArea = new Chart.PolarArea(ctx, config);
+            }
+        });
+});
 
 </script>

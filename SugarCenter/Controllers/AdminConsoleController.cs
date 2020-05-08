@@ -33,14 +33,35 @@ namespace SugarCenter.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+
+        #region Statistics
+        
         [Authorize]
         public IActionResult Index()
         {
             var vm = new StatisticViewMovel();
-            vm.NumberOfBookings = _elkRepository.GetCountOfBookings();
+            // vm.OrdersNumber = _elkRepository.GetOrdersNumber();
+            // vm.OrdersValue = _elkRepository.GetOrdersValue();
+            vm.BookingsNumber = _elkRepository.GetBookingsNumber();
             return View(vm);
         }
 
+        public JsonResult GetTopBookingsPerMaster()
+        {
+            var bookingsPerMaster = _elkRepository.GetTopBookingsPerMaster();
+            
+            return Json(bookingsPerMaster, new JsonSerializerSettings());
+        }
+        
+        public JsonResult GetTopBookingsPerService()
+        {
+            var bookingsPerService = _elkRepository.GetTopBookingsPerService();
+            
+            return Json(bookingsPerService, new JsonSerializerSettings());
+        }
+        
+        #endregion
+        
         #region Login
 
         [AllowAnonymous]

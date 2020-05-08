@@ -2,7 +2,8 @@
 {
     public class StatisticViewMovel
     {
-        public int NumberOfOrders { get; set; }
-        public int NumberOfBookings { get; set; }
+        public int OrdersNumber { get; set; }
+        public int OrdersValue { get; set; }
+        public int BookingsNumber { get; set; }
     }
 }

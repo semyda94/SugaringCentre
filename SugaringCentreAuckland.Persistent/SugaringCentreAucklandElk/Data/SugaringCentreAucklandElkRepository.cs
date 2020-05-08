@@ -575,7 +575,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 .SingleOrDefault();
         }
 
-        public int GetCountOfBookings()
+        public int GetBookingsNumber()
         {
             return _DbContext.Bookings.Count();
         }
@@ -614,6 +614,41 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             return matched == null ? null : _DbContext.Staff.First(s => s.StaffId == matched.StaffId);
         }
 
+        #endregion
+
+        #region Statistic
+
+        public IEnumerable<Tuple<string,int>> GetTopBookingsPerMaster()
+        {
+            return _DbContext.Bookings
+                .GroupBy(b => b.StaffId)
+                .Select(b => new
+                {
+                    StaffId = b.Key,
+                    Count = b.Count()
+                })
+                .OrderByDescending(b => b.Count).Take(5)
+                .Join(_DbContext.Staff,
+                    g => g.StaffId,
+                    s => s.StaffId,
+                    (g,s) => new Tuple<string, int> (s.FirstName + " " + s.LastName,g.Count));
+        }
+
+        public IEnumerable<Tuple<string,int>> GetTopBookingsPerService()
+        {
+            return _DbContext.Bookings
+                .GroupBy(b => b.ServiceId)
+                .Select(b => new
+                {
+                    ServiceId = b.Key,
+                    Count = b.Count()
+                })
+                .OrderByDescending(b => b.Count).Take(5)
+                .Join(_DbContext.Services,
+                    g => g.ServiceId,
+                    s => s.ServiceId,
+                    (g,s) => new Tuple<string, int> (s.Title, g.Count));
+        }
         #endregion
     }
 }

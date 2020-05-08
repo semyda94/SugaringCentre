@@ -74,7 +74,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task<IEnumerable<Booking>> GetBookingsForStaff(int staffId);
         Booking GetBooking(int bookingId);
 
-        int GetCountOfBookings();
+        int GetBookingsNumber();
 
         #endregion
 
@@ -88,9 +88,12 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         #region Login
 
         Staff ValidateLoginModel(string username, string encryptedPassword);
-
-
         #endregion
-
+        
+        
+        // int GetOrdersNumber();
+        // int GetOrdersValue();
+        IEnumerable<Tuple<string,int>> GetTopBookingsPerMaster();
+        IEnumerable<Tuple<string,int>> GetTopBookingsPerService();
     }
 }

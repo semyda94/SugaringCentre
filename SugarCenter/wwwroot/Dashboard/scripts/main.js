@@ -24041,10 +24041,6 @@
                 options: {responsive: !0, legend: {position: "top"}, title: {display: !1, text: "Chart.js Bar Chart"}}
             })
         }
-        if (document.getElementById("chart-area")) {
-            var t = document.getElementById("chart-area").getContext("2d");
-            window.myPie = new r.a(t, s)
-        }
         if (document.getElementById("doughnut-chart")) {
             var n = document.getElementById("doughnut-chart").getContext("2d");
             window.myDoughnut = new r.a(n, u)
