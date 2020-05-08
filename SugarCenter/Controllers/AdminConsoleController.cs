@@ -26,7 +26,8 @@ namespace SugarCenter.Controllers
 
         private string _encryptionString = "Sugaring";
 
-        public AdminConsoleController (ISugaringCentreAucklandElkRepository sugaringCentreAucklandElkRepository, IHostingEnvironment hostingEnvironment)
+        public AdminConsoleController(ISugaringCentreAucklandElkRepository sugaringCentreAucklandElkRepository,
+            IHostingEnvironment hostingEnvironment)
         {
             _elkRepository = sugaringCentreAucklandElkRepository;
             _hostingEnvironment = hostingEnvironment;
@@ -39,7 +40,9 @@ namespace SugarCenter.Controllers
             vm.NumberOfBookings = _elkRepository.GetCountOfBookings();
             return View(vm);
         }
-        
+
+        #region Login
+
         [AllowAnonymous]
         public IActionResult Login()
         {
@@ -53,28 +56,64 @@ namespace SugarCenter.Controllers
 
             return RedirectToAction("Login");
         }
-        
+
         [AllowAnonymous]
         public async Task<IActionResult> LoginUser(LoginModel login)
         {
-            if(_elkRepository.ValidateLoginModel(login.Username, Encrypt.EncryptString(login.Password, "Sugaring")))
+            var staff = _elkRepository.ValidateLoginModel(login.Username,
+                Encrypt.EncryptString(login.Password, "Sugaring"));
+
+            if (staff == null)
+                return RedirectToAction("Login", new LoginModel());
+
+            var claims = new List<Claim>
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, login.Username)
-                };
+                new Claim(ClaimTypes.Name, staff.FirstName),
+                new Claim(ClaimTypes.Surname, staff.LastName),
+                new Claim(ClaimTypes.Role, staff.Title),
+                new Claim(ClaimTypes.Sid, staff.StaffId.ToString())
+            };
 
-                var userIdentity = new ClaimsIdentity(claims, "login");
+            var userIdentity = new ClaimsIdentity(claims, "login");
 
-                ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-                await HttpContext.SignInAsync(principal);
+            ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+            await HttpContext.SignInAsync(principal);
 
-                //Just redirect to our index after logging in. 
-                return RedirectToAction("Index");
-            }
-            return RedirectToAction("Login",new LoginModel());
+            //Just redirect to our index after logging in. 
+            return RedirectToAction("Index");
         }
 
+        public async Task<JsonResult> LoggedUserInfo()
+        {
+            var claims = HttpContext.User.Claims.Select(c => new {c.Type, c.Value});
+
+            var result = new List<(string type, string value)>();
+            foreach (var claim in claims)
+            {
+                switch (claim.Type)
+                {
+                    case ClaimTypes.Name:
+                        result.Add(("Name",claim.Value));
+                        break;
+                    case ClaimTypes.Surname:
+                        result.Add(("LastName", claim.Value));
+                        break;
+                    case ClaimTypes.Role:
+                        result.Add(("Title", claim.Value));
+                        break;
+                    case ClaimTypes.Sid:
+                        result.Add(("Id", claim.Value));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return Json(result, new JsonSerializerSettings());
+        }
+
+    #endregion
+        
         #region Category
         [Authorize]
         public IActionResult Category()

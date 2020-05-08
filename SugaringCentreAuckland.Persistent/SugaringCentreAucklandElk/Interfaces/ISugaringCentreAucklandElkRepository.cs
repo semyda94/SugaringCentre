@@ -87,7 +87,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
 
         #region Login
 
-        bool ValidateLoginModel(string username, string encryptedPassword);
+        Staff ValidateLoginModel(string username, string encryptedPassword);
 
 
         #endregion

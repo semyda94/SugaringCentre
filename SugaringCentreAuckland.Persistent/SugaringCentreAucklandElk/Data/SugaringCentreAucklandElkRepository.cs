@@ -606,19 +606,12 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         #region Login
 
-        public bool ValidateLoginModel(string username, string encryptedPassword)
+        public Staff ValidateLoginModel(string username, string encryptedPassword)
         {
             var matched = _DbContext.StaffAuthenticationInfo.Where(s =>
                 s.Username == username && s.EncryptedPassword == encryptedPassword).FirstOrDefault();
 
-            if (matched == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return matched == null ? null : _DbContext.Staff.First(s => s.StaffId == matched.StaffId);
         }
 
         #endregion
