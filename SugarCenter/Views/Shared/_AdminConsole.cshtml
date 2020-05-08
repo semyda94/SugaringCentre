@@ -110,6 +110,11 @@
                                     <img width="42" class="rounded-circle" src="~/Dashboard/images/avatars/1.jpg" alt="">
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
+                                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                                    <button type="button" tabindex="0" class="dropdown-item">User Account</button>
+                                    <button type="button" tabindex="0" class="dropdown-item">Settings</button>
+                                    <a href='@Url.Action("LogOut", "AdminConsole")' tabindex="0" class="dropdown-item">Log Out</a>
+                                </div>
                             </div>
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
@@ -171,7 +176,7 @@
                 <ul class="vertical-nav-menu">
                     <li class="app-sidebar__heading">Dashboards</li>
                     <li>
-                        <a asp-controller="AdminConsole" asp-action="Home" class="mm-active">
+                        <a asp-controller="AdminConsole" asp-action="Index" class="mm-active">
                             <i class="metismenu-icon pe-7s-rocket"></i>
                             Statistic
                         </a>
@@ -248,7 +253,7 @@
                             New Booking
                         </a>
                     </li>
-                    
+
                     <li>
                         <a asp-controller="AdminConsole" asp-action="Bookings">
                             <i class="metismenu-icon pe-7s-wristwatch"></i>

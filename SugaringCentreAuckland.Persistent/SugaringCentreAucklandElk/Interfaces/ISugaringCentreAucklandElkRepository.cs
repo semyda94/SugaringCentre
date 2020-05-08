@@ -74,6 +74,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task<IEnumerable<Booking>> GetBookingsForStaff(int staffId);
         Booking GetBooking(int bookingId);
 
+        int GetCountOfBookings();
+
         #endregion
 
         #region Leave
@@ -82,6 +84,13 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task CreateLeave(int staffId, DateTime date, string reason);
 
         #endregion
-        
+
+        #region Login
+
+        bool ValidateLoginModel(string username, string encryptedPassword);
+
+
+        #endregion
+
     }
 }

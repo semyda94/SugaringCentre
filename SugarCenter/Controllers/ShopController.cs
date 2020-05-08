@@ -31,9 +31,9 @@ namespace SugarCenter.Controllers
         {
             ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
 
-            if (shopViewModel != null && shopViewModel.CategorySorting == categorySorting &&
-                shopViewModel.Sorting == sorting && shopViewModel.PageIndex == pageNumber)
-                return View(shopViewModel);
+            // if (shopViewModel != null && shopViewModel.CategorySorting == categorySorting &&
+            //     shopViewModel.Sorting == sorting && shopViewModel.PageIndex == pageNumber)
+            //     return View(shopViewModel);
 
             if (shopViewModel == null)
             {

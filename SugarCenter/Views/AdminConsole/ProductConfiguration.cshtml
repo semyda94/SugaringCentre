@@ -11,27 +11,34 @@
     <div class="app-main__inner">
         <div class="main-card mb-3 card">
             <div class="card-body">
-                @if(@Model.ProductId <= 0) {
+                @if (@Model.ProductId <= 0)
+                {
                     <h5 class="card-title">New Product</h5>
                 }
                 else
                 {
                     <h5 class="card-title">@Model.Title</h5>
                 }
-                <form asp-action="SaveProduct" method="post" enctype="multipart/form-data">
+                <form asp-action="SaveProduct" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
                     <input type="hidden" asp-for="ProductId"/>
 
                     <div class="position-relative row form-group">
                         <label for="title" class="col-sm-2 col-form-label">Title</label>
                         <div class="col-sm-10">
-                            <input asp-for="Title" name="title" id="title" placeholder="Enter title" class="form-control">
+                            <input asp-for="Title" name="title" id="title" placeholder="Enter title" class="form-control" required>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter a valid Title.
                         </div>
                     </div>
 
                     <div class="position-relative row form-group">
                         <label for="priceNzd" class="col-sm-2 col-form-label">Price NZD</label>
                         <div class="col-sm-10">
-                            <input asp-for="Price" type="number" step="any" name="price" id="priceNzd" placeholder="Enter price of product in NZD" class="form-control">
+                            <input asp-for="Price" type="number" step="any" name="price" id="priceNzd" placeholder="Enter price of product in NZD" class="form-control" required>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter a valid Price.
                         </div>
                     </div>
 
@@ -39,19 +46,25 @@
                         <label for="categories" class="col-sm-2 col-form-label">Select Categories</label>
                         <div class="col-sm-10">
                             <input type="hidden" id="categories" asp-for="CategorySelected"/>
-                            <select class="js-example-basic-single" name="categories[]" multiple="multiple" style="width: 100%;">
+                            <select class="select-category" name="categories[]" multiple="multiple" style="width: 100%;" required>
                                 @foreach (var c in Model.ProductCategory)
                                 {
                                     <option selected="selected" value="@c.CategoryId">@c.CategoryId</option>
                                 }
                             </select>
+                            <div class="invalid-feedback">
+                                Please select at least 1 category.
+                            </div>
                         </div>
                     </div>
 
                     <div class="position-relative row form-group">
                         <label for="descInput" class="col-sm-2 col-form-label">Description</label>
                         <div class="col-sm-10">
-                            <textarea asp-for="Desc" id="descInput" class="form-control"></textarea>
+                            <textarea asp-for="Desc" id="descInput" class="form-control" required></textarea>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter a valid Description.
                         </div>
                     </div>
 
@@ -76,10 +89,9 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-  $('.js-example-basic-single').select2({
+  $('.select-category').select2({
     placeholder: "Select a category",
     allowClear: true,
-    theme: "classic",
     ajax : {
        url : "/AdminConsole/GetCategory",
        dataType : "json",
@@ -98,7 +110,7 @@ $(document).ready(function() {
   });
 });
 
-$(".js-example-basic-single").on("change", function() {
+$(".select-category").on("change", function() {
   var categoryId = $(this).val();
   $("#categories").val(categoryId);
   

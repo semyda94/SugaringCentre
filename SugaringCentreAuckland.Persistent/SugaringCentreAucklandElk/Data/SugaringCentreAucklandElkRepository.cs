@@ -574,7 +574,12 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 .Include(x => x.StaffNavigation)
                 .SingleOrDefault();
         }
-        
+
+        public int GetCountOfBookings()
+        {
+            return _DbContext.Bookings.Count();
+        }
+
         #endregion
 
         #region Leave
@@ -595,6 +600,25 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
             });
 
             await _DbContext.SaveChangesAsync();
+        }
+
+        #endregion
+
+        #region Login
+
+        public bool ValidateLoginModel(string username, string encryptedPassword)
+        {
+            var matched = _DbContext.StaffAuthenticationInfo.Where(s =>
+                s.Username == username && s.EncryptedPassword == encryptedPassword).FirstOrDefault();
+
+            if (matched == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         #endregion

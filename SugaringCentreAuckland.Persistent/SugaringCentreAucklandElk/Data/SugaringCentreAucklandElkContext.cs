@@ -28,6 +28,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public virtual DbSet<ServiceCategory> ServiceCategory { get; set; }
         public virtual DbSet<ServiceStaff> ServiceStaff { get; set; }
         public virtual DbSet<Leave> Leave { get; set; }
+        
+        public virtual DbSet<StaffAuthenticationInfo> StaffAuthenticationInfo { get; set; }
 
         public virtual DbSet<Subscription> Subscription { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -258,6 +260,16 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 entity.HasOne(d => d.StaffNavigation)
                     .WithMany(p => p.ServiceStaff)
                     .HasForeignKey(d => d.StaffId);
+            });
+
+            modelBuilder.Entity<StaffAuthenticationInfo>(entity =>
+            {
+                entity.HasKey(e => e.AuthenticationInfoId);
+
+                entity.Property(e => e.AuthenticationInfoId).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Username).HasMaxLength(256);
+                entity.Property(e => e.EncryptedPassword).HasMaxLength(256);
             });
         }
     }

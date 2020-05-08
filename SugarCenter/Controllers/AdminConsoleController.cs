@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SugarCenter.Classes;
+using SugarCenter.Models;
 using SugarCenter.ViewModel;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
 using JsonResult = Microsoft.AspNetCore.Mvc.JsonResult;
+
 
 namespace SugarCenter.Controllers
 {
@@ -22,19 +24,59 @@ namespace SugarCenter.Controllers
         private readonly ISugaringCentreAucklandElkRepository _elkRepository;
         private readonly IHostingEnvironment _hostingEnvironment;
 
+        private string _encryptionString = "Sugaring";
+
         public AdminConsoleController (ISugaringCentreAucklandElkRepository sugaringCentreAucklandElkRepository, IHostingEnvironment hostingEnvironment)
         {
             _elkRepository = sugaringCentreAucklandElkRepository;
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public IActionResult Home()
+        [Authorize]
+        public IActionResult Index()
         {
-            return View();
+            var vm = new StatisticViewMovel();
+            vm.NumberOfBookings = _elkRepository.GetCountOfBookings();
+            return View(vm);
+        }
+        
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View(new LoginModel());
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync();
+
+            return RedirectToAction("Login");
+        }
+        
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginUser(LoginModel login)
+        {
+            if(_elkRepository.ValidateLoginModel(login.Username, Encrypt.EncryptString(login.Password, "Sugaring")))
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, login.Username)
+                };
+
+                var userIdentity = new ClaimsIdentity(claims, "login");
+
+                ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+                await HttpContext.SignInAsync(principal);
+
+                //Just redirect to our index after logging in. 
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Login",new LoginModel());
         }
 
         #region Category
-
+        [Authorize]
         public IActionResult Category()
         {
             var categories = _elkRepository.GetListOfCategories().GetAwaiter().GetResult();
@@ -42,6 +84,7 @@ namespace SugarCenter.Controllers
             return View(categories);
         }
 
+        [Authorize]
         public IActionResult DeleteCategory(int? id)
         {
             if (id.HasValue)
@@ -51,6 +94,7 @@ namespace SugarCenter.Controllers
             return RedirectToAction("Category");
         }
 
+        [Authorize]
         [Microsoft.AspNetCore.Mvc.HttpPost]
         public IActionResult AddCategory(string newCategory)
         {
@@ -58,6 +102,7 @@ namespace SugarCenter.Controllers
             return RedirectToAction("Category");
         }
 
+        [Authorize]
         public async Task<JsonResult> GetCategory(string searchCategoryName)
         {
             var category = await _elkRepository.SearchCategoryByTitle(searchCategoryName);
@@ -74,6 +119,7 @@ namespace SugarCenter.Controllers
         #region Products
 
         //TODO : Implemet paginated for admin console
+        [Authorize]
         public async Task<IActionResult> Products()
         {
             var viewMovel = new ShopViewModel();
@@ -84,6 +130,7 @@ namespace SugarCenter.Controllers
             return View(viewMovel);
         }
         
+        [Authorize]
         public async Task<IActionResult> DeleteProduct(int? productId)
         {
             if (productId != null)
@@ -94,17 +141,20 @@ namespace SugarCenter.Controllers
             return RedirectToAction("Products");
         }
 
+        [Authorize]
         public async Task<IActionResult> ProductConfiguration(int? productId)
         {
             return View(productId == null ? new Product{ProductId = -1} : await _elkRepository.GetProductById(productId));
         }
         
+        [Authorize]
         public JsonResult SaveCategorySelection(string categoryIds)
         {
             return Json(categoryIds, new JsonSerializerSettings());
         }
         
         [Microsoft.AspNetCore.Mvc.HttpPost]
+        [Authorize]
         public async Task<IActionResult> SaveProduct(Product product)
         {
             if (product.ProductId <= 0 )
@@ -123,12 +173,14 @@ namespace SugarCenter.Controllers
 
         #region Staff
         
+        [Authorize]
         public async Task<IActionResult> Staff()
         {
             var staffList = await _elkRepository.GetStaffList();
             return View(staffList);
         }
         
+        [Authorize]
         public async Task<JsonResult> GetStaff (string searchStaffName)
         {
             var services = await _elkRepository.GetStaff(searchStaffName);
@@ -141,6 +193,7 @@ namespace SugarCenter.Controllers
             return Json(modifiedData, new JsonSerializerSettings());
         }
         
+        [Authorize]
         public async Task<JsonResult> GetStaffForService (int serviceId, string searchStaffName)
         {
             var staff = await _elkRepository.GetStaffForService(serviceId);
@@ -153,6 +206,7 @@ namespace SugarCenter.Controllers
             return Json(modifiedData, new JsonSerializerSettings());
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteStaff(int? staffId)
         {
             if (staffId != null)
@@ -163,11 +217,13 @@ namespace SugarCenter.Controllers
             return RedirectToAction("Staff");
         }
         
+        [Authorize]
         public async Task<IActionResult> StaffConfiguration(int? staffId)
         {
             return View(staffId == null ? new Staff() : await _elkRepository.GetStaffWithLeaves(staffId.Value));
         }
 
+        [Authorize]
         public async Task<IActionResult> SaveStaff(Staff staff)
         {
             if (staff.StaffId <= 0 )
@@ -185,13 +241,14 @@ namespace SugarCenter.Controllers
         #endregion
 
         #region Leave
-
+        [Authorize]
         public async Task<IActionResult> DeleteLeave(int staffId, int leaveId)
         {
             await _elkRepository.DeleteLeave(leaveId);
             return RedirectToAction("StaffConfiguration", new {staffId = staffId});
         }
 
+        [Authorize]
         public async Task<IActionResult> CreateLeave(int staffId, DateTime leaveDate, string leaveReason)
         {
             await _elkRepository.CreateLeave(staffId, leaveDate, leaveReason);
@@ -201,12 +258,14 @@ namespace SugarCenter.Controllers
 
         #region ServiceCategories
 
+        [Authorize]
         public async Task<IActionResult> ServiceCategories()
         {
             var services = await _elkRepository.GetServiceCategoriesWithRelatedServices();
             return View(services);
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteServiceCategory(int? serviceCategoryId)
         {
             if (serviceCategoryId != null)
@@ -215,6 +274,7 @@ namespace SugarCenter.Controllers
             return RedirectToAction("ServiceCategories");
         }
 
+        [Authorize]
         public async Task<IActionResult> ServiceCategoryConfiguration(int? serviceCategoryId)
         {
             return View(serviceCategoryId == null
@@ -222,6 +282,7 @@ namespace SugarCenter.Controllers
                 : await _elkRepository.GetServiceCategoryById(serviceCategoryId.Value));
         }
         
+        [Authorize]
         public async Task<IActionResult> SaveServiceCategory(ServiceCategory serviceCategory)
         {
             if (serviceCategory.ServiceCategoryId <= 0 )
@@ -236,6 +297,7 @@ namespace SugarCenter.Controllers
             return RedirectToAction("ServiceCategories");
         }
         
+        [Authorize]
         public async Task<JsonResult> GetServiceCategory(string searchCategoryName)
         {
             var category = await _elkRepository.SearchServiceCategoryByTitle(searchCategoryName);
@@ -251,12 +313,14 @@ namespace SugarCenter.Controllers
 
         #region Services
 
+        [Authorize]
         public async Task<IActionResult> Services()
         {
             var services = await _elkRepository.GetServices();
             return View(services);
         }
         
+        [Authorize]
         public async Task<JsonResult> GetServices (string searchServiceName)
         {
             var services = await _elkRepository.GetServiceBySearchTitle(searchServiceName);
@@ -269,6 +333,7 @@ namespace SugarCenter.Controllers
             return Json(modifiedData, new JsonSerializerSettings());
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteService(int? serviceId)
         {
             if (serviceId != null)
@@ -276,6 +341,7 @@ namespace SugarCenter.Controllers
             return RedirectToAction("Services");
         }
 
+        [Authorize]
         public async Task<IActionResult> ServiceConfiguration(int? serviceId)
         {
             return View(serviceId == null
@@ -283,6 +349,7 @@ namespace SugarCenter.Controllers
                 : await _elkRepository.GetServiceById(serviceId.Value));
         }
         
+        [Authorize]
         public async Task<IActionResult> SaveService(Service service)
         {
             if (service.ServiceId <= 0 )
@@ -301,12 +368,14 @@ namespace SugarCenter.Controllers
         
         #region Booking
 
+        [Authorize]
         public async Task<IActionResult> Bookings()
         {
             var staff = await _elkRepository.GetStaffList();
             return View(staff);
         }
 
+        [Authorize]
         public IActionResult BookingConfiguration(int? bookingId)
         {
             return View(bookingId == null
@@ -314,6 +383,7 @@ namespace SugarCenter.Controllers
                 : _elkRepository.GetBooking(bookingId.Value));
         }
         
+        [Authorize]
         public JsonResult BookingsGetDataForStaff(int staffId)
         {
             var bookings = _elkRepository.GetBookingsForStaff(staffId).GetAwaiter().GetResult();
@@ -328,6 +398,7 @@ namespace SugarCenter.Controllers
             return Json(result, new JsonSerializerSettings());
         }
         
+        [Authorize]
         public async Task<IActionResult> SaveBooking(Booking booking)
         {
             if (booking.BookingId > 0)
@@ -341,6 +412,7 @@ namespace SugarCenter.Controllers
             return RedirectToAction("Bookings");
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteBooking(int bookingId)
         {
             if (bookingId > 0)

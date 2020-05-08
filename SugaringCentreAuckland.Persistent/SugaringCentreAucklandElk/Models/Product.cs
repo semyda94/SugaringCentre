@@ -33,6 +33,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models
 
         [NotMapped] public int Qty { get; set; } = 1;
 
+        [JsonIgnore] 
         public virtual ICollection<ProductCategory> ProductCategory { get; set; }
         public virtual ICollection<ProductImage> ProductImage { get; set; }
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }

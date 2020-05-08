@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using SugarCenter.Classes;
 using SugarCenter.Helpers;
-using SugarCenter.Interfaces;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
 
@@ -29,6 +25,7 @@ namespace SugarCenter
         }
 
         public IConfiguration Configuration { get; }
+        public const string CookieScheme = "YourSchemeName";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -50,7 +47,22 @@ namespace SugarCenter
             //services.AddDistributedMemoryCache();
 
             services.AddMemoryCache();
+            
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme) // Sets the default scheme to cookies
+                .AddCookie(options =>
+                {
+                    options.AccessDeniedPath = "/AdminConsole/Denied";
+                    options.LoginPath = "/AdminConsole/Login";
+                });
 
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
+            
+            services.AddSingleton<IConfigureOptions<CookieAuthenticationOptions>, ConfigureMyCookie>();
+            
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
@@ -97,7 +109,9 @@ namespace SugarCenter
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
+
             app.UseAuthentication();
+            
 
             app.UseMvc(routes =>
             {
