@@ -19,6 +19,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
         public virtual DbSet<ProductImage> ProductImage { get; set; }
@@ -104,6 +105,17 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 entity.Property(e => e.Client)
                     .HasMaxLength(255)
                     .IsUnicode(false);
+            });
+            
+            modelBuilder.Entity<OrderItem>(entity =>
+            {
+                entity.HasKey(e => e.OderItemId);
+
+                entity.Property(e => e.OderItemId).ValueGeneratedOnAdd();
+
+                entity.HasOne(e => e.OrderNavigation)
+                    .WithMany(e => e.OrderItems)
+                    .HasForeignKey(e => e.OrderId);
             });
             
             modelBuilder.Entity<Product>(entity =>

@@ -89,7 +89,13 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
 
         Staff ValidateLoginModel(string username, string encryptedPassword);
         #endregion
-        
+
+
+        #region Orders
+
+        Task CreateOrder(Order order);
+
+        #endregion
         
         // int GetOrdersNumber();
         // int GetOrdersValue();

@@ -616,6 +616,30 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
 
         #endregion
 
+        #region Order
+
+        public async Task CreateOrder(Order order)
+        {
+            var orderItems = order.OrderItems;
+
+            order.OrderItems = null;
+
+            await _DbContext.Orders.AddAsync(order);
+
+            await _DbContext.SaveChangesAsync();
+
+            foreach (var orderItem in orderItems)
+            {
+                orderItem.OrderId = order.OrderId;
+            }
+
+            await _DbContext.AddRangeAsync(orderItems);
+
+            await _DbContext.SaveChangesAsync();
+        }
+
+        #endregion
+
         #region Statistic
 
         public IEnumerable<Tuple<string,int>> GetTopBookingsPerMaster()

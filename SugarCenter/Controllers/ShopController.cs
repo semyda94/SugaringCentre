@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using SugarCenter.Classes;
+using SugarCenter.Models;
 using SugarCenter.ViewModel;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces;
 using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
@@ -13,6 +15,7 @@ using SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Models;
 
 namespace SugarCenter.Controllers
 {
+    [Produces("application/json")]
     public class ShopController : Controller
     {
         private readonly ISugaringCentreAucklandElkRepository _elkRepository;
@@ -137,6 +140,13 @@ namespace SugarCenter.Controllers
             var itemLists = HttpContext.Session.Get<List<Product>>("CheckoutList");
             
             return View(itemLists);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CreateOrder([FromBody] Order order)
+        {
+            await _elkRepository.CreateOrder(order);
+            return Json(true, new JsonSerializerSettings());
         }
     }
 }
