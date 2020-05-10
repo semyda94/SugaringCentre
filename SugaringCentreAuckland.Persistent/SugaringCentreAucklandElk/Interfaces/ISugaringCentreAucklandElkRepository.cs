@@ -97,8 +97,8 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
 
         #endregion
         
-        // int GetOrdersNumber();
-        // int GetOrdersValue();
+        int GetOrdersNumber();
+        decimal GetOrdersValue();
         IEnumerable<Tuple<string,int>> GetTopBookingsPerMaster();
         IEnumerable<Tuple<string,int>> GetTopBookingsPerService();
     }

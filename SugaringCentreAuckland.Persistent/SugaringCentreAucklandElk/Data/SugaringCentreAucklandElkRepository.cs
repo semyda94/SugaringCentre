@@ -673,6 +673,17 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     s => s.ServiceId,
                     (g,s) => new Tuple<string, int> (s.Title, g.Count));
         }
+
+        public int GetOrdersNumber()
+        {
+            return _DbContext.Orders.Count();
+        }
+
+        public decimal GetOrdersValue()
+        {
+            return _DbContext.Orders.Sum(x => x.Amount);
+        }
         #endregion
+        
     }
 }

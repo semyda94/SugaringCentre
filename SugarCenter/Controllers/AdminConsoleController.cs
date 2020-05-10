@@ -40,8 +40,8 @@ namespace SugarCenter.Controllers
         public IActionResult Index()
         {
             var vm = new StatisticViewMovel();
-            // vm.OrdersNumber = _elkRepository.GetOrdersNumber();
-            // vm.OrdersValue = _elkRepository.GetOrdersValue();
+            vm.OrdersNumber = _elkRepository.GetOrdersNumber();
+            vm.OrdersValue = _elkRepository.GetOrdersValue();
             vm.BookingsNumber = _elkRepository.GetBookingsNumber();
             return View(vm);
         }
