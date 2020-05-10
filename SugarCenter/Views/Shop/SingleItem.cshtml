@@ -12,23 +12,35 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>SugarCenter</title>
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
-    </environment>
-    <link href="@Url.Content("~/css/SingleItem.css")" rel="stylesheet" type="text/css" />
+
+    <link rel="icon" href="~/imgs/favicon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/css/Shop/bootstrap.min.css">
+
+    @* <link href="@Url.Content("~/css/SingleItem.css")" rel="stylesheet" type="text/css"/> *@
 
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Playfair+Display"/>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald:400,700,300"/>
 
-    <script src="~/js/select2.min.js"></script>
-   </head>
+    <!-- animate CSS -->
+    <link rel="stylesheet" href="~/css/Shop/animate.css">
+
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="~/css/Shop/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/Shop/lightslider.min.css">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="~/css/Shop/all.css">
+
+    <!-- flaticon CSS -->
+    <link rel="stylesheet" href="~/css/Shop/flaticon.css">
+    <link rel="stylesheet" href="~/css/Shop/themify-icons.css">
+
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="~/css/Shop/magnific-popup.css">
+    <!-- style CSS -->
+    <link rel="stylesheet" href="~/css/Shop/SingleItem.css">
+</head>
 <body>
 
 <header>
@@ -37,15 +49,15 @@
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" class="margin-right: 60px;">
                 <ul class="navbar-nav flex-grow-1" style="display: contents;">
                     <li class="nav-item">
-                                                <a class="nav-link text-dark" style="padding-right: 2px;" asp-controller="Shop" asp-action="ShopCheckout">
-                                                    <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/Carticon.png" />
-                                                </a>
+                        <a class="nav-link text-dark" style="padding-right: 2px;" asp-controller="Shop" asp-action="ShopCheckout">
+                            <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/Carticon.png"/>
+                        </a>
                     </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link text-dark"  style="padding-right: 2px;" href="https://www.facebook.com/Sugaring.centre.auckland/">
-                                                    <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/f_logo.png" />
-                                                </a>
-                                            </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" style="padding-right: 2px;" href="https://www.facebook.com/Sugaring.centre.auckland/">
+                            <img style="width: 20px; height: 20px; object-fit: cover; display: block; margin: auto; margin: auto;" src="~/imgs/f_logo.png"/>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" style="font: normal normal normal 14px/1.79em Playfair Display, serif;" asp-area="" asp-controller="Blog" asp-action="Index">Blog</a>
                     </li>
@@ -63,98 +75,744 @@
         </div>
     </nav>
 </header>
+@* <div class="main"> *@
+@*     <section class="module"> *@
+@*         <div class="container"> *@
+@*             <div class="grid second-nav"> *@
+@*                 <div class="column-xs-12"> *@
+@*                     <nav> *@
+@*                         <ol class="breadcrumb-list"> *@
+@*                             <li class="breadcrumb-item"> *@
+@*                                 <a asp-area="" asp-controller="Shop" asp-action="Index">Shop</a> *@
+@*                             </li> *@
+@*                             <li class="breadcrumb-item active">@Model.Product.Title</li> *@
+@*                         </ol> *@
+@*                     </nav> *@
+@*                 </div> *@
+@*             </div> *@
+@*             <div class="grid product"> *@
+@*                 <div class="column-xs-12 column-md-7"> *@
+@*                     <div class="product-gallery"> *@
+@* *@
+@*                         <div class="product-image"> *@
+@*                             @{ var activeImage = Convert.ToBase64String(Model.Product.ProductImage.First().Image); } *@
+@*                             <img class="active" src="data:image/jpeg;base64,@activeImage"> *@
+@*                         </div> *@
+@*                         @if (Model.Product.ProductImage.Count > 1) *@
+@*                         { *@
+@*                             <ul class="image-list"> *@
+@*                                 @foreach (var productImage in Model.Product.ProductImage) *@
+@*                                 { *@
+@*                                     var image = Convert.ToBase64String(productImage.Image); *@
+@*                                     <li class="image-item"> *@
+@*                                         <img src="data:image/jpeg;base64,@image"> *@
+@*                                     </li> *@
+@*                                 } *@
+@*                             </ul> *@
+@*                         } *@
+@*                     </div> *@
+@*                 </div> *@
+@*                 <div class="column-xs-12 column-md-5"> *@
+@*                     <h1>@Model.Product.Title</h1> *@
+@*                     <h2>$@Model.Product.Price</h2> *@
+@*                     <div class="description"> *@
+@*                         @Model.Product.Desc *@
+@*                     </div> *@
+@* *@
+@*                     @using (Html.BeginForm("AddItemToCart", "Shop", FormMethod.Post)) *@
+@*                     { *@
+@*                         <input asp-for="Product.ProductId" value="@Model.Product.ProductId" hidden="hidden"/> *@
+@*                         <div style="display: flex;align-items: center;"> *@
+@*                             Qty: *@
+@*                             <input asp-for="Product.Qty" type="number" placeholder="Enter the number of products" class="form-control input-lg" value="1" style="width: 100px; margin-left: 10px; margin-right: auto"/> *@
+@*                             <button class="add-to-cart">Add To Cart</button> *@
+@*                             <div id="Results"></div> *@
+@*                         </div> *@
+@*                     } *@
+@*                 </div> *@
+@*             </div> *@
+@*             <div class="grid related-products"> *@
+@*                 <div class="column-xs-12"> *@
+@*                     <h3>You may also like</h3> *@
+@*                 </div> *@
+@*                 @foreach (var relatedProduct in @Model.RelatiedProducts) *@
+@*                 { *@
+@*                     var thumbImg = Convert.ToBase64String(relatedProduct.ProductImage.First().Image); *@
+@* *@
+@*                     <div class="column-xs-12 column-md-4"> *@
+@*                         <img src="data:image/jpeg;base64,@thumbImg"> *@
+@*                         <h4>@relatedProduct.Title</h4> *@
+@*                         <p class="price">$@relatedProduct.Price</p> *@
+@*                     </div> *@
+@*                 } *@
+@*             </div> *@
+@*         </div> *@
+@*     </section> *@
+@*     <hr class="divider-w"> *@
+@* </div> *@
 
-<div class="main">
-    <section class="module">
-        <div class="container">
-            <div class="grid second-nav">
-                <div class="column-xs-12">
-                    <nav>
-                        <ol class="breadcrumb-list">
-                            <li class="breadcrumb-item">
-                                <a asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
-                            </li>
-                            <li class="breadcrumb-item active">@Model.Product.Title</li>
-                        </ol>
-                    </nav>
+
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <p>Home/Shop/Single product</p>
+                    </div>
                 </div>
             </div>
-            <div class="grid product">
-                <div class="column-xs-12 column-md-7">
-                    <div class="product-gallery">
-                        
-                        <div class="product-image">
-                            @{ var activeImage = Convert.ToBase64String(Model.Product.ProductImage.First().Image);}
-                            <img class="active" src="data:image/jpeg;base64,@activeImage">
-                        </div>
-                        @if (Model.Product.ProductImage.Count > 1)
+        </div>
+    </div>
+</section>
+
+<!--================Single Product Area =================-->
+
+<div class="product_image_area section_padding">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-5">
+                <div class="product_slider_img">
+                    <div id="vertical">
+                        @foreach (var productImage in Model.Product.ProductImage)
                         {
-                            <ul class="image-list">
-                                @foreach (var productImage in Model.Product.ProductImage)
-                                {
-                                    var image = Convert.ToBase64String(productImage.Image);
-                                    <li class="image-item"><img src="data:image/jpeg;base64,@image"></li>
-                                }
-                            </ul>
+                            var image = Convert.ToBase64String(productImage.Image);
+                            <div data-thumb="data:image/jpeg;base64,@image">
+                                <img src="data:image/jpeg;base64,@image"/>
+                            </div>
                         }
                     </div>
                 </div>
-                <div class="column-xs-12 column-md-5">
-                    <h1>@Model.Product.Title</h1>
-                    <h2>$@Model.Product.Price</h2>
-                    <div class="description">
-                        @Model.Product.Desc
-                    </div>
-
-                    @using (Html.BeginForm("AddItemToCart", "Shop", FormMethod.Post))
-                    {
-                        
-                        <input asp-for="Product.ProductId" value="@Model.Product.ProductId" hidden="hidden"/>
-                        <div style="display: flex;align-items: center;">
-                            Qty:
-                            <input asp-for="Product.Qty" type="number" placeholder="Enter the number of products" class="form-control input-lg" value="1" style="width: 100px; margin-left: 10px; margin-right: auto"/>
-                            <button  class="add-to-cart">Add To Cart</button>
-                            <div id="Results"></div>
-                        </div>
-                    }
-                </div>
             </div>
-            <div class="grid related-products">
-                <div class="column-xs-12">
-                    <h3>You may also like</h3>
-                </div>
-                @foreach (var relatedProduct in @Model.RelatiedProducts)
-                {
-                    var thumbImg = Convert.ToBase64String(relatedProduct.ProductImage.First().Image);
-                    
-                    <div class="column-xs-12 column-md-4">
-                        <img src="data:image/jpeg;base64,@thumbImg">
-                        <h4>@relatedProduct.Title</h4>
-                        <p class="price">$@relatedProduct.Price</p>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3>@Model.Product.Title</h3>
+                    <h2>$@Model.Product.Price</h2>
+                    <ul class="list">
+                        <li>
+                            <a class="active" href="#">
+                                <span>Category</span> : Household
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"> <span>Availibility</span> : In Stock</a>
+                        </li>
+                    </ul>
+                    <p>
+                        @Model.Product.Desc
+                    </p>
+                    <div class="card_area d-inline-block">
+                        @using (Html.BeginForm("AddItemToCart", "Shop", FormMethod.Post))
+                        {
+                            <div class="product_count d-inline-block">
+                                <input asp-for="Product.ProductId" value="@Model.Product.ProductId" hidden="hidden"/>
+                                <span class="inumber-decrement">
+                                    <i class="ti-minus"></i>
+                                </span>
+                                <input class="input-number" asp-for="Product.Qty" type="text" value="1" min="1" max="15">
+                                <span class="number-increment">
+                                    <i class="ti-plus"></i>
+                                </span>
+                            </div>
+                            <div class="add_to_cart d-inline-block">
+                                <button type="submit" class="btn_3">add to cart</button>
+                                <a href="#" class="like_us">
+                                    <i class="ti-heart"></i>
+                                </a>
+                            </div>
+                        }
+                        @* <div class="social_icon"> *@
+                        @*     <a href="#" class="fb"> *@
+                        @*         <i class="ti-facebook"></i> *@
+                        @*     </a> *@
+                        @*     <a href="#" class="tw"> *@
+                        @*         <i class="ti-twitter-alt"></i> *@
+                        @*     </a> *@
+                        @*     <a href="#" class="li"> *@
+                        @*         <i class="ti-linkedin"></i> *@
+                        @*     </a> *@
+                        @* </div> *@
                     </div>
-                }
+                </div>
             </div>
         </div>
-    </section>
-    <hr class="divider-w">
+    </div>
 </div>
+<!--================End Single Product Area =================-->
 
-<script>
-    const activeImage = document.querySelector(".product-image .active");
-    const productImages = document.querySelectorAll(".image-list img");
-    const navItem = document.querySelector('a.toggle-nav');
 
-    function changeImage(e) {
-        activeImage.src = e.target.src;
-    }
+<!--================Product Description Area =================-->
+<section class="product_description_area">
+<div class="container">
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+           aria-selected="true">
+            Description
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+           aria-selected="false">
+            Specification
+        </a>
+    </li>
+    @* <li class="nav-item"> *@
+    @*     <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" *@
+    @*        aria-selected="false"> *@
+    @*         Comments *@
+    @*     </a> *@
+    @* </li> *@
+    @* <li class="nav-item"> *@
+    @*     <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" *@
+    @*        aria-selected="false"> *@
+    @*         Reviews *@
+    @*     </a> *@
+    @* </li> *@
+</ul>
+<div class="tab-content" id="myTabContent">
+<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <p>
+        Beryl Cook is one of Britain’s most talented and amusing artists
+        .Beryl’s pictures feature women of all shapes and sizes enjoying
+        themselves .Born between the two world wars, Beryl Cook eventually
+        left Kendrick School in Reading at the age of 15, where she went
+        to secretarial school and then into an insurance office. After
+        moving to London and then Hampton, she eventually married her next
+        door neighbour from Reading, John Cook. He was an officer in the
+        Merchant Navy and after he left the sea in 1956, they bought a pub
+        for a year before John took a job in Southern Rhodesia with a
+        motor company. Beryl bought their young son a box of watercolours,
+        and when showing him how to use it, she decided that she herself
+        quite enjoyed painting. John subsequently bought her a child’s
+        painting set for her birthday and it was with this that she
+        produced her first significant work, a half-length portrait of a
+        dark-skinned lady with a vacant expression and large drooping
+        breasts. It was aptly named ‘Hangover’ by Beryl’s husband and
+    </p>
+    <p>
+        It is often frustrating to attempt to plan meals that are designed
+        for one. Despite this fact, we are seeing more and more recipe
+        books and Internet websites that are dedicated to the act of
+        cooking for one. Divorce and the death of spouses or grown
+        children leaving for college are all reasons that someone
+        accustomed to cooking for more than one would suddenly need to
+        learn how to adjust all the cooking practices utilized before into
+        a streamlined plan of cooking that is more efficient for one
+        person creating less
+    </p>
+</div>
+<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>
+                    <h5>Width</h5>
+                </td>
+                <td>
+                    <h5>128mm</h5>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Height</h5>
+                </td>
+                <td>
+                    <h5>508mm</h5>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Depth</h5>
+                </td>
+                <td>
+                    <h5>85mm</h5>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Weight</h5>
+                </td>
+                <td>
+                    <h5>52gm</h5>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Quality checking</h5>
+                </td>
+                <td>
+                    <h5>yes</h5>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Freshness Duration</h5>
+                </td>
+                <td>
+                    <h5>03days</h5>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>When packeting</h5>
+                </td>
+                <td>
+                    <h5>Without touch of hand</h5>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Each Box contains</h5>
+                </td>
+                <td>
+                    <h5>60pcs</h5>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@* <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"> *@
+@*     <div class="row"> *@
+@*         <div class="col-lg-6"> *@
+@*             <div class="comment_list"> *@
+@*                 <div class="review_item"> *@
+@*                     <div class="media"> *@
+@*                         <div class="d-flex"> *@
+@*                             <img src="img/product/single-product/review-1.png" alt=""/> *@
+@*                         </div> *@
+@*                         <div class="media-body"> *@
+@*                             <h4>Blake Ruiz</h4> *@
+@*                             <h5>12th Feb, 2017 at 05:56 pm</h5> *@
+@*                             <a class="reply_btn" href="#">Reply</a> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <p> *@
+@*                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, *@
+@*                         sed do eiusmod tempor incididunt ut labore et dolore magna *@
+@*                         aliqua. Ut enim ad minim veniam, quis nostrud exercitation *@
+@*                         ullamco laboris nisi ut aliquip ex ea commodo *@
+@*                     </p> *@
+@*                 </div> *@
+@*                 <div class="review_item reply"> *@
+@*                     <div class="media"> *@
+@*                         <div class="d-flex"> *@
+@*                             <img src="img/product/single-product/review-2.png" alt=""/> *@
+@*                         </div> *@
+@*                         <div class="media-body"> *@
+@*                             <h4>Blake Ruiz</h4> *@
+@*                             <h5>12th Feb, 2017 at 05:56 pm</h5> *@
+@*                             <a class="reply_btn" href="#">Reply</a> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <p> *@
+@*                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, *@
+@*                         sed do eiusmod tempor incididunt ut labore et dolore magna *@
+@*                         aliqua. Ut enim ad minim veniam, quis nostrud exercitation *@
+@*                         ullamco laboris nisi ut aliquip ex ea commodo *@
+@*                     </p> *@
+@*                 </div> *@
+@*                 <div class="review_item"> *@
+@*                     <div class="media"> *@
+@*                         <div class="d-flex"> *@
+@*                             <img src="img/product/single-product/review-3.png" alt=""/> *@
+@*                         </div> *@
+@*                         <div class="media-body"> *@
+@*                             <h4>Blake Ruiz</h4> *@
+@*                             <h5>12th Feb, 2017 at 05:56 pm</h5> *@
+@*                             <a class="reply_btn" href="#">Reply</a> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <p> *@
+@*                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, *@
+@*                         sed do eiusmod tempor incididunt ut labore et dolore magna *@
+@*                         aliqua. Ut enim ad minim veniam, quis nostrud exercitation *@
+@*                         ullamco laboris nisi ut aliquip ex ea commodo *@
+@*                     </p> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="col-lg-6"> *@
+@*             <div class="review_box"> *@
+@*                 <h4>Post a comment</h4> *@
+@*                 <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" *@
+@*                       novalidate="novalidate"> *@
+@*                     <div class="col-md-12"> *@
+@*                         <div class="form-group"> *@
+@*                             <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name"/> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="col-md-12"> *@
+@*                         <div class="form-group"> *@
+@*                             <input type="email" class="form-control" id="email" name="email" placeholder="Email Address"/> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="col-md-12"> *@
+@*                         <div class="form-group"> *@
+@*                             <input type="text" class="form-control" id="number" name="number" placeholder="Phone Number"/> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="col-md-12"> *@
+@*                         <div class="form-group"> *@
+@*                             <textarea class="form-control" name="message" id="message" rows="1" *@
+@*                         placeholder="Message"></textarea> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="col-md-12 text-right"> *@
+@*                         <button type="submit" value="submit" class="btn_3"> *@
+@*                             Submit Now *@
+@*                         </button> *@
+@*                     </div> *@
+@*                 </form> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+@* <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab"> *@
+@*     <div class="row"> *@
+@*         <div class="col-lg-6"> *@
+@*             <div class="row total_rate"> *@
+@*                 <div class="col-6"> *@
+@*                     <div class="box_total"> *@
+@*                         <h5>Overall</h5> *@
+@*                         <h4>4.0</h4> *@
+@*                         <h6>(03 Reviews)</h6> *@
+@*                     </div> *@
+@*                 </div> *@
+@*                 <div class="col-6"> *@
+@*                     <div class="rating_list"> *@
+@*                         <h3>Based on 3 Reviews</h3> *@
+@*                         <ul class="list"> *@
+@*                             <li> *@
+@*                                 <a href="#"> *@
+@*                                     5 Star *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> 01 *@
+@*                                 </a> *@
+@*                             </li> *@
+@*                             <li> *@
+@*                                 <a href="#"> *@
+@*                                     4 Star *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> 01 *@
+@*                                 </a> *@
+@*                             </li> *@
+@*                             <li> *@
+@*                                 <a href="#"> *@
+@*                                     3 Star *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> 01 *@
+@*                                 </a> *@
+@*                             </li> *@
+@*                             <li> *@
+@*                                 <a href="#"> *@
+@*                                     2 Star *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> 01 *@
+@*                                 </a> *@
+@*                             </li> *@
+@*                             <li> *@
+@*                                 <a href="#"> *@
+@*                                     1 Star *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> *@
+@*                                     <i class="fa fa-star"></i> 01 *@
+@*                                 </a> *@
+@*                             </li> *@
+@*                         </ul> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*             <div class="review_list"> *@
+@*                 <div class="review_item"> *@
+@*                     <div class="media"> *@
+@*                         <div class="d-flex"> *@
+@*                             <img src="img/product/single-product/review-1.png" alt=""/> *@
+@*                         </div> *@
+@*                         <div class="media-body"> *@
+@*                             <h4>Blake Ruiz</h4> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <p> *@
+@*                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, *@
+@*                         sed do eiusmod tempor incididunt ut labore et dolore magna *@
+@*                         aliqua. Ut enim ad minim veniam, quis nostrud exercitation *@
+@*                         ullamco laboris nisi ut aliquip ex ea commodo *@
+@*                     </p> *@
+@*                 </div> *@
+@*                 <div class="review_item"> *@
+@*                     <div class="media"> *@
+@*                         <div class="d-flex"> *@
+@*                             <img src="img/product/single-product/review-2.png" alt=""/> *@
+@*                         </div> *@
+@*                         <div class="media-body"> *@
+@*                             <h4>Blake Ruiz</h4> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <p> *@
+@*                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, *@
+@*                         sed do eiusmod tempor incididunt ut labore et dolore magna *@
+@*                         aliqua. Ut enim ad minim veniam, quis nostrud exercitation *@
+@*                         ullamco laboris nisi ut aliquip ex ea commodo *@
+@*                     </p> *@
+@*                 </div> *@
+@*                 <div class="review_item"> *@
+@*                     <div class="media"> *@
+@*                         <div class="d-flex"> *@
+@*                             <img src="img/product/single-product/review-3.png" alt=""/> *@
+@*                         </div> *@
+@*                         <div class="media-body"> *@
+@*                             <h4>Blake Ruiz</h4> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <p> *@
+@*                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, *@
+@*                         sed do eiusmod tempor incididunt ut labore et dolore magna *@
+@*                         aliqua. Ut enim ad minim veniam, quis nostrud exercitation *@
+@*                         ullamco laboris nisi ut aliquip ex ea commodo *@
+@*                     </p> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="col-lg-6"> *@
+@*             <div class="review_box"> *@
+@*                 <h4>Add a Review</h4> *@
+@*                 <p>Your Rating:</p> *@
+@*                 <ul class="list"> *@
+@*                     <li> *@
+@*                         <a href="#"> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                         </a> *@
+@*                     </li> *@
+@*                     <li> *@
+@*                         <a href="#"> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                         </a> *@
+@*                     </li> *@
+@*                     <li> *@
+@*                         <a href="#"> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                         </a> *@
+@*                     </li> *@
+@*                     <li> *@
+@*                         <a href="#"> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                         </a> *@
+@*                     </li> *@
+@*                     <li> *@
+@*                         <a href="#"> *@
+@*                             <i class="fa fa-star"></i> *@
+@*                         </a> *@
+@*                     </li> *@
+@*                 </ul> *@
+@*                 <p>Outstanding</p> *@
+@*                 <form class="row contact_form" action="contact_process.php" method="post" novalidate="novalidate"> *@
+@*                     <div class="col-md-12"> *@
+@*                         <div class="form-group"> *@
+@*                             <input type="text" class="form-control" name="name" placeholder="Your Full name"/> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="col-md-12"> *@
+@*                         <div class="form-group"> *@
+@*                             <input type="email" class="form-control" name="email" placeholder="Email Address"/> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="col-md-12"> *@
+@*                         <div class="form-group"> *@
+@*                             <input type="text" class="form-control" name="number" placeholder="Phone Number"/> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="col-md-12"> *@
+@*                         <div class="form-group"> *@
+@*                             <textarea class="form-control" name="message" rows="1" placeholder="Review"></textarea> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="col-md-12 text-right"> *@
+@*                         <button type="submit" value="submit" class="btn_3"> *@
+@*                             Submit Now *@
+@*                         </button> *@
+@*                     </div> *@
+@*                 </form> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+</div>
+</div>
+</section>
+<!--================End Product Description Area =================-->
 
-    function toggleNavigation(){
-        this.nextElementSibling.classList.toggle('active');
-    }
+<!-- product_list part start-->
+<section class="product_list best_seller padding_bottom">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="section_tittle text-center">
+                    <h2>Best Sellers</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="single_category_product">
+                    <div class="single_category_img">
+                        <img src="img/category/category_2.png" alt="">
+                        <div class="category_social_icon">
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti-heart"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti-bag"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="category_product_text">
+                            <a href="single-product.html">
+                                <h5>Long Sleeve TShirt</h5>
+                            </a>
+                            <p>$150.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="single_category_product">
+                    <div class="single_category_img">
+                        <img src="img/category/category_3.png" alt="">
+                        <div class="category_social_icon">
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti-heart"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti-bag"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="category_product_text">
+                            <a href="single-product.html">
+                                <h5>Long Sleeve TShirt</h5>
+                            </a>
+                            <p>$150.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="single_category_product">
+                    <div class="single_category_img">
+                        <img src="img/category/category_4.png" alt="">
+                        <div class="category_social_icon">
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti-heart"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti-bag"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="category_product_text">
+                            <a href="single-product.html">
+                                <h5>Long Sleeve TShirt</h5>
+                            </a>
+                            <p>$150.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="single_category_product">
+                    <div class="single_category_img">
+                        <img src="~/imgs/waxing.jpg" alt="">
+                        <div class="category_social_icon">
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti-heart"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti-bag"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="category_product_text">
+                            <a href="single-product.html">
+                                <h5>Long Sleeve TShirt</h5>
+                            </a>
+                            <p>$150.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    productImages.forEach(image => image.addEventListener("click", changeImage));
-    navItem.addEventListener('click', toggleNavigation);
-</script>
+@* *@
+@* <script> *@
+@*     const activeImage = document.querySelector(".product-image .active"); *@
+@*     const productImages = document.querySelectorAll(".image-list img"); *@
+@*     const navItem = document.querySelector('a.toggle-nav'); *@
+@* *@
+@*     function changeImage(e) { *@
+@*         activeImage.src = e.target.src; *@
+@*     } *@
+@* *@
+@*     function toggleNavigation(){ *@
+@*         this.nextElementSibling.classList.toggle('active'); *@
+@*     } *@
+@* *@
+@*     productImages.forEach(image => image.addEventListener("click", changeImage)); *@
+@*     navItem.addEventListener('click', toggleNavigation); *@
+@* </script> *@
 
 @*<script type="text/javascript">
 $(document).ready(function() {
@@ -164,14 +822,42 @@ $(document).ready(function() {
 });
 </script>*@
 
-<script>
-  $(function () {
-    $('.add-to-cart').click(function () {
-      var qtyvalue = $("#Qty").val();
-      this.href = this.href.replace("xxx", qtyvalue);
-    });
-  });
-</script>
+@* <script> *@
+@*   $(function () { *@
+@*     $('.add-to-cart').click(function () { *@
+@*       var qtyvalue = $("#Qty").val(); *@
+@*       this.href = this.href.replace("xxx", qtyvalue); *@
+@*     }); *@
+@*   }); *@
+@* </script> *@
+
+@* <!-- jquery plugins here--> *@
+<script src="~/js/Shop/jquery-1.12.1.min.js"></script>
+<!-- popper js -->
+<script src="~/js/Shop/popper.min.js"></script>
+<!-- bootstrap js -->
+<script src="~/js/Shop/bootstrap.min.js"></script>
+<!-- easing js -->
+<script src="~/js/Shop/jquery.magnific-popup.js"></script>
+<!-- swiper js -->
+<script src="~/js/Shop/lightslider.min.js"></script>
+<!-- swiper js -->
+<script src="~/js/Shop/mixitup.min.js"></script>
+<script src="~/js/Shop/lightslider.min.js"></script>
+<!-- particles js -->
+<script src="~/js/Shop/owl.carousel.min.js"></script>
+<script src="~/js/Shop/jquery.nice-select.min.js"></script>
+@* <!-- slick js --> *@
+<script src="~/js/Shop/slick.min.js"></script>
+<script src="~/js/Shop/jquery.counterup.min.js"></script>
+<script src="~/js/Shop/waypoints.min.js"></script>
+<script src="~/js/Shop/contact.js"></script>
+<script src="~/js/Shop/jquery.ajaxchimp.min.js"></script>
+<script src="~/js/Shop/jquery.form.js"></script>
+<script src="~/js/Shop/jquery.validate.min.js"></script>
+<script src="~/js/Shop/mail-script.js"></script>
+<!-- custom js -->
+<script src="~/js/Shop/custom.js"></script>
 
 </body>
 </html>

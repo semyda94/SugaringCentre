@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\imgs\" />
-    <Folder Include="wwwroot\ProductImages" />
+    <Folder Include="wwwroot\js\Shop" />
     <ProjectReference Include="..\SugaringCentreAuckland.Persistent\SugaringCentreAuckland.Persistent.csproj" />
   </ItemGroup>
 
