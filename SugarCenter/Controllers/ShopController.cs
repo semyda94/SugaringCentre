@@ -138,14 +138,39 @@ namespace SugarCenter.Controllers
         public IActionResult ShopCheckout()
         {
             var itemLists = HttpContext.Session.Get<List<Product>>("CheckoutList");
+
+            if (itemLists == null || itemLists.Count <= 0)
+                return RedirectToAction("Index");
             
             return View(itemLists);
+        }
+        
+        public IActionResult RemoveItemFromCart(int? productId)
+        {
+            var itemLists = HttpContext.Session.Get<List<Product>>("CheckoutList");
+
+            if (itemLists == null || productId == null)
+            {
+                RedirectToAction("Index");
+            }
+
+            itemLists.RemoveAll(x => x.ProductId == productId);
+
+            HttpContext.Session.Set("CheckoutList", itemLists);
+            
+            if (itemLists.Count > 1)
+                return RedirectToAction("ShopCheckout");
+            
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public async Task<JsonResult> CreateOrder([FromBody] Order order)
         {
             await _elkRepository.CreateOrder(order);
+            
+            HttpContext.Session.Remove("CheckoutList");
+            
             return Json(true, new JsonSerializerSettings());
         }
     }
