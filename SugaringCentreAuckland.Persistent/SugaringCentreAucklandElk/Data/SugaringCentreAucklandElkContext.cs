@@ -23,6 +23,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
         public virtual DbSet<ProductImage> ProductImage { get; set; }
+        public virtual DbSet<ProductSpecification> ProductSpecification { get; set; }
         public virtual DbSet<Staff> Staff { get; set; }
         public virtual DbSet<StaffImage> StaffImage { get; set; }
         public virtual DbSet<Service> Services { get; set; }
@@ -128,11 +129,28 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
+                
+                entity.Property(e => e.ShortDescription)
+                    .IsRequired()
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Desc)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Price);
+            });
+
+            modelBuilder.Entity<ProductSpecification>(entity =>
+            {
+                entity.HasKey(e => e.ProductSpecificationId);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Details)
+                    .IsUnicode(false);
             });
             
             modelBuilder.Entity<ProductCategory>(entity =>

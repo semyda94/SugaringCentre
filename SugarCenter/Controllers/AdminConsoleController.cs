@@ -229,6 +229,18 @@ namespace SugarCenter.Controllers
             return RedirectToAction("Products");
         }
 
+        [Authorize]
+        public async Task<IActionResult> AddSpecification(int productId, string newSpecTitle, string newSpecDetails)
+        {
+            await _elkRepository.CreateSpecification(productId, newSpecTitle, newSpecDetails);
+            return RedirectToAction("ProductConfiguration", new {productId = productId});
+        }
+        
+        public async Task<IActionResult> DeleteSpecification (int productId, int specId)
+        {
+            await _elkRepository.DeleteSpecification(productId, specId);
+            return RedirectToAction("ProductConfiguration", new {productId = productId});
+        }
         #endregion
 
         #region Staff

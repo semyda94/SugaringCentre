@@ -12,9 +12,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>SugarCenter</title>
-
-    <link rel="icon" href="~/imgs/favicon.png">
-
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/css/Shop/bootstrap.min.css">
 
@@ -75,82 +73,6 @@
         </div>
     </nav>
 </header>
-@* <div class="main"> *@
-@*     <section class="module"> *@
-@*         <div class="container"> *@
-@*             <div class="grid second-nav"> *@
-@*                 <div class="column-xs-12"> *@
-@*                     <nav> *@
-@*                         <ol class="breadcrumb-list"> *@
-@*                             <li class="breadcrumb-item"> *@
-@*                                 <a asp-area="" asp-controller="Shop" asp-action="Index">Shop</a> *@
-@*                             </li> *@
-@*                             <li class="breadcrumb-item active">@Model.Product.Title</li> *@
-@*                         </ol> *@
-@*                     </nav> *@
-@*                 </div> *@
-@*             </div> *@
-@*             <div class="grid product"> *@
-@*                 <div class="column-xs-12 column-md-7"> *@
-@*                     <div class="product-gallery"> *@
-@* *@
-@*                         <div class="product-image"> *@
-@*                             @{ var activeImage = Convert.ToBase64String(Model.Product.ProductImage.First().Image); } *@
-@*                             <img class="active" src="data:image/jpeg;base64,@activeImage"> *@
-@*                         </div> *@
-@*                         @if (Model.Product.ProductImage.Count > 1) *@
-@*                         { *@
-@*                             <ul class="image-list"> *@
-@*                                 @foreach (var productImage in Model.Product.ProductImage) *@
-@*                                 { *@
-@*                                     var image = Convert.ToBase64String(productImage.Image); *@
-@*                                     <li class="image-item"> *@
-@*                                         <img src="data:image/jpeg;base64,@image"> *@
-@*                                     </li> *@
-@*                                 } *@
-@*                             </ul> *@
-@*                         } *@
-@*                     </div> *@
-@*                 </div> *@
-@*                 <div class="column-xs-12 column-md-5"> *@
-@*                     <h1>@Model.Product.Title</h1> *@
-@*                     <h2>$@Model.Product.Price</h2> *@
-@*                     <div class="description"> *@
-@*                         @Model.Product.Desc *@
-@*                     </div> *@
-@* *@
-@*                     @using (Html.BeginForm("AddItemToCart", "Shop", FormMethod.Post)) *@
-@*                     { *@
-@*                         <input asp-for="Product.ProductId" value="@Model.Product.ProductId" hidden="hidden"/> *@
-@*                         <div style="display: flex;align-items: center;"> *@
-@*                             Qty: *@
-@*                             <input asp-for="Product.Qty" type="number" placeholder="Enter the number of products" class="form-control input-lg" value="1" style="width: 100px; margin-left: 10px; margin-right: auto"/> *@
-@*                             <button class="add-to-cart">Add To Cart</button> *@
-@*                             <div id="Results"></div> *@
-@*                         </div> *@
-@*                     } *@
-@*                 </div> *@
-@*             </div> *@
-@*             <div class="grid related-products"> *@
-@*                 <div class="column-xs-12"> *@
-@*                     <h3>You may also like</h3> *@
-@*                 </div> *@
-@*                 @foreach (var relatedProduct in @Model.RelatiedProducts) *@
-@*                 { *@
-@*                     var thumbImg = Convert.ToBase64String(relatedProduct.ProductImage.First().Image); *@
-@* *@
-@*                     <div class="column-xs-12 column-md-4"> *@
-@*                         <img src="data:image/jpeg;base64,@thumbImg"> *@
-@*                         <h4>@relatedProduct.Title</h4> *@
-@*                         <p class="price">$@relatedProduct.Price</p> *@
-@*                     </div> *@
-@*                 } *@
-@*             </div> *@
-@*         </div> *@
-@*     </section> *@
-@*     <hr class="divider-w"> *@
-@* </div> *@
-
 
 <section class="breadcrumb breadcrumb_bg">
     <div class="container">
@@ -158,7 +80,7 @@
             <div class="col-lg-12">
                 <div class="breadcrumb_iner">
                     <div class="breadcrumb_iner_item">
-                        <p>Home/Shop/Single product</p>
+                        <p>Shop/@Model.Product.Title</p>
                     </div>
                 </div>
             </div>
@@ -199,7 +121,7 @@
                         </li>
                     </ul>
                     <p>
-                        @Model.Product.Desc
+                        @Model.Product.ShortDescription
                     </p>
                     <div class="card_area d-inline-block">
                         @using (Html.BeginForm("AddItemToCart", "Shop", FormMethod.Post))
@@ -273,103 +195,24 @@
 <div class="tab-content" id="myTabContent">
 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
     <p>
-        Beryl Cook is one of Britain’s most talented and amusing artists
-        .Beryl’s pictures feature women of all shapes and sizes enjoying
-        themselves .Born between the two world wars, Beryl Cook eventually
-        left Kendrick School in Reading at the age of 15, where she went
-        to secretarial school and then into an insurance office. After
-        moving to London and then Hampton, she eventually married her next
-        door neighbour from Reading, John Cook. He was an officer in the
-        Merchant Navy and after he left the sea in 1956, they bought a pub
-        for a year before John took a job in Southern Rhodesia with a
-        motor company. Beryl bought their young son a box of watercolours,
-        and when showing him how to use it, she decided that she herself
-        quite enjoyed painting. John subsequently bought her a child’s
-        painting set for her birthday and it was with this that she
-        produced her first significant work, a half-length portrait of a
-        dark-skinned lady with a vacant expression and large drooping
-        breasts. It was aptly named ‘Hangover’ by Beryl’s husband and
-    </p>
-    <p>
-        It is often frustrating to attempt to plan meals that are designed
-        for one. Despite this fact, we are seeing more and more recipe
-        books and Internet websites that are dedicated to the act of
-        cooking for one. Divorce and the death of spouses or grown
-        children leaving for college are all reasons that someone
-        accustomed to cooking for more than one would suddenly need to
-        learn how to adjust all the cooking practices utilized before into
-        a streamlined plan of cooking that is more efficient for one
-        person creating less
+        @Model.Product.Desc
     </p>
 </div>
 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
     <div class="table-responsive">
         <table class="table">
             <tbody>
-            <tr>
-                <td>
-                    <h5>Width</h5>
-                </td>
-                <td>
-                    <h5>128mm</h5>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h5>Height</h5>
-                </td>
-                <td>
-                    <h5>508mm</h5>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h5>Depth</h5>
-                </td>
-                <td>
-                    <h5>85mm</h5>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h5>Weight</h5>
-                </td>
-                <td>
-                    <h5>52gm</h5>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h5>Quality checking</h5>
-                </td>
-                <td>
-                    <h5>yes</h5>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h5>Freshness Duration</h5>
-                </td>
-                <td>
-                    <h5>03days</h5>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h5>When packeting</h5>
-                </td>
-                <td>
-                    <h5>Without touch of hand</h5>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h5>Each Box contains</h5>
-                </td>
-                <td>
-                    <h5>60pcs</h5>
-                </td>
-            </tr>
+            @foreach (var spec in @Model.Product.ProductSpecification)
+            {
+                <tr>
+                    <td>
+                        <h5>@spec.Title</h5>
+                    </td>
+                    <td>
+                        <h5>@spec.Details</h5>
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
     </div>
@@ -684,143 +527,56 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="single_category_product">
-                    <div class="single_category_img">
-                        <img src="img/category/category_2.png" alt="">
-                        <div class="category_social_icon">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti-heart"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti-bag"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="category_product_text">
-                            <a href="single-product.html">
-                                <h5>Long Sleeve TShirt</h5>
-                            </a>
-                            <p>$150.00</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single_category_product">
-                    <div class="single_category_img">
-                        <img src="img/category/category_3.png" alt="">
-                        <div class="category_social_icon">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti-heart"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti-bag"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="category_product_text">
-                            <a href="single-product.html">
-                                <h5>Long Sleeve TShirt</h5>
-                            </a>
-                            <p>$150.00</p>
+            @foreach (var relatedProduct in @Model.RelatiedProducts)
+            {
+                var image = Convert.ToBase64String(relatedProduct.ProductImage.First().Image);
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single_category_product">
+                        <div class="single_category_img">
+                            <img src="data:image/jpeg;base64,@image" alt="@relatedProduct.Title">
+                            <div class="category_social_icon">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <i class="ti-heart"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="AddItemToCartJson(@relatedProduct.ProductId)">
+                                            <i class="ti-bag"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="category_product_text">
+                                <a href='@Url.Action("SingleItem", new {productId = @relatedProduct.ProductId})'>
+                                    <h5>@relatedProduct.Title</h5>
+                                </a>
+                                <p>$@relatedProduct.Price</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single_category_product">
-                    <div class="single_category_img">
-                        <img src="img/category/category_4.png" alt="">
-                        <div class="category_social_icon">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti-heart"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti-bag"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="category_product_text">
-                            <a href="single-product.html">
-                                <h5>Long Sleeve TShirt</h5>
-                            </a>
-                            <p>$150.00</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single_category_product">
-                    <div class="single_category_img">
-                        <img src="~/imgs/waxing.jpg" alt="">
-                        <div class="category_social_icon">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti-heart"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti-bag"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="category_product_text">
-                            <a href="single-product.html">
-                                <h5>Long Sleeve TShirt</h5>
-                            </a>
-                            <p>$150.00</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </div>    
+            }
         </div>
     </div>
 </section>
 
-@* *@
-@* <script> *@
-@*     const activeImage = document.querySelector(".product-image .active"); *@
-@*     const productImages = document.querySelectorAll(".image-list img"); *@
-@*     const navItem = document.querySelector('a.toggle-nav'); *@
-@* *@
-@*     function changeImage(e) { *@
-@*         activeImage.src = e.target.src; *@
-@*     } *@
-@* *@
-@*     function toggleNavigation(){ *@
-@*         this.nextElementSibling.classList.toggle('active'); *@
-@*     } *@
-@* *@
-@*     productImages.forEach(image => image.addEventListener("click", changeImage)); *@
-@*     navItem.addEventListener('click', toggleNavigation); *@
-@* </script> *@
+<script>
 
-@*<script type="text/javascript">
-$(document).ready(function() {
+function AddItemToCartJson(productId) {
   $.ajax({
-    url : "Shop"
-  });
-});
-</script>*@
+    url: "/Shop/AddItemToCartJson",
+    type: "POST",
+    dataType: "json",
+    data: productId,
+    success: function(data) {
+      
+    }
+  })
+}
+
+</script>
 
 @* <script> *@
 @*   $(function () { *@

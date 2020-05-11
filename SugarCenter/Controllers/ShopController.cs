@@ -41,44 +41,46 @@ namespace SugarCenter.Controllers
             if (shopViewModel == null)
             {
                 shopViewModel = new ShopViewModel();
-                
+
                 shopViewModel.Sorting = sorting ?? -1;
                 shopViewModel.CategorySorting = categorySorting ?? 1;
-                
+
                 var shopCategoriesTask = _elkRepository.GetListOfCategories();
                 var shopItemsTask = _elkRepository.GetProductsForCategoryAndSort(categorySorting, sorting);
-                
+
                 Task.WaitAll(shopCategoriesTask, shopItemsTask);
-                
+
                 shopViewModel.Categories = shopCategoriesTask.Result;
                 shopViewModel.Products = shopItemsTask.Result;
-                
+
                 shopViewModel.PageIndex = 1;
                 shopViewModel.PageSize = PageSize;
-                shopViewModel.TotalPages = (int)Math.Ceiling(shopItemsTask.Result.Count / (double)PageSize);
+                shopViewModel.TotalPages = (int) Math.Ceiling(shopItemsTask.Result.Count / (double) PageSize);
             }
 
             if (shopViewModel.CategorySorting != categorySorting || shopViewModel.Sorting != sorting)
             {
                 var shopCategoriesTask = _elkRepository.GetListOfCategories();
                 var shopItemsTask = _elkRepository.GetProductsForCategoryAndSort(categorySorting, sorting);
-                
+
                 Task.WaitAll(shopCategoriesTask, shopItemsTask);
-                
+
                 shopViewModel.Sorting = sorting ?? -1;
                 shopViewModel.CategorySorting = categorySorting ?? 1;
-                
+
                 shopViewModel.Categories = shopCategoriesTask.Result;
                 shopViewModel.Products = shopItemsTask.Result;
-                
+
                 shopViewModel.PageIndex = 1;
                 shopViewModel.PageSize = PageSize;
-                shopViewModel.TotalPages = (int)Math.Ceiling(shopItemsTask.Result.Count / (double)PageSize);
+                shopViewModel.TotalPages = (int) Math.Ceiling(shopItemsTask.Result.Count / (double) PageSize);
             }
-            
+
             if (shopViewModel.PageIndex != pageNumber)
             {
-                shopViewModel.PageIndex = (pageNumber ?? 1) >= 1 && (pageNumber ?? 1) <= shopViewModel.TotalPages ? (pageNumber ?? 1) : shopViewModel.PageIndex ;
+                shopViewModel.PageIndex = (pageNumber ?? 1) >= 1 && (pageNumber ?? 1) <= shopViewModel.TotalPages
+                    ? (pageNumber ?? 1)
+                    : shopViewModel.PageIndex;
             }
 
             HttpContext.Session.Set("ShopViewModel", shopViewModel);
@@ -92,27 +94,52 @@ namespace SugarCenter.Controllers
                 return RedirectToAction("Index");
             }
             
-            ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
+            // ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
             SingleItemViewModel singleItemViewModel = new SingleItemViewModel();
-            
-//            if (shopViewModel == null || !shopViewModel.Products.Exists(si => si.ProductId == productId))
-//                return View(await _elkRepository.GetProductById(productId));
 
-            singleItemViewModel.Product = shopViewModel.Products.Single(p => p.ProductId == productId);
-            singleItemViewModel.RelatiedProducts = shopViewModel.Products.Where(x => x.ProductId != productId).Take(3).ToList();
+            // if (shopViewModel == null || !shopViewModel.Products.Exists(x => x.ProductId == productId))
+            // {
+                singleItemViewModel.Product = await _elkRepository.GetProductById(productId);   
+            // }
+            // else
+            // {
+            //     singleItemViewModel.Product = shopViewModel.Products.Single(p => p.ProductId == productId);
+            // }
+
+            var relatedCategoriesIds = singleItemViewModel.Product.ProductCategory.Select(x => x.CategoryId);
             
+            singleItemViewModel.RelatiedProducts = _elkRepository.GetRelatedProducts(productId.Value, relatedCategoriesIds);
+
             return View(singleItemViewModel);
         }
 
-        public async Task<IActionResult> AddItemToCart(Product product)
+        public async Task<JsonResult> AddItemToCartJson(int productId)
         {
-            Product productToAdd = null;
-            
+            Product productToAdd; 
+        
             var products = HttpContext.Session.Get<List<Product>>("CheckoutList");
-            
+        
             if (products == null)
                 products = new List<Product>();
             
+            productToAdd = await _elkRepository.GetProductById(productId);
+            
+            products.Add(productToAdd);
+            
+            HttpContext.Session.Set("CheckoutList", products);
+            
+            return Json(true, new JsonSerializerSettings());
+        }
+        
+        public async Task<IActionResult> AddItemToCart(Product product)
+        {
+            Product productToAdd = null;
+
+            var products = HttpContext.Session.Get<List<Product>>("CheckoutList");
+
+            if (products == null)
+                products = new List<Product>();
+
             ShopViewModel shopViewModel = HttpContext.Session.Get<ShopViewModel>("ShopViewModel");
 
             if (shopViewModel != null && shopViewModel.Products.Any())
@@ -132,7 +159,7 @@ namespace SugarCenter.Controllers
 
             HttpContext.Session.Set("CheckoutList", products);
 
-            return  RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         public IActionResult ShopCheckout()
@@ -141,10 +168,10 @@ namespace SugarCenter.Controllers
 
             if (itemLists == null || itemLists.Count <= 0)
                 return RedirectToAction("Index");
-            
+
             return View(itemLists);
         }
-        
+
         public IActionResult RemoveItemFromCart(int? productId)
         {
             var itemLists = HttpContext.Session.Get<List<Product>>("CheckoutList");
@@ -157,10 +184,10 @@ namespace SugarCenter.Controllers
             itemLists.RemoveAll(x => x.ProductId == productId);
 
             HttpContext.Session.Set("CheckoutList", itemLists);
-            
+
             if (itemLists.Count > 1)
                 return RedirectToAction("ShopCheckout");
-            
+
             return RedirectToAction("Index");
         }
 
@@ -168,9 +195,9 @@ namespace SugarCenter.Controllers
         public async Task<JsonResult> CreateOrder([FromBody] Order order)
         {
             await _elkRepository.CreateOrder(order);
-            
+
             HttpContext.Session.Remove("CheckoutList");
-            
+
             return Json(true, new JsonSerializerSettings());
         }
     }

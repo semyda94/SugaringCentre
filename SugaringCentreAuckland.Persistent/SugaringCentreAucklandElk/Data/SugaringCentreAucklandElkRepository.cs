@@ -172,6 +172,7 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
         {
             var product = await _DbContext.Products.Include(i => i.ProductImage)
                 .Include(x => x.ProductCategory)
+                .Include(x => x.ProductSpecification)
                 .FirstOrDefaultAsync(p => p.ProductId == productId);
 
             // if (product.ProductCategory.Any())
@@ -191,6 +192,39 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Data
                 return product;
             }
         }
+
+        public IEnumerable<Product> GetRelatedProducts(int productId, IEnumerable<int> productCategoryIds)
+        {
+            return  _DbContext.ProductCategory
+                .Include(x => x.ProductNavigation)
+                .ThenInclude(x => x.ProductImage)
+                .Where(x => productCategoryIds.Contains(x.CategoryId))
+                .Select(x => x.ProductNavigation)
+                .Include(x => x.ProductImage)
+                .Take(5);
+        }
+
+        public async Task CreateSpecification(int productId, string newSpecTitle, string newSpecDetails)
+        {
+            _DbContext.ProductSpecification.Add(new ProductSpecification
+            {
+                ProductId = productId,
+                Title = newSpecTitle,
+                Details = newSpecDetails
+            });
+
+            await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteSpecification(int productId, int specId)
+        {
+            var specToDelete = _DbContext.ProductSpecification.Where(x => x.ProductSpecificationId == specId);
+
+            _DbContext.ProductSpecification.RemoveRange(specToDelete);
+
+            await _DbContext.SaveChangesAsync();
+        }
+        
         #endregion
         
         #region Staff

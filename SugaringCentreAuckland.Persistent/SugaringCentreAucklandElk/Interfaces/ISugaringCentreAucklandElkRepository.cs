@@ -25,6 +25,9 @@ namespace SugaringCentreAuckland.Persistent.SugaringCentreAucklandElk.Interfaces
         Task UpdateProduct(Product product);
         Task DeleteProduct(int? productId);
         Task<Product> GetProductById(int? productId);
+        IEnumerable<Product> GetRelatedProducts(int productId, IEnumerable<int> productCategoryIds);
+        Task CreateSpecification(int productId, string newSpecTitle, string newSpecDetails);
+        Task DeleteSpecification(int productId, int specId);
         #endregion
         
         #region Staff
